@@ -51,7 +51,7 @@
 
           <!-- Content -->
           <div class="max-w-4xl mx-auto">
-            <div class="prose prose-lg max-w-none" v-html="post.content"></div>
+            <div class="prose prose-lg max-w-none" v-html="postHtmlContent"></div>
           </div>
 
           <!-- Back to Blog -->
@@ -102,6 +102,15 @@ const { data, pending, error } = await useFetch(`/api/blogs/${slug}`, {
 
 // Extract the post data from the nested response
 const post = computed(() => data.value?.data || null);
+
+// Use Nuxt's inject to get the markdown parser
+const { $markdown } = useNuxtApp() as { $markdown: (markdown: string) => string };
+
+// Computed property for HTML content
+const postHtmlContent = computed(() => {
+  if (!post.value?.content) return '';
+  return $markdown(post.value.content);
+});
 
 console.log('Post data:', post.value);
 console.log('Published at:', post.value?.published_at);
