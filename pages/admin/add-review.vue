@@ -21,9 +21,14 @@
                 <select v-model="review.category_id" required
                   class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                   <option value="">Select a category</option>
-                  <option v-for="category in categories" :key="category.id" :value="category.id">
-                    {{ category.name }}
-                  </option>
+                  <option value="smartphones">Smartphones</option>
+                  <option value="laptops">Laptops</option>
+                  <option value="tablets">Tablets</option>
+                  <option value="wearables">Wearables</option>
+                  <option value="audio">Audio</option>
+                  <option value="cameras">Cameras</option>
+                  <option value="gaming">Gaming</option>
+                  <option value="accessories">Accessories</option>
                 </select>
                 <p class="mt-1 text-sm text-gray-500">Choose the device category for this review</p>
               </div>
@@ -499,9 +504,10 @@ const removeImage = (index: number) => {
 // Handle form submission
 const handleSubmit = async () => {
   try {
-    isSubmitting.value = true
-    const slug = review.value.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
-    const { data: newReview, error } = await useFetch('/api/reviews', {
+    isSubmitting.value = true;
+    const slug = review.value.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+    const response = await $fetch('/api/reviews', {
       method: 'POST',
       body: {
         ...review.value,
@@ -509,13 +515,18 @@ const handleSubmit = async () => {
         retailers: retailers.value,
         images: uploadedImages.value
       }
-    })
-    if (error?.value) throw new Error('Failed to save review')
-    navigateTo(`/reviews/${newReview.value.slug}`)
+    });
+
+    if (!response) {
+      throw new Error('Failed to save review');
+    }
+
+    navigateTo(`/reviews/${response.slug}`);
   } catch (error) {
-    alert('Error saving review. Please try again.')
+    alert('Error saving review. Please try again.');
+    console.error(error);
   } finally {
-    isSubmitting.value = false
+    isSubmitting.value = false;
   }
 }
 </script>
