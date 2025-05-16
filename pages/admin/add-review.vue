@@ -20,15 +20,10 @@
                 <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
                 <select v-model="review.category_id" required
                   class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                  <option value="">Select a category</option>
-                  <option value="smartphones">Smartphones</option>
-                  <option value="laptops">Laptops</option>
-                  <option value="tablets">Tablets</option>
-                  <option value="wearables">Wearables</option>
-                  <option value="audio">Audio</option>
-                  <option value="cameras">Cameras</option>
-                  <option value="gaming">Gaming</option>
-                  <option value="accessories">Accessories</option>
+                  <option value="" disabled>Select a category</option>
+                  <option v-for="category in categories" :key="category.id" :value="category.id">
+                    {{ category.name }}
+                  </option>
                 </select>
                 <p class="mt-1 text-sm text-gray-500">Choose the device category for this review</p>
               </div>
@@ -317,12 +312,11 @@ interface Category {
   id: string;
   name: string;
   description?: string;
-  icon?: string;
+  // icon?: string;
   slug: string;
 }
 
-const { data: categoriesData } = await useFetch('/api/categories')
-const categories = ref(categoriesData.value || [])
+const categories = ref<Category[]>([]);
 
 const review = ref({
   title: '',
@@ -529,4 +523,22 @@ const handleSubmit = async () => {
     isSubmitting.value = false;
   }
 }
+
+onMounted(async () => {
+  try {
+    // Make the API call to fetch categories
+    const response = await fetch('/api/categories');
+    const result = await response.json();
+
+    // Check if response has data property
+    if (result && result.data) {
+      categories.value = result.data;
+      console.log('Categories loaded:', categories.value);
+    } else {
+      console.error('Invalid categories response format:', result);
+    }
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+  }
+});
 </script>

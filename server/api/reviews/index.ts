@@ -66,12 +66,16 @@ export default defineEventHandler(async (event) => {
 
       case 'POST':
         const body = await readBody(event)
+        console.log('Received body:', body);
         const { data: newReview, error: postError } = await supabase
           .from('reviews')
           .insert([body])
           .select()
         
-        if (postError) throw postError
+        if (postError) {
+          console.error('Error inserting review:', postError);
+          throw postError
+        }
         return newReview
 
       default:
@@ -86,4 +90,4 @@ export default defineEventHandler(async (event) => {
       message: error.message
     })
   }
-}) 
+})
