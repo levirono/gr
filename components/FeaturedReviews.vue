@@ -21,8 +21,8 @@
           <NuxtLink :to="`/reviews/${review.slug}`" class="block">
             <div class="relative h-48">
               <img 
-                v-if="review.images?.[0]?.cloudinary_url" 
-                :src="review.images[0].cloudinary_url" 
+                v-if="review.featured_image_url" 
+                :src="review.featured_image_url" 
                 :alt="review.title"
                 class="w-full h-full object-cover"
               >
@@ -52,4 +52,4 @@ const { data: featuredReviews, pending, error } = await useFetch('/api/reviews',
     return response.data
   }
 })
-</script> 
+</script>
