@@ -46,10 +46,10 @@
             </div>
             <div class="p-8">
               <div class="flex items-center gap-4 mb-4">
-                <span v-if="review.category_id" class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
-                  {{ getCategoryName(review.category_id) }}
+                <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+                  {{ review.category?.name }}
                 </span>
-                <span class="text-gray-500">{{ formatDate(review.created_at) }}</span>
+                <span class="text-gray-500 text-sm">{{ formatDate(review.created_at) }}</span>
               </div>
               <h1 class="text-4xl font-bold mb-4">{{ review.title }}</h1>
               <div class="flex items-center gap-2 mb-6">
@@ -314,9 +314,9 @@ const fetchCategories = async () => {
 };
 
 // Get category name by ID
-const getCategoryName = (categoryId: string) => {
-  return categories.value[categoryId] || 'Uncategorized';
-};
+// const getCategoryName = (categoryId: string) => {
+//   return categories.value[categoryId] || 'Uncategorized';
+// };
 
 // Format key names
 const formatKeyName = (key: string) => {

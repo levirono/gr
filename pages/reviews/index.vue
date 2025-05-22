@@ -1,11 +1,11 @@
 <template>
   <div class="min-h-screen bg-gray-50">
     <TheHeader />
-    
+
     <main class="py-8">
       <div class="container mx-auto px-4">
         <h1 class="text-4xl font-bold mb-8">Device Reviews</h1>
-        
+
         <!-- Loading State -->
         <div v-if="pending" class="text-center py-12">
           <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
@@ -20,17 +20,19 @@
         <!-- Reviews Grid -->
         <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div v-for="review in reviews" :key="review.id" class="bg-white rounded-lg shadow-md overflow-hidden">
-            <div class="relative h-48">
-              <img 
-                v-if="review.images?.[0]?.cloudinary_url" 
-                :src="review.images[0].cloudinary_url" 
-                :alt="review.title"
-                class="w-full h-full object-cover"
-              >
-              <div v-else class="w-full h-full bg-gray-200 flex items-center justify-center">
-                <span class="text-gray-500">No image available</span>
+            <NuxtLink :to="`/reviews/${review.slug}`" class="block">
+              <div class="relative h-48">
+                <img v-if="review.featured_image_url" :src="review.featured_image_url" :alt="review.title"
+                  class="w-full h-full object-cover">
+                <div v-else class="w-full h-full bg-gray-200 flex items-center justify-center">
+                  <span class="text-gray-500">No image available</span>
+                </div>
               </div>
-            </div>
+              <div class="p-6">
+                <h3 class="text-xl font-semibold mb-2">{{ review.title }}</h3>
+                <p class="text-gray-600 line-clamp-3">{{ review.excerpt }}</p>
+              </div>
+            </NuxtLink>
             <div class="p-6">
               <div class="flex items-center gap-4 mb-4">
                 <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
@@ -42,18 +44,15 @@
               <div class="flex items-center gap-2 mb-4">
                 <div class="flex text-yellow-400">
                   <span v-for="n in 5" :key="n" class="text-lg">
-                    {{ n <= Math.round(review.rating) ? '★' : '☆' }}
-                  </span>
+                    {{ n <= Math.round(review.rating) ? '★' : '☆' }} </span>
                 </div>
                 <span class="text-gray-600">({{ review.rating }}/5)</span>
               </div>
               <p class="text-gray-600 mb-4 line-clamp-3">{{ review.excerpt }}</p>
-              <NuxtLink 
-                :to="`/reviews/${review.slug}`"
-                class="inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-              >
+              <!-- <NuxtLink :to="`/reviews/${review.slug}`"
+                class="inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
                 Read Full Review
-              </NuxtLink>
+              </NuxtLink> -->
             </div>
           </div>
         </div>
