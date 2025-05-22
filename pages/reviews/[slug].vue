@@ -2,6 +2,10 @@
   <div class="min-h-screen bg-gray-50">
     <TheHeader />
 
+    <!-- Image Gallery Modal -->
+    <ImageGalleryModal :show="showGalleryModal" :images="review?.processedImages || []"
+      @close="showGalleryModal = false" />
+
     <main class="py-8">
       <div class="container mx-auto px-4">
         <!-- Loading State -->
@@ -32,11 +36,11 @@
           <div class="bg-white rounded-lg shadow-md overflow-hidden mb-8">
             <div class="relative h-96">
               <template v-if="review.featured_image_url">
-                <img :src="review.featured_image_url" :alt="review.title" class="w-full h-full object-cover">
+                <img :src="review.featured_image_url" :alt="review.title"
+                  class="w-full h-full object-cover cursor-pointer" @click="showGalleryModal = true">
               </template>
               <template v-else>
                 <div class="w-full h-full bg-gray-100 flex items-center justify-center">
-                  <IconCamera class="text-gray-400" size="64" />
                 </div>
               </template>
             </div>
@@ -67,12 +71,9 @@
                 <img :src="image" :alt="`${review.title} - Image ${index + 1}`" class="w-full h-full object-cover">
               </div>
             </template>
-            <template v-else>
-              <div class="rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center h-64">
-                <IconImage class="text-gray-400" size="48" />
-              </div>
-              <div class="rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center h-64">
-                <IconImage class="text-gray-400" size="48" />
+            <template v-else-if="review.images && review.images.length > 0">
+              <div v-for="(image, index) in review.images" :key="index" class="rounded-lg overflow-hidden h-64">
+                <img :src="image" :alt="`${review.title} - Image ${index + 1}`" class="w-full h-full object-cover">
               </div>
             </template>
           </div>
@@ -88,27 +89,7 @@
             </div>
           </div>
 
-          <!-- Pros and Cons -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-            <div class="bg-white rounded-lg shadow-md p-8">
-              <h2 class="text-2xl font-bold mb-6">Pros</h2>
-              <ul class="space-y-4">
-                <li v-for="(pro, index) in review.pros" :key="index" class="flex items-start gap-3">
-                  <span class="text-green-500 text-xl">✓</span>
-                  <span>{{ pro }}</span>
-                </li>
-              </ul>
-            </div>
-            <div class="bg-white rounded-lg shadow-md p-8">
-              <h2 class="text-2xl font-bold mb-6">Cons</h2>
-              <ul class="space-y-4">
-                <li v-for="(con, index) in review.cons" :key="index" class="flex items-start gap-3">
-                  <span class="text-red-500 text-xl">×</span>
-                  <span>{{ con }}</span>
-                </li>
-              </ul>
-            </div>
-          </div>
+
 
           <!-- Review Sections -->
           <div class="space-y-8 mb-8">
@@ -125,14 +106,13 @@
                     <img :src="image" :alt="`${review.title} - Design ${index + 1}`" class="w-full h-full object-cover">
                   </div>
                 </template>
-                <template v-else>
-                  <div class="rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center h-64">
-                    <IconDesign class="text-gray-400" size="48" />
-                  </div>
-                  <div class="rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center h-64">
-                    <IconDesign class="text-gray-400" size="48" />
+                <template v-else-if="review.design_images && review.design_images.length > 0">
+                  <div v-for="(image, index) in review.design_images" :key="index"
+                    class="rounded-lg overflow-hidden h-64">
+                    <img :src="image" :alt="`${review.title} - Design ${index + 1}`" class="w-full h-full object-cover">
                   </div>
                 </template>
+
               </div>
             </div>
 
@@ -150,14 +130,7 @@
                       class="w-full h-full object-cover">
                   </div>
                 </template>
-                <template v-else>
-                  <div class="rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center h-64">
-                    <IconDisplay class="text-gray-400" size="48" />
-                  </div>
-                  <div class="rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center h-64">
-                    <IconDisplay class="text-gray-400" size="48" />
-                  </div>
-                </template>
+
               </div>
 
               <!-- Display Specs -->
@@ -186,6 +159,28 @@
                   Buy Now
                 </a>
               </div>
+            </div>
+          </div>
+
+          <!-- Pros and Cons -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <div class="bg-white rounded-lg shadow-md p-8">
+              <h2 class="text-2xl font-bold mb-6">Pros</h2>
+              <ul class="space-y-4">
+                <li v-for="(pro, index) in review.pros" :key="index" class="flex items-start gap-3">
+                  <span class="text-green-500 text-xl">✓</span>
+                  <span>{{ pro }}</span>
+                </li>
+              </ul>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-8">
+              <h2 class="text-2xl font-bold mb-6">Cons</h2>
+              <ul class="space-y-4">
+                <li v-for="(con, index) in review.cons" :key="index" class="flex items-start gap-3">
+                  <span class="text-red-500 text-xl">×</span>
+                  <span>{{ con }}</span>
+                </li>
+              </ul>
             </div>
           </div>
 
@@ -251,6 +246,8 @@
 </template>
 
 <script setup lang="ts">
+import ImageGalleryModal from '~/components/ImageGalleryModal.vue'
+import { ref, onMounted } from 'vue'
 
 interface Review {
   id: string;
@@ -420,6 +417,7 @@ const { data: reviewData, pending, error } = await useFetch<any>(`/api/reviews/$
 });
 
 const review = ref(reviewData.value);
+const showGalleryModal = ref(false);
 
 // Helper function to extract image URLs from JSONB objects
 function extractImageUrls(jsonbData: any): string[] {
