@@ -51,7 +51,7 @@
 
           <!-- Content -->
           <div class="max-w-4xl mx-auto">
-            <div class="prose prose-lg max-w-none" v-html="postHtmlContent"></div>
+            <div class="prose prose-lg max-w-none blog-content" v-html="postHtmlContent"></div>
           </div>
 
           <!-- Back to Blog -->
@@ -73,12 +73,40 @@
           Return to Blog
         </NuxtLink>
       </div>
+
+      <!-- Other Blogs Section -->
+      <section v-if="otherPosts.length" class="py-16 bg-gray-50 border-t mt-16">
+        <div class="container mx-auto px-4">
+          <h2 class="text-2xl font-bold mb-8">More from the Blog</h2>
+          <div class="flex flex-col gap-6">
+            <NuxtLink v-for="other in otherPosts" :key="other.id" :to="`/blog/${other.slug}`"
+              class="flex items-center bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+              <div class="flex-shrink-0 w-28 h-28 bg-gray-200 flex items-center justify-center overflow-hidden">
+                <img v-if="other.featured_image_url" :src="other.featured_image_url" :alt="other.title"
+                  class="object-cover w-full h-full" />
+                <div v-else class="w-full h-full flex items-center justify-center">
+                  <span class="text-gray-500">No image</span>
+                </div>
+              </div>
+              <div class="p-6 flex-1 min-w-0">
+                <div class="flex items-center gap-4 mb-2">
+                  <span class="text-gray-500 text-sm">{{ formatDate(other.published_at) }}</span>
+                </div>
+                <h3 class="text-lg font-bold mb-1 truncate">{{ other.title }}</h3>
+                <p class="text-gray-600 mb-2 line-clamp-2">{{ other.excerpt }}</p>
+                <span class="text-blue-600 hover:underline text-sm">Read More →</span>
+              </div>
+            </NuxtLink>
+          </div>
+        </div>
+      </section>
     </main>
     <TheFooter />
   </div>
 </template>
 
 <script setup lang="ts">
+
 interface BlogPost {
   id: string;
   title: string;
@@ -148,74 +176,27 @@ const formatDate = (dateString: string | null | undefined) => {
     return 'Date not available';
   }
 };
+
+// Fetch other blog posts (excluding the current one)
+const { data: allBlogsData } = await useFetch('/api/blogs', {
+  query: { limit: 6 },
+})
+
+const otherPosts = computed(() => {
+  const all = allBlogsData.value?.data || []
+  // Exclude the current post by slug
+  return all.filter((b: any) => b.slug !== slug)
+})
 </script>
 
-<!-- <style>
-.prose img {
-  @apply rounded-lg my-8 shadow-lg;
+<style scoped>
+.blog-content img {
+  max-width: 320px;
+  max-height: 220px;
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 1.5rem auto;
+  display: block;
 }
-
-.prose h2 {
-  @apply text-3xl font-bold mt-12 mb-6 text-gray-900;
-}
-
-.prose h3 {
-  @apply text-2xl font-bold mt-8 mb-4 text-gray-900;
-}
-
-.prose p {
-  @apply mb-6 leading-relaxed text-gray-700;
-}
-
-.prose ul {
-  @apply list-disc list-inside mb-6 text-gray-700;
-}
-
-.prose ol {
-  @apply list-decimal list-inside mb-6 text-gray-700;
-}
-
-.prose li {
-  @apply mb-2;
-}
-
-.prose blockquote {
-  @apply border-l-4 border-blue-600 pl-4 italic my-6 text-gray-700;
-}
-
-.prose a {
-  @apply text-blue-600 hover:underline;
-}
-
-.prose code {
-  @apply bg-gray-100 px-2 py-1 rounded text-sm;
-}
-
-.prose pre {
-  @apply bg-gray-100 p-4 rounded-lg overflow-x-auto my-6 text-sm;
-}
-
-.prose strong {
-  @apply font-bold text-gray-900;
-}
-
-.prose em {
-  @apply italic text-gray-700;
-}
-
-.prose hr {
-  @apply my-8 border-gray-200;
-}
-
-.prose table {
-  @apply w-full mb-6;
-}
-
-.prose th {
-  @apply bg-gray-100 px-4 py-2 text-left font-bold text-gray-900;
-}
-
-.prose td {
-  @apply border px-4 py-2 text-gray-700;
-}
-</style>  -->
+</style>

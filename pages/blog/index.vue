@@ -34,44 +34,34 @@
         <!-- Blog Grid -->
         <section v-else class="py-16">
           <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <article 
+            <div class="flex flex-col gap-6">
+              <NuxtLink 
                 v-for="post in filteredPosts" 
                 :key="post.id"
-                class="bg-white rounded-lg shadow-md overflow-hidden"
+                :to="`/blog/${post.slug}`"
+                class="flex items-center bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
               >
-                <div class="relative h-48">
+                <div class="flex-shrink-0 w-28 h-28 bg-gray-200 flex items-center justify-center overflow-hidden">
                   <img 
                     v-if="post.featured_image_url" 
                     :src="post.featured_image_url" 
                     :alt="post.title"
-                    class="w-full h-full object-cover"
+                    class="object-cover w-full h-full"
                   >
-                  <div v-else class="w-full h-full bg-gray-200 flex items-center justify-center">
-                    <span class="text-gray-500">No image available</span>
+                  <div v-else class="w-full h-full flex items-center justify-center">
+                    <span class="text-gray-500">No image</span>
                   </div>
                 </div>
-                <div class="p-6">
-                  <div class="flex items-center gap-4 mb-4">
+                <div class="p-6 flex-1 min-w-0">
+                  <div class="flex items-center gap-4 mb-2">
                     <span class="text-gray-500 text-sm">{{ formatDate(post.published_at) }}</span>
                   </div>
-                  <h2 class="text-xl font-bold mb-2">{{ post.title }}</h2>
-                  <p class="text-gray-600 mb-4 line-clamp-3">{{ post.excerpt }}</p>
-                  <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-2">
-                      <span class="text-gray-600">{{ post.author }}</span>
-                    </div>
-                    <NuxtLink 
-                      :to="`/blog/${post.slug}`" 
-                      class="text-blue-600 hover:underline"
-                    >
-                      Read More →
-                    </NuxtLink>
-                  </div>
+                  <h2 class="text-lg font-bold mb-1 truncate">{{ post.title }}</h2>
+                  <p class="text-gray-600 mb-2 line-clamp-2">{{ post.excerpt }}</p>
+                  <span class="text-blue-600 hover:underline text-sm">Read More →</span>
                 </div>
-              </article>
+              </NuxtLink>
             </div>
-  
             <!-- Pagination -->
             <div v-if="pagination.total_pages > 1" class="mt-12 flex justify-center gap-2">
               <button 
@@ -84,7 +74,6 @@
                 {{ page }}
               </button>
             </div>
-  
             <!-- No Results -->
             <div v-if="filteredPosts.length === 0" class="text-center py-12">
               <p class="text-gray-600">No blog posts found matching your search.</p>
@@ -181,3 +170,15 @@
     })
   }
   </script>
+  
+  <style scoped>
+.blog-content img {
+  max-width: 320px;
+  max-height: 220px;
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 1.5rem auto;
+  display: block;
+}
+</style>
