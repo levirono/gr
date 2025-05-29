@@ -41,7 +41,7 @@
                 <NuxtLink :to="`/reviews/${review.slug}`" class="block">
                   <div class="relative h-48">
                     <img v-if="review.featured_image_url" :src="review.featured_image_url" :alt="review.title"
-                      class="w-full h-full object-cover">
+                      class="w-full h-full object-contain bg-gray-100">
                     <div v-else class="w-full h-full bg-gray-200 flex items-center justify-center">
                       <span class="text-gray-500">No image available</span>
                     </div>

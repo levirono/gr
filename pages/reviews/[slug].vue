@@ -37,7 +37,7 @@
             <div class="relative h-96">
               <template v-if="review.featured_image_url">
                 <img :src="review.featured_image_url" :alt="review.title"
-                  class="w-full h-full object-cover cursor-pointer" @click="showGalleryModal = true">
+                  class="w-full h-full object-contain cursor-pointer" @click="showGalleryModal = true">
               </template>
               <template v-else>
                 <div class="w-full h-full bg-gray-100 flex items-center justify-center">

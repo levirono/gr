@@ -125,14 +125,15 @@ const slug = route.params.slug as string
 const { data, pending, error } = await useFetch(`/api/blogs/${slug}`, {
   onResponse({ response }) {
     console.log('Raw API response:', response);
-  }
+  },
+  default: () => ({ data: null })
 });
 
 // Extract the post data from the nested response
 const post = computed(() => data.value?.data || null);
 
 // Use Nuxt's inject to get the markdown parser
-const { $markdown } = useNuxtApp() as { $markdown: (markdown: string) => string };
+const $markdown = (useNuxtApp() as any).$markdown as (markdown: string) => string;
 
 // Computed property for HTML content
 const postHtmlContent = computed(() => {

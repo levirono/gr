@@ -3,8 +3,8 @@
     <TheHeader />
     <main>
       <HeroSection />
-      <FeaturedReviews />
       <LatestReviews />
+      <FeaturedReviews />
       <CategoriesSection />
     </main>
     <TheFooter />

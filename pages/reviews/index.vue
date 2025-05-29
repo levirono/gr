@@ -23,7 +23,7 @@
             <NuxtLink :to="`/reviews/${review.slug}`" class="block">
               <div class="relative h-48">
                 <img v-if="review.featured_image_url" :src="review.featured_image_url" :alt="review.title"
-                  class="w-full h-full object-cover">
+                  class="w-full h-full object-contain bg-gray-100">
                 <div v-else class="w-full h-full bg-gray-200 flex items-center justify-center">
                   <span class="text-gray-500">No image available</span>
                 </div>
@@ -40,7 +40,6 @@
                 </span>
                 <span class="text-gray-500 text-sm">{{ formatDate(review.created_at) }}</span>
               </div>
-              <h2 class="text-xl font-bold mb-2">{{ review.title }}</h2>
               <div class="flex items-center gap-2 mb-4">
                 <div class="flex text-yellow-400">
                   <span v-for="n in 5" :key="n" class="text-lg">
@@ -71,7 +70,8 @@ interface Review {
   };
   excerpt: string;
   rating: number;
-  images: Array<{
+  featured_image_url?: string;
+  images?: Array<{
     cloudinary_url: string;
   }>;
   created_at: string;
@@ -94,11 +94,11 @@ const formatDate = (date: string) => {
   if (diffDays === 0) return 'Today'
   if (diffDays === 1) return 'Yesterday'
   if (diffDays < 7) return `${diffDays} days ago`
-  
+
   return reviewDate.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
   })
 }
-</script> 
+</script>

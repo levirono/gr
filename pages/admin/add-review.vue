@@ -56,6 +56,12 @@
               <textarea v-model="review.content" required rows="6"
                 class="w-full px-3 py-2 border rounded-md"></textarea>
             </div>
+
+            <!-- New Brand Name Field -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Brand Name</label>
+              <input v-model="review.brand" type="text" required class="w-full px-3 py-2 border rounded-md">
+            </div>
           </div>
 
           <!-- Featured Image -->
@@ -184,6 +190,33 @@
                   <textarea v-model="review.sections.display.content" rows="3"
                     class="w-full px-3 py-2 border rounded-md"></textarea>
                 </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Technology</label>
+                    <input v-model="review.sections.display.technology" type="text" placeholder="e.g. AMOLED, IPS LCD"
+                      class="w-full px-3 py-2 border rounded-md">
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Resolution</label>
+                    <input v-model="review.sections.display.resolution" type="text"
+                      placeholder="e.g. 1080 x 2400 pixels" class="w-full px-3 py-2 border rounded-md">
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Refresh Rate</label>
+                    <input v-model="review.sections.display.refresh_rate" type="text" placeholder="e.g. 120Hz"
+                      class="w-full px-3 py-2 border rounded-md">
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Brightness</label>
+                    <input v-model="review.sections.display.brightness" type="text" placeholder="e.g. 1000 nits (peak)"
+                      class="w-full px-3 py-2 border rounded-md">
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Protection</label>
+                    <input v-model="review.sections.display.protection" type="text" placeholder="e.g. Gorilla Glass 5"
+                      class="w-full px-3 py-2 border rounded-md">
+                  </div>
+                </div>
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-2">Specifications</label>
                   <div class="space-y-4">
@@ -208,7 +241,124 @@
               </div>
             </div>
 
-            <!-- Add more sections as needed -->
+            <!-- Camera Section -->
+            <div class="border rounded-lg p-4">
+              <h3 class="font-medium mb-4">Camera</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Rear Camera -->
+                <div>
+                  <h4 class="font-semibold mb-2">Rear Camera</h4>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Specs</label>
+                  <input v-model="review.sections.camera.rear.specs" type="text" placeholder="e.g. 50MP + 12MP + 5MP"
+                    class="w-full px-3 py-2 border rounded-md mb-2">
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Features</label>
+                  <input v-model="review.sections.camera.rear.features" type="text"
+                    placeholder="e.g. OIS, LED flash, panorama" class="w-full px-3 py-2 border rounded-md mb-2">
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Video</label>
+                  <input v-model="review.sections.camera.rear.video" type="text"
+                    placeholder="e.g. 4K@30fps, 1080p@60fps" class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <!-- Front Camera -->
+                <div>
+                  <h4 class="font-semibold mb-2">Front Camera</h4>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Specs</label>
+                  <input v-model="review.sections.camera.front.specs" type="text" placeholder="e.g. 32MP"
+                    class="w-full px-3 py-2 border rounded-md mb-2">
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Features</label>
+                  <input v-model="review.sections.camera.front.features" type="text" placeholder="e.g. HDR, panorama"
+                    class="w-full px-3 py-2 border rounded-md mb-2">
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Video</label>
+                  <input v-model="review.sections.camera.front.video" type="text" placeholder="e.g. 1080p@30fps"
+                    class="w-full px-3 py-2 border rounded-md">
+                </div>
+              </div>
+            </div>
+
+            <!-- Connectivity Section -->
+            <div class="border rounded-lg p-4">
+              <h3 class="font-medium mb-4">Connectivity</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Network</label>
+                  <input v-model="review.sections.connectivity.network" type="text"
+                    placeholder="e.g. GSM / HSPA / LTE / 5G" class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">WiFi</label>
+                  <input v-model="review.sections.connectivity.wifi" type="text"
+                    placeholder="e.g. Wi-Fi 802.11 a/b/g/n/ac/ax" class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Bluetooth</label>
+                  <input v-model="review.sections.connectivity.bluetooth" type="text" placeholder="e.g. 5.3, A2DP, LE"
+                    class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">GPS</label>
+                  <input v-model="review.sections.connectivity.gps" type="text"
+                    placeholder="e.g. Yes, with A-GPS, GLONASS" class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">NFC</label>
+                  <input v-model="review.sections.connectivity.nfc" type="text" placeholder="e.g. Yes/No"
+                    class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">USB</label>
+                  <input v-model="review.sections.connectivity.usb" type="text" placeholder="e.g. USB Type-C 2.0"
+                    class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">SIM</label>
+                  <input v-model="review.sections.connectivity.sim" type="text"
+                    placeholder="e.g. Dual SIM (Nano-SIM, dual stand-by)" class="w-full px-3 py-2 border rounded-md">
+                </div>
+              </div>
+            </div>
+
+            <!-- Storage Section -->
+            <div class="border rounded-lg p-4">
+              <h3 class="font-medium mb-4">Storage</h3>
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Internal Storage</label>
+                  <input v-model="review.sections.storage.internal" type="text" placeholder="e.g. 128GB, 256GB"
+                    class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Expandable Storage</label>
+                  <input v-model="review.sections.storage.expandable" type="text"
+                    placeholder="e.g. microSDXC (dedicated slot)" class="w-full px-3 py-2 border rounded-md">
+                </div>
+              </div>
+            </div>
+
+            <!-- Battery & Charging Section -->
+            <div class="border rounded-lg p-4">
+              <h3 class="font-medium mb-4">Battery & Charging</h3>
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Battery Capacity</label>
+                  <input v-model="review.sections.battery.capacity" type="text" placeholder="e.g. 5000mAh"
+                    class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Type</label>
+                  <input v-model="review.sections.battery.type" type="text" placeholder="e.g. Li-Po, non-removable"
+                    class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Charging</label>
+                  <input v-model="review.sections.battery.charging" type="text" placeholder="e.g. 67W wired, PD3.0, QC4"
+                    class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Wireless Charging</label>
+                  <input v-model="review.sections.battery.wireless" type="text" placeholder="e.g. 50W wireless"
+                    class="w-full px-3 py-2 border rounded-md">
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- Retailers -->
@@ -319,6 +469,7 @@ interface Category {
 const categories = ref<Category[]>([]);
 
 const review = ref({
+  brand: '',
   title: '',
   category_id: '',
   content: '',
@@ -334,7 +485,43 @@ const review = ref({
     },
     display: {
       content: '',
+      technology: '',
+      resolution: '',
+      refresh_rate: '',
+      brightness: '',
+      protection: '',
       specs: {}
+    },
+    camera: {
+      front: {
+        specs: '',
+        features: '',
+        video: ''
+      },
+      rear: {
+        specs: '',
+        features: '',
+        video: ''
+      }
+    },
+    connectivity: {
+      network: '',
+      wifi: '',
+      bluetooth: '',
+      gps: '',
+      nfc: '',
+      usb: '',
+      sim: ''
+    },
+    storage: {
+      internal: '',
+      expandable: ''
+    },
+    battery: {
+      capacity: '',
+      type: '',
+      charging: '',
+      wireless: ''
     }
   },
   verdict: '',
@@ -499,38 +686,46 @@ const removeImage = (index: number) => {
 const handleSubmit = async () => {
   try {
     isSubmitting.value = true;
-    const slug = review.value.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    const slug = review.value.title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
 
-    const response = await $fetch('/api/reviews', {
+    const response = await fetch('/api/reviews', {
       method: 'POST',
-      body: {
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
         ...review.value,
         slug,
         retailers: retailers.value,
         images: uploadedImages.value
-      }
+      })
     });
 
-    if (!response) {
-      throw new Error('Failed to save review');
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Failed to save review');
     }
 
-    navigateTo(`/reviews/${response.slug}`);
+    navigateTo(`/reviews/${data.slug}`);
   } catch (error) {
     alert('Error saving review. Please try again.');
     console.error(error);
   } finally {
     isSubmitting.value = false;
   }
-}
+};
+
+const selectedCategoryIsSmartphone = computed(() => {
+  const cat = categories.value.find(c => c.id === review.value.category_id)
+  return cat && cat.slug === 'smartphone'
+})
 
 onMounted(async () => {
   try {
-    // Make the API call to fetch categories
     const response = await fetch('/api/categories');
     const result = await response.json();
-
-    // Check if response has data property
     if (result && result.data) {
       categories.value = result.data;
       console.log('Categories loaded:', categories.value);
