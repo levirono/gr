@@ -19,7 +19,8 @@
 
         <!-- Reviews Grid -->
         <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div v-for="review in reviews" :key="review.id" class="bg-white rounded-lg shadow-md overflow-hidden">
+          <div v-for="review in (reviews?.data || [])" :key="review.id"
+            class="bg-white rounded-lg shadow-md overflow-hidden">
             <NuxtLink :to="`/reviews/${review.slug}`" class="block">
               <div class="relative h-48">
                 <img v-if="review.featured_image_url" :src="review.featured_image_url" :alt="review.title"
@@ -79,8 +80,8 @@ interface Review {
 
 const { data: reviews, pending, error } = await useFetch<{ data: Review[] }>('/api/reviews', {
   transform: (response) => {
-    if (!response?.data) return []
-    return response.data
+    if (!response?.data) return { data: [] }
+    return { data: response.data }
   }
 })
 

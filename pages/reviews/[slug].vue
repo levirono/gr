@@ -77,7 +77,9 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div v-for="(value, key) in review.quick_summary" :key="key"
                 class="flex flex-col bg-white rounded-lg p-4 border border-green-100 shadow-sm">
-                <span class="text-green-700 text-sm capitalize font-semibold">{{ formatKeyName(key) }}</span>
+                <span class="text-green-700 text-sm capitalize font-semibold">{{ formatKeyName(typeof key === 'string' ?
+                  key :
+                  String(key)) }}</span>
                 <span class="font-medium text-gray-900 text-lg">{{ value }}</span>
               </div>
             </div>
@@ -121,7 +123,7 @@
                             }}</span></div>
                         <div v-if="review.sections.display.refresh_rate" class="flex mb-2"><span
                             class="font-semibold w-40">Refresh Rate:</span> <span>{{
-                            review.sections.display.refresh_rate }}</span></div>
+                              review.sections.display.refresh_rate }}</span></div>
                         <div v-if="review.sections.display.brightness" class="flex mb-2"><span
                             class="font-semibold w-40">Brightness:</span> <span>{{ review.sections.display.brightness
                             }}</span></div>
@@ -146,7 +148,7 @@
                                 }}</span></div>
                             <div v-if="review.sections.camera.rear?.features" class="flex mb-1"><span
                                 class="font-semibold w-28">Features:</span> <span>{{
-                                review.sections.camera.rear.features }}</span></div>
+                                  review.sections.camera.rear.features }}</span></div>
                             <div v-if="review.sections.camera.rear?.video" class="flex mb-1"><span
                                 class="font-semibold w-28">Video:</span> <span>{{ review.sections.camera.rear.video
                                 }}</span></div>
@@ -158,7 +160,7 @@
                                 }}</span></div>
                             <div v-if="review.sections.camera.front?.features" class="flex mb-1"><span
                                 class="font-semibold w-28">Features:</span> <span>{{
-                                review.sections.camera.front.features }}</span></div>
+                                  review.sections.camera.front.features }}</span></div>
                             <div v-if="review.sections.camera.front?.video" class="flex mb-1"><span
                                 class="font-semibold w-28">Video:</span> <span>{{ review.sections.camera.front.video
                                 }}</span></div>
@@ -201,7 +203,7 @@
                             }}</span></div>
                         <div v-if="review.sections.battery.wireless" class="flex mb-2"><span
                             class="font-semibold w-40">Wireless Charging:</span> <span>{{
-                            review.sections.battery.wireless }}</span></div>
+                              review.sections.battery.wireless }}</span></div>
                       </td>
                     </tr>
                   </template>
@@ -530,52 +532,52 @@ const showGalleryModal = ref(false);
 function extractImageUrls(jsonbData: any): string[] {
   const urls: string[] = [];
 
-    // If it's not an object or array, return empty array
-    if (!jsonbData || typeof jsonbData !== 'object') {
-      return urls;
-    }
+  // If it's not an object or array, return empty array
+  if (!jsonbData || typeof jsonbData !== 'object') {
+    return urls;
+  }
 
-    // Case 1: Array of objects with URL properties
-    if (Array.isArray(jsonbData)) {
-      jsonbData.forEach(item => {
-        if (item && typeof item === 'object') {
-          // Look for common URL field names
-          ['url', 'src', 'source', 'path', 'image_url', 'cloudinary_url'].forEach(key => {
-            if (item[key] && typeof item[key] === 'string') {
-              urls.push(item[key]);
-            }
-          });
-        } else if (typeof item === 'string' && isValidUrl(item)) {
-          // If array contains direct URL strings
-          urls.push(item);
-        }
-      });
-      return urls;
-    }
-
-    // Case 2: Object with URL properties at top level
-    ['url', 'src', 'source', 'path', 'image_url', 'cloudinary_url'].forEach(key => {
-      if (jsonbData[key] && typeof jsonbData[key] === 'string') {
-        urls.push(jsonbData[key]);
-      }
-    });
-
-    // Case 3: Object with numeric keys (like {0: {url: '...'}, 1: {url: '...'}})
-    Object.keys(jsonbData).forEach(key => {
-      const item = jsonbData[key];
+  // Case 1: Array of objects with URL properties
+  if (Array.isArray(jsonbData)) {
+    jsonbData.forEach(item => {
       if (item && typeof item === 'object') {
-        ['url', 'src', 'source', 'path', 'image_url', 'cloudinary_url'].forEach(urlKey => {
-          if (item[urlKey] && typeof item[urlKey] === 'string') {
-            urls.push(item[urlKey]);
+        // Look for common URL field names
+        ['url', 'src', 'source', 'path', 'image_url', 'cloudinary_url'].forEach(key => {
+          if (item[key] && typeof item[key] === 'string') {
+            urls.push(item[key]);
           }
         });
       } else if (typeof item === 'string' && isValidUrl(item)) {
+        // If array contains direct URL strings
         urls.push(item);
       }
     });
-
     return urls;
   }
+
+  // Case 2: Object with URL properties at top level
+  ['url', 'src', 'source', 'path', 'image_url', 'cloudinary_url'].forEach(key => {
+    if (jsonbData[key] && typeof jsonbData[key] === 'string') {
+      urls.push(jsonbData[key]);
+    }
+  });
+
+  // Case 3: Object with numeric keys (like {0: {url: '...'}, 1: {url: '...'}})
+  Object.keys(jsonbData).forEach(key => {
+    const item = jsonbData[key];
+    if (item && typeof item === 'object') {
+      ['url', 'src', 'source', 'path', 'image_url', 'cloudinary_url'].forEach(urlKey => {
+        if (item[urlKey] && typeof item[urlKey] === 'string') {
+          urls.push(item[urlKey]);
+        }
+      });
+    } else if (typeof item === 'string' && isValidUrl(item)) {
+      urls.push(item);
+    }
+  });
+
+  return urls;
+}
 
 // Helper to validate URLs
 function isValidUrl(str: string): boolean {
@@ -662,7 +664,7 @@ const validateImages = async () => {
     // General images
     if (review.value.processedImages && review.value.processedImages.length > 0) {
       console.log(`✅ Processed images (${review.value.processedImages.length}):`);
-      review.value.processedImages.forEach((url, i) => {
+      (review.value.processedImages as string[]).forEach((url, i) => {
         console.log(`  - Image ${i + 1}: ${url}`);
       });
     } else {
@@ -672,7 +674,7 @@ const validateImages = async () => {
     // Design images
     if (review.value.processedDesignImages && review.value.processedDesignImages.length > 0) {
       console.log(`✅ Processed design images (${review.value.processedDesignImages.length}):`);
-      review.value.processedDesignImages.forEach((url, i) => {
+      (review.value.processedDesignImages as string[]).forEach((url, i) => {
         console.log(`  - Design image ${i + 1}: ${url}`);
       });
     } else {
@@ -682,7 +684,7 @@ const validateImages = async () => {
     // Display images
     if (review.value.processedDisplayImages && review.value.processedDisplayImages.length > 0) {
       console.log(`✅ Processed display images (${review.value.processedDisplayImages.length}):`);
-      review.value.processedDisplayImages.forEach((url, i) => {
+      (review.value.processedDisplayImages as string[]).forEach((url, i) => {
         console.log(`  - Display image ${i + 1}: ${url}`);
       });
     } else {
