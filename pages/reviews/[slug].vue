@@ -51,7 +51,10 @@
                 </span>
                 <span class="text-gray-500 text-sm">{{ formatDate(review.created_at) }}</span>
               </div>
-              <h1 class="text-4xl font-bold mb-4">{{ review.title }}</h1>
+              <h1 class="text-4xl font-bold mb-2">{{ review.title }}</h1>
+              <div class="text-lg text-gray-700 mb-2" v-if="review.brand">
+                <span class="font-semibold">Brand:</span> {{ review.brand }}
+              </div>
               <div class="flex items-center gap-2 mb-6">
                 <div class="flex text-yellow-400">
                   <span v-for="n in 5" :key="n" class="text-2xl">
@@ -62,180 +65,284 @@
               <p class="text-xl text-gray-600 mb-8">{{ review.excerpt }}</p>
             </div>
           </div>
-
-          <!-- Additional Images -->
-          <div class="grid grid-cols-2 gap-4 mb-8">
-            <template v-if="review.processedImages && review.processedImages.length > 0">
-              <div v-for="(image, index) in review.processedImages" :key="index"
-                class="rounded-lg overflow-hidden h-64">
-                <img :src="image" :alt="`${review.title} - Image ${index + 1}`" class="w-full h-full object-cover">
-              </div>
-            </template>
-            <template v-else-if="review.images && review.images.length > 0">
-              <div v-for="(image, index) in review.images" :key="index" class="rounded-lg overflow-hidden h-64">
-                <img :src="image" :alt="`${review.title} - Image ${index + 1}`" class="w-full h-full object-cover">
-              </div>
-            </template>
-          </div>
-
           <!-- Quick Summary -->
-          <div v-if="review.quick_summary" class="bg-white rounded-lg shadow-md p-8 mb-8">
-            <h2 class="text-2xl font-bold mb-6">Quick Summary</h2>
+          <div v-if="review.quick_summary" class="bg-green-50 rounded-2xl shadow p-8 mb-12 border border-green-100">
+            <h2 class="text-2xl font-bold mb-6 text-green-600 flex items-center gap-2">
+              <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3" />
+              </svg>
+              Quick Summary
+            </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div v-for="(value, key) in review.quick_summary" :key="key" class="flex flex-col">
-                <span class="text-gray-500 text-sm capitalize">{{ formatKeyName(key) }}</span>
-                <span class="font-medium">{{ value }}</span>
+              <div v-for="(value, key) in review.quick_summary" :key="key"
+                class="flex flex-col bg-white rounded-lg p-4 border border-green-100 shadow-sm">
+                <span class="text-green-700 text-sm capitalize font-semibold">{{ formatKeyName(key) }}</span>
+                <span class="font-medium text-gray-900 text-lg">{{ value }}</span>
               </div>
             </div>
           </div>
 
-
-
-          <!-- Review Sections -->
-          <div class="space-y-8 mb-8">
-            <!-- Design Section -->
-            <div v-if="review.sections && review.sections.design" class="bg-white rounded-lg shadow-md p-8">
-              <h2 class="text-2xl font-bold mb-6">Design & Build</h2>
-              <div class="prose max-w-none mb-8" v-html="review.sections.design.content"></div>
-
-              <!-- Design Images -->
-              <div class="grid grid-cols-2 gap-4">
-                <template v-if="review.processedDesignImages && review.processedDesignImages.length > 0">
-                  <div v-for="(image, index) in review.processedDesignImages" :key="index"
-                    class="rounded-lg overflow-hidden h-64">
-                    <img :src="image" :alt="`${review.title} - Design ${index + 1}`" class="w-full h-full object-cover">
-                  </div>
-                </template>
-                <template v-else-if="review.design_images && review.design_images.length > 0">
-                  <div v-for="(image, index) in review.design_images" :key="index"
-                    class="rounded-lg overflow-hidden h-64">
-                    <img :src="image" :alt="`${review.title} - Design ${index + 1}`" class="w-full h-full object-cover">
-                  </div>
-                </template>
-
-              </div>
-            </div>
-
-            <!-- Display Section -->
-            <div v-if="review.sections && review.sections.display" class="bg-white rounded-lg shadow-md p-8">
-              <h2 class="text-2xl font-bold mb-6">Display</h2>
-              <div class="prose max-w-none mb-8" v-html="review.sections.display.content"></div>
-
-              <!-- Display Images -->
-              <div class="grid grid-cols-2 gap-4 mb-8">
-                <template v-if="review.processedDisplayImages && review.processedDisplayImages.length > 0">
-                  <div v-for="(image, index) in review.processedDisplayImages" :key="index"
-                    class="rounded-lg overflow-hidden h-64">
-                    <img :src="image" :alt="`${review.title} - Display ${index + 1}`"
-                      class="w-full h-full object-cover">
-                  </div>
-                </template>
-
-              </div>
-
-              <!-- Display Specs -->
-              <div v-if="review.sections.display.specs && Object.keys(review.sections.display.specs).length > 0"
-                class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 p-4 bg-gray-50 rounded-lg">
-                <div v-for="(value, key) in review.sections.display.specs" :key="key" class="flex flex-col">
-                  <span class="text-gray-500 text-sm capitalize">{{ formatKeyName(key) }}</span>
-                  <span class="font-medium">{{ value }}</span>
-                </div>
-              </div>
+          <!-- Device Specs Section -->
+          <div class="bg-white rounded-2xl shadow-xl p-10 mb-12 border border-green-200">
+            <h2 class="text-3xl font-extrabold mb-8 text-green-600 tracking-tight flex items-center gap-2">
+              <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M9 17v-2a4 4 0 014-4h2a4 4 0 014 4v2M7 7h.01M7 11h.01M7 15h.01M3 21h18M3 3h18" />
+              </svg>
+              Device Specifications
+            </h2>
+            <div class="overflow-x-auto rounded-xl border border-green-100 shadow-sm">
+              <table class="min-w-full bg-white text-base text-gray-800 border border-green-200">
+                <thead class="bg-green-50">
+                  <tr>
+                    <th
+                      class="px-8 py-4 text-left text-sm font-bold text-green-700 uppercase tracking-wider border-b border-green-200 border-r border-green-200">
+                      Category</th>
+                    <th
+                      class="px-8 py-4 text-left text-sm font-bold text-green-700 uppercase tracking-wider border-b border-green-200">
+                      Specification</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Display -->
+                  <template v-if="review.sections?.display">
+                    <tr class="border-b border-green-200 hover:bg-green-50 transition">
+                      <td
+                        class="px-8 py-6 font-semibold text-green-700 align-top whitespace-nowrap border-r border-green-200">
+                        Display</td>
+                      <td class="px-8 py-6">
+                        <div v-if="review.sections.display.technology" class="flex mb-2"><span
+                            class="font-semibold w-40">Technology:</span> <span>{{ review.sections.display.technology
+                            }}</span></div>
+                        <div v-if="review.sections.display.resolution" class="flex mb-2"><span
+                            class="font-semibold w-40">Resolution:</span> <span>{{ review.sections.display.resolution
+                            }}</span></div>
+                        <div v-if="review.sections.display.refresh_rate" class="flex mb-2"><span
+                            class="font-semibold w-40">Refresh Rate:</span> <span>{{
+                            review.sections.display.refresh_rate }}</span></div>
+                        <div v-if="review.sections.display.brightness" class="flex mb-2"><span
+                            class="font-semibold w-40">Brightness:</span> <span>{{ review.sections.display.brightness
+                            }}</span></div>
+                        <div v-if="review.sections.display.protection" class="flex mb-2"><span
+                            class="font-semibold w-40">Protection:</span> <span>{{ review.sections.display.protection
+                            }}</span></div>
+                      </td>
+                    </tr>
+                  </template>
+                  <!-- Camera -->
+                  <template v-if="review.sections?.camera">
+                    <tr class="border-b border-green-200 hover:bg-green-50 transition">
+                      <td
+                        class="px-8 py-6 font-semibold text-green-700 align-top whitespace-nowrap border-r border-green-200">
+                        Camera</td>
+                      <td class="px-8 py-6">
+                        <div class="flex flex-col md:flex-row gap-8">
+                          <div class="flex-1">
+                            <div class="font-semibold text-gray-700 mb-1">Rear</div>
+                            <div v-if="review.sections.camera.rear?.specs" class="flex mb-1"><span
+                                class="font-semibold w-28">Specs:</span> <span>{{ review.sections.camera.rear.specs
+                                }}</span></div>
+                            <div v-if="review.sections.camera.rear?.features" class="flex mb-1"><span
+                                class="font-semibold w-28">Features:</span> <span>{{
+                                review.sections.camera.rear.features }}</span></div>
+                            <div v-if="review.sections.camera.rear?.video" class="flex mb-1"><span
+                                class="font-semibold w-28">Video:</span> <span>{{ review.sections.camera.rear.video
+                                }}</span></div>
+                          </div>
+                          <div class="flex-1">
+                            <div class="font-semibold text-gray-700 mb-1">Front</div>
+                            <div v-if="review.sections.camera.front?.specs" class="flex mb-1"><span
+                                class="font-semibold w-28">Specs:</span> <span>{{ review.sections.camera.front.specs
+                                }}</span></div>
+                            <div v-if="review.sections.camera.front?.features" class="flex mb-1"><span
+                                class="font-semibold w-28">Features:</span> <span>{{
+                                review.sections.camera.front.features }}</span></div>
+                            <div v-if="review.sections.camera.front?.video" class="flex mb-1"><span
+                                class="font-semibold w-28">Video:</span> <span>{{ review.sections.camera.front.video
+                                }}</span></div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </template>
+                  <!-- Storage -->
+                  <template v-if="review.sections?.storage">
+                    <tr class="border-b border-green-200 hover:bg-green-50 transition">
+                      <td
+                        class="px-8 py-6 font-semibold text-green-700 align-top whitespace-nowrap border-r border-green-200">
+                        Storage</td>
+                      <td class="px-8 py-6">
+                        <div v-if="review.sections.storage.internal" class="flex mb-2"><span
+                            class="font-semibold w-40">Internal:</span> <span>{{ review.sections.storage.internal
+                            }}</span></div>
+                        <div v-if="review.sections.storage.expandable" class="flex mb-2"><span
+                            class="font-semibold w-40">Expandable:</span> <span>{{ review.sections.storage.expandable
+                            }}</span></div>
+                      </td>
+                    </tr>
+                  </template>
+                  <!-- Battery -->
+                  <template v-if="review.sections?.battery">
+                    <tr class="border-b border-green-200 hover:bg-green-50 transition">
+                      <td
+                        class="px-8 py-6 font-semibold text-green-700 align-top whitespace-nowrap border-r border-green-200">
+                        Battery</td>
+                      <td class="px-8 py-6">
+                        <div v-if="review.sections.battery.capacity" class="flex mb-2"><span
+                            class="font-semibold w-40">Capacity:</span> <span>{{ review.sections.battery.capacity
+                            }}</span></div>
+                        <div v-if="review.sections.battery.type" class="flex mb-2"><span
+                            class="font-semibold w-40">Type:</span> <span>{{ review.sections.battery.type }}</span>
+                        </div>
+                        <div v-if="review.sections.battery.charging" class="flex mb-2"><span
+                            class="font-semibold w-40">Charging:</span> <span>{{ review.sections.battery.charging
+                            }}</span></div>
+                        <div v-if="review.sections.battery.wireless" class="flex mb-2"><span
+                            class="font-semibold w-40">Wireless Charging:</span> <span>{{
+                            review.sections.battery.wireless }}</span></div>
+                      </td>
+                    </tr>
+                  </template>
+                  <!-- Connectivity -->
+                  <template v-if="review.sections?.connectivity">
+                    <tr class="border-b border-green-200 hover:bg-green-50 transition">
+                      <td
+                        class="px-8 py-6 font-semibold text-green-700 align-top whitespace-nowrap border-r border-green-200">
+                        Connectivity</td>
+                      <td class="px-8 py-6">
+                        <div v-if="review.sections.connectivity.network" class="flex mb-2"><span
+                            class="font-semibold w-40">Network:</span> <span>{{ review.sections.connectivity.network
+                            }}</span></div>
+                        <div v-if="review.sections.connectivity.wifi" class="flex mb-2"><span
+                            class="font-semibold w-40">WiFi:</span> <span>{{ review.sections.connectivity.wifi }}</span>
+                        </div>
+                        <div v-if="review.sections.connectivity.bluetooth" class="flex mb-2"><span
+                            class="font-semibold w-40">Bluetooth:</span> <span>{{ review.sections.connectivity.bluetooth
+                            }}</span></div>
+                        <div v-if="review.sections.connectivity.gps" class="flex mb-2"><span
+                            class="font-semibold w-40">GPS:</span> <span>{{ review.sections.connectivity.gps }}</span>
+                        </div>
+                        <div v-if="review.sections.connectivity.nfc" class="flex mb-2"><span
+                            class="font-semibold w-40">NFC:</span> <span>{{ review.sections.connectivity.nfc }}</span>
+                        </div>
+                        <div v-if="review.sections.connectivity.usb" class="flex mb-2"><span
+                            class="font-semibold w-40">USB:</span> <span>{{ review.sections.connectivity.usb }}</span>
+                        </div>
+                        <div v-if="review.sections.connectivity.sim" class="flex mb-2"><span
+                            class="font-semibold w-40">SIM:</span> <span>{{ review.sections.connectivity.sim }}</span>
+                        </div>
+                      </td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
             </div>
           </div>
 
-          <!-- Where to Buy -->
-          <div v-if="review.retailers && review.retailers.length > 0" class="bg-white rounded-lg shadow-md p-8 mb-8">
-            <h2 class="text-2xl font-bold mb-6">Where to Buy</h2>
-            <div class="space-y-4">
-              <div v-for="(retailer, index) in review.retailers" :key="index"
-                class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                <div>
-                  <h3 class="font-medium">{{ retailer.name }}</h3>
-                  <p class="text-gray-600">${{ retailer.price }}</p>
-                </div>
-                <a :href="retailer.link" target="_blank" rel="noopener noreferrer"
-                  class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-                  Buy Now
-                </a>
-              </div>
-            </div>
-          </div>
+
 
           <!-- Pros and Cons -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-            <div class="bg-white rounded-lg shadow-md p-8">
-              <h2 class="text-2xl font-bold mb-6">Pros</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <div class="bg-green-50 rounded-2xl shadow p-8 border border-green-100">
+              <h2 class="text-2xl font-bold mb-6 text-green-600 flex items-center gap-2">
+                <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                Pros
+              </h2>
               <ul class="space-y-4">
                 <li v-for="(pro, index) in review.pros" :key="index" class="flex items-start gap-3">
-                  <span class="text-green-500 text-xl">✓</span>
-                  <span>{{ pro }}</span>
+                  <span class="text-green-500 text-2xl">✓</span>
+                  <span class="text-gray-900 text-lg">{{ pro }}</span>
                 </li>
               </ul>
             </div>
-            <div class="bg-white rounded-lg shadow-md p-8">
-              <h2 class="text-2xl font-bold mb-6">Cons</h2>
+            <div class="bg-red-50 rounded-2xl shadow p-8 border border-red-100">
+              <h2 class="text-2xl font-bold mb-6 text-red-600 flex items-center gap-2">
+                <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                Cons
+              </h2>
               <ul class="space-y-4">
                 <li v-for="(con, index) in review.cons" :key="index" class="flex items-start gap-3">
-                  <span class="text-red-500 text-xl">×</span>
-                  <span>{{ con }}</span>
+                  <span class="text-red-500 text-2xl">×</span>
+                  <span class="text-gray-900 text-lg">{{ con }}</span>
                 </li>
               </ul>
             </div>
           </div>
 
           <!-- Final Verdict -->
-          <div class="bg-white rounded-lg shadow-md p-8 mb-8">
-            <h2 class="text-2xl font-bold mb-6">Final Verdict</h2>
-            <div class="prose max-w-none" v-html="review.verdict"></div>
+          <div class="bg-white rounded-2xl shadow-xl p-10 mb-12 border border-green-200">
+            <h2 class="text-2xl font-bold mb-6 text-green-600 flex items-center gap-2">
+              <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2" />
+              </svg>
+              Final Verdict
+            </h2>
+            <div class="prose max-w-none text-lg text-gray-800" v-html="review.verdict"></div>
           </div>
 
           <!-- Comments Section -->
-          <div class="bg-white rounded-lg shadow-md p-8">
-            <h2 class="text-2xl font-bold mb-6">Comments</h2>
+          <div class="bg-white rounded-2xl shadow-xl p-10 border border-green-100">
+            <h2 class="text-2xl font-bold mb-6 text-green-600 flex items-center gap-2">
+              <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M17 8h2a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V10a2 2 0 012-2h2M15 3h-4a2 2 0 00-2 2v4a2 2 0 002 2h4a2 2 0 002-2V5a2 2 0 00-2-2z" />
+              </svg>
+              Comments
+            </h2>
 
             <!-- Comment Form -->
             <form @submit.prevent="submitComment" class="mb-8">
               <div class="mb-4">
-                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                <label for="name" class="block text-sm font-medium text-green-700 mb-1">Name</label>
                 <input type="text" id="name" v-model="newComment.name"
-                  class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-green-50 border-green-200"
                   required>
               </div>
               <div class="mb-4">
-                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <label for="email" class="block text-sm font-medium text-green-700 mb-1">Email</label>
                 <input type="email" id="email" v-model="newComment.email"
-                  class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-green-50 border-green-200"
                   required>
               </div>
               <div class="mb-4">
-                <label for="comment" class="block text-sm font-medium text-gray-700 mb-1">Comment</label>
+                <label for="comment" class="block text-sm font-medium text-green-700 mb-1">Comment</label>
                 <textarea id="comment" v-model="newComment.content" rows="4"
-                  class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-green-50 border-green-200"
                   required></textarea>
               </div>
-              <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+              <button type="submit"
+                class="px-8 py-3 bg-green-600 text-white rounded-md hover:bg-green-700 font-bold text-lg shadow transition"
                 :disabled="submitting">
                 {{ submitting ? 'Posting...' : 'Post Comment' }}
               </button>
             </form>
 
             <!-- Comments List -->
-            <div v-if="comments.length > 0" class="space-y-6">
-              <div v-for="comment in comments" :key="comment.id" class="border-b pb-6 last:border-b-0">
+            <div v-if="comments.length > 0" class="space-y-8">
+              <div v-for="comment in comments" :key="comment.id" class="border-b pb-8 last:border-b-0 border-green-100">
                 <div class="flex items-center gap-4 mb-2">
-                  <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                    <span class="text-blue-600 font-medium">{{ comment.name.charAt(0).toUpperCase() }}</span>
+                  <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                    <span class="text-green-600 font-bold text-xl">{{ comment.name.charAt(0).toUpperCase() }}</span>
                   </div>
                   <div>
-                    <h3 class="font-medium">{{ comment.name }}</h3>
+                    <h3 class="font-semibold text-green-700">{{ comment.name }}</h3>
                     <p class="text-sm text-gray-500">{{ formatDate(comment.created_at) }}</p>
                   </div>
                 </div>
-                <p class="text-gray-700">{{ comment.content }}</p>
+                <p class="text-gray-800 text-lg">{{ comment.content }}</p>
               </div>
             </div>
-            <div v-else class="text-center py-8 text-gray-500">
+            <div v-else class="text-center py-8 text-gray-400">
               No comments yet. Be the first to comment!
             </div>
           </div>
@@ -304,7 +411,7 @@ const fetchCategories = async () => {
   try {
     const { data } = await useFetch('/api/categories');
     if (data.value) {
-      data.value.forEach((category: any) => {
+      (data.value.data || []).forEach((category: any) => {
         categories.value[category.id] = category.name;
       });
     }
@@ -423,52 +530,52 @@ const showGalleryModal = ref(false);
 function extractImageUrls(jsonbData: any): string[] {
   const urls: string[] = [];
 
-  // If it's not an object or array, return empty array
-  if (!jsonbData || typeof jsonbData !== 'object') {
-    return urls;
-  }
+    // If it's not an object or array, return empty array
+    if (!jsonbData || typeof jsonbData !== 'object') {
+      return urls;
+    }
 
-  // Case 1: Array of objects with URL properties
-  if (Array.isArray(jsonbData)) {
-    jsonbData.forEach(item => {
+    // Case 1: Array of objects with URL properties
+    if (Array.isArray(jsonbData)) {
+      jsonbData.forEach(item => {
+        if (item && typeof item === 'object') {
+          // Look for common URL field names
+          ['url', 'src', 'source', 'path', 'image_url', 'cloudinary_url'].forEach(key => {
+            if (item[key] && typeof item[key] === 'string') {
+              urls.push(item[key]);
+            }
+          });
+        } else if (typeof item === 'string' && isValidUrl(item)) {
+          // If array contains direct URL strings
+          urls.push(item);
+        }
+      });
+      return urls;
+    }
+
+    // Case 2: Object with URL properties at top level
+    ['url', 'src', 'source', 'path', 'image_url', 'cloudinary_url'].forEach(key => {
+      if (jsonbData[key] && typeof jsonbData[key] === 'string') {
+        urls.push(jsonbData[key]);
+      }
+    });
+
+    // Case 3: Object with numeric keys (like {0: {url: '...'}, 1: {url: '...'}})
+    Object.keys(jsonbData).forEach(key => {
+      const item = jsonbData[key];
       if (item && typeof item === 'object') {
-        // Look for common URL field names
-        ['url', 'src', 'source', 'path', 'image_url', 'cloudinary_url'].forEach(key => {
-          if (item[key] && typeof item[key] === 'string') {
-            urls.push(item[key]);
+        ['url', 'src', 'source', 'path', 'image_url', 'cloudinary_url'].forEach(urlKey => {
+          if (item[urlKey] && typeof item[urlKey] === 'string') {
+            urls.push(item[urlKey]);
           }
         });
       } else if (typeof item === 'string' && isValidUrl(item)) {
-        // If array contains direct URL strings
         urls.push(item);
       }
     });
+
     return urls;
   }
-
-  // Case 2: Object with URL properties at top level
-  ['url', 'src', 'source', 'path', 'image_url', 'cloudinary_url'].forEach(key => {
-    if (jsonbData[key] && typeof jsonbData[key] === 'string') {
-      urls.push(jsonbData[key]);
-    }
-  });
-
-  // Case 3: Object with numeric keys (like {0: {url: '...'}, 1: {url: '...'}})
-  Object.keys(jsonbData).forEach(key => {
-    const item = jsonbData[key];
-    if (item && typeof item === 'object') {
-      ['url', 'src', 'source', 'path', 'image_url', 'cloudinary_url'].forEach(urlKey => {
-        if (item[urlKey] && typeof item[urlKey] === 'string') {
-          urls.push(item[urlKey]);
-        }
-      });
-    } else if (typeof item === 'string' && isValidUrl(item)) {
-      urls.push(item);
-    }
-  });
-
-  return urls;
-}
 
 // Helper to validate URLs
 function isValidUrl(str: string): boolean {
@@ -506,12 +613,12 @@ const newComment = ref({
 // Fetch comments
 const { data: commentsData } = await useFetch<{ data: Comment[] }>(`/api/reviews/${slug}/comments`, {
   transform: (response) => {
-    if (!response?.data) return [];
-    return response.data;
+    if (!response?.data) return { data: [] };
+    return { data: response.data };
   }
 });
 
-comments.value = commentsData.value || [];
+comments.value = commentsData.value?.data || [];
 
 // Submit comment
 const submitComment = async () => {

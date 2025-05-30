@@ -62,7 +62,7 @@
                     {{ isUploading ? 'Uploading...' : 'Insert Image' }}
                   </button>
                 </div>
-                <textarea v-model="blog.content" rows="15" class="w-full px-3 py-2"></textarea>
+                <textarea v-model="blog.content" rows="15" class="w-full px-3 py-2" ref="contentTextarea"></textarea>
               </div>
             </div>
 
@@ -114,6 +114,7 @@ const isSubmitting = ref(false)
 const isUploading = ref(false)
 const uploadStatus = ref<UploadStatus | null>(null)
 const featuredImageInput = ref<HTMLInputElement | null>(null)
+const contentTextarea = ref<HTMLTextAreaElement | null>(null)
 
 const triggerFeaturedImageUpload = () => featuredImageInput.value?.click()
 
@@ -240,7 +241,7 @@ const insertImage = async () => {
 
       if (data) {
         const imageMarkdown = `![Image](${data.url})`
-        const textarea = document.querySelector('textarea')
+        const textarea = contentTextarea.value
         if (textarea) {
           const start = textarea.selectionStart || 0
           const end = textarea.selectionEnd || 0
@@ -248,8 +249,13 @@ const insertImage = async () => {
             blog.value.content.substring(0, start) +
             imageMarkdown +
             blog.value.content.substring(end)
+          // Move cursor after inserted image markdown
+          nextTick(() => {
+            textarea.focus()
+            const pos = start + imageMarkdown.length
+            textarea.setSelectionRange(pos, pos)
+          })
         }
-
         uploadStatus.value = {
           type: 'success',
           message: 'Image inserted successfully!'

@@ -122,7 +122,7 @@ const route = useRoute()
 const slug = route.params.slug as string
 
 // Fetch blog post
-const { data, pending, error } = await useFetch(`/api/blogs/${slug}`, {
+const { data, pending, error } = await useFetch<{ data: BlogPost | null }>(`/api/blogs/${slug}`, {
   onResponse({ response }) {
     console.log('Raw API response:', response);
   },
@@ -191,10 +191,20 @@ const otherPosts = computed(() => {
 </script>
 
 <style scoped>
-.blog-content img {
-  max-width: 320px;
-  max-height: 220px;
+.blog-content {
+  /* Remove max-width so content stretches to container */
+  max-width: 100%;
+}
+
+.blog-content p {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+  /* Make paragraphs fill the width */
   width: 100%;
+}
+
+.blog-content img {
+  max-width: 100%;
   height: auto;
   border-radius: 0.5rem;
   margin: 1.5rem auto;
