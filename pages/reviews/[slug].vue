@@ -10,7 +10,7 @@
       <div class="container mx-auto px-4">
         <!-- Loading State -->
         <div v-if="pending" class="text-center py-12">
-          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto"></div>
           <p class="mt-4 text-gray-600">Loading review...</p>
         </div>
 
@@ -24,9 +24,9 @@
           <!-- Breadcrumb -->
           <div class="mb-8">
             <div class="flex items-center space-x-2 text-sm">
-              <NuxtLink to="/" class="text-blue-600 hover:underline">Home</NuxtLink>
+              <NuxtLink to="/" class="text-green-600 hover:underline">Home</NuxtLink>
               <span class="text-gray-400">/</span>
-              <NuxtLink to="/reviews" class="text-blue-600 hover:underline">Reviews</NuxtLink>
+              <NuxtLink to="/reviews" class="text-green-600 hover:underline">Reviews</NuxtLink>
               <span class="text-gray-400">/</span>
               <span class="text-gray-600">{{ review.title }}</span>
             </div>
@@ -46,12 +46,12 @@
             </div>
             <div class="p-8">
               <div class="flex items-center gap-4 mb-4">
-                <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+                <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
                   {{ review.category?.name }}
                 </span>
                 <span class="text-gray-500 text-sm">{{ formatDate(review.created_at) }}</span>
               </div>
-              <h1 class="text-4xl font-bold mb-2">{{ review.title }}</h1>
+              <h1 class="text-4xl text-green-700 font-bold mb-2">{{ review.title }}</h1>
               <div class="text-lg text-gray-700 mb-2" v-if="review.brand">
                 <span class="font-semibold">Brand:</span> {{ review.brand }}
               </div>
@@ -220,8 +220,8 @@
                         <div v-if="review.sections.connectivity.wifi" class="flex mb-2"><span
                             class="font-semibold w-40">WiFi:</span> <span>{{ review.sections.connectivity.wifi }}</span>
                         </div>
-                        <div v-if="review.sections.connectivity.bluetooth" class="flex mb-2"><span
-                            class="font-semibold w-40">Bluetooth:</span> <span>{{ review.sections.connectivity.bluetooth
+                        <div v-if="review.sections.connectivity.greentooth" class="flex mb-2"><span
+                            class="font-semibold w-40">greentooth:</span> <span>{{ review.sections.connectivity.greentooth
                             }}</span></div>
                         <div v-if="review.sections.connectivity.gps" class="flex mb-2"><span
                             class="font-semibold w-40">GPS:</span> <span>{{ review.sections.connectivity.gps }}</span>

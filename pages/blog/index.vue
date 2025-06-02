@@ -37,14 +37,28 @@
                 <img v-if="post.featured_image_url" :src="post.featured_image_url" :alt="post.title"
                   class="object-cover w-full h-full">
                 <div v-else class="w-full h-full flex items-center justify-center">
-                  <span class="text-gray-500">No image</span>
+                  <span class="text-gray-500 flex items-center gap-1">
+                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" stroke-width="2"
+                      viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+                    </svg>
+                    No image
+                  </span>
                 </div>
               </div>
               <div class="p-6 flex-1 min-w-0">
                 <div class="flex items-center gap-4 mb-2">
                   <span class="text-gray-500 text-sm">{{ formatDate(post.published_at) }}</span>
                 </div>
-                <h2 class="text-lg font-bold mb-1 truncate">{{ post.title }}</h2>
+                <h2 class="text-lg font-bold mb-1 truncate text-green-700 flex items-center gap-1">
+                  <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+                  </svg>
+                  {{ post.title }}
+                </h2>
                 <p class="text-gray-600 mb-2 line-clamp-2">{{ post.excerpt }}</p>
                 <span class="text-blue-600 hover:underline text-sm">Read More →</span>
               </div>

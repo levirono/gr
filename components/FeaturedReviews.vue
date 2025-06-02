@@ -1,8 +1,14 @@
 <template>
   <section class="py-12 bg-gray-50">
     <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold mb-8">Featured Reviews</h2>
-      
+      <h2 class="text-3xl font-bold mb-8 text-green-700 flex items-center gap-2">
+        <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+          <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+        </svg>
+        Featured Reviews
+      </h2>
+
       <div v-if="pending" class="text-center py-8">
         <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
         <p class="mt-4 text-gray-600">Loading featured reviews...</p>
@@ -12,33 +18,41 @@
         <p class="text-red-600">Error loading featured reviews. Please try again later.</p>
       </div>
 
-      <div v-else-if="!featuredReviews?.length" class="text-center py-8">
+      <div v-else-if="!featuredReviews.data.length" class="text-center py-8">
         <p class="text-gray-600">No featured reviews available at the moment.</p>
       </div>
 
       <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div v-for="review in featuredReviews" :key="review.id" 
-          class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div v-for="review in featuredReviews.data" :key="review.id"
+          class="bg-white rounded-lg shadow-md overflow-hidden border border-green-100">
           <NuxtLink :to="`/reviews/${review.slug}`" class="block">
             <div class="relative h-48">
-              <img 
-                v-if="review.featured_image_url" 
-                :src="review.featured_image_url" 
-                :alt="review.title"
-                class="w-full h-full object-contain bg-gray-100"
-              >
-              <div v-else class="w-full h-full bg-gray-200 flex items-center justify-center">
-                <span class="text-gray-500">No image available</span>
+              <img v-if="review.featured_image_url" :src="review.featured_image_url" :alt="review.title"
+                class="w-full h-full object-contain bg-gray-100">
+              <div v-else class="w-full h-full bg-green-50 flex items-center justify-center">
+                <svg class="w-8 h-8 text-green-400 mr-2" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24">
+                  <rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="2" fill="none" />
+                  <path d="M8 16l2-2 4 4 4-6" stroke="currentColor" stroke-width="2" fill="none" />
+                </svg>
+                <span class="text-green-500">No image available</span>
               </div>
             </div>
             <div class="p-6">
-              <h3 class="text-xl font-semibold mb-2">{{ review.title }}</h3>
+              <h3 class="text-xl font-semibold mb-2 text-green-700 flex items-center gap-2">
+                <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+                  <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+                </svg>
+                {{ review.title }}
+              </h3>
               <p class="text-gray-600 line-clamp-3">{{ review.excerpt }}</p>
             </div>
           </NuxtLink>
           <div class="p-6">
             <div class="flex items-center gap-4 mb-4">
-              <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+              <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
                 {{ review.category?.name || 'Featured' }}
               </span>
               <span class="text-gray-500 text-sm">{{ formatDate(review.created_at) }}</span>
@@ -46,8 +60,7 @@
             <div class="flex items-center gap-2 mb-4">
               <div class="flex text-yellow-400">
                 <span v-for="n in 5" :key="n" class="text-lg">
-                  {{ n <= Math.round(review.rating || 0) ? '★' : '☆' }}
-                </span>
+                  {{ n <= Math.round(review.rating || 0) ? '★' : '☆' }} </span>
               </div>
               <span class="text-gray-600">({{ review.rating || 'N/A' }}/5)</span>
             </div>
@@ -77,8 +90,8 @@ const { data: featuredReviews, pending, error } = await useFetch<{ data: Review[
     limit: 3
   },
   transform: (response) => {
-    if (!response?.data) return []
-    return response.data
+    if (!response?.data) return { data: [] }
+    return { data: response.data }
   }
 })
 

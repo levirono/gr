@@ -3,32 +3,71 @@
     <TheHeader />
     <main class="py-8">
       <div class="container mx-auto px-4">
-        <h1 class="text-3xl font-bold mb-8">Add New Blog Post</h1>
+        <h1 class="text-3xl font-bold mb-8 text-green-700 flex items-center gap-2">
+          <svg class="w-7 h-7 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+            <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+          </svg>
+          Add New Blog Post
+        </h1>
 
         <div v-if="uploadStatus" class="mb-4 p-4 rounded-md"
-          :class="uploadStatus.type === 'error' ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'">
+          :class="uploadStatus.type === 'error' ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700 flex items-center gap-2'">
+          <svg v-if="uploadStatus.type !== 'error'" class="w-5 h-5 text-green-500" fill="none" stroke="currentColor"
+            stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+            <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+          </svg>
           {{ uploadStatus.message }}
         </div>
 
         <form @submit.prevent="handleSubmit" class="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
           <div class="space-y-6">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Title</label>
+              <label class="text-sm font-medium text-green-700 mb-2 flex items-center gap-2">
+                <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+                  <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+                </svg>
+                Title
+              </label>
               <input v-model="blog.title" type="text" required class="w-full px-3 py-2 border rounded-md">
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Author</label>
+              <label class="text-sm font-medium text-green-700 mb-2 flex items-center gap-2">
+                <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+                  <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+                </svg>
+                Author
+              </label>
               <input v-model="blog.author" type="text" required class="w-full px-3 py-2 border rounded-md">
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Excerpt</label>
+              <label class="text-sm font-medium text-green-700 mb-2 flex items-center gap-2">
+                <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+                  <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+                </svg>
+                Excerpt
+              </label>
               <textarea v-model="blog.excerpt" rows="3" class="w-full px-3 py-2 border rounded-md"></textarea>
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Featured Image</label>
+              <label class="text-sm font-medium text-green-700 mb-2 flex items-center gap-2">
+                <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+                  <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+                </svg>
+                Featured Image
+              </label>
               <div class="mt-2">
                 <div v-if="blog.featured_image_url" class="relative w-full h-64 mb-4">
                   <img :src="blog.featured_image_url" alt="Featured image"
@@ -54,7 +93,14 @@
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Content</label>
+              <label class="text-sm font-medium text-green-700 mb-2 flex items-center gap-2">
+                <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+                  <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+                </svg>
+                Content
+              </label>
               <div class="border rounded-md">
                 <div class="border-b p-2 bg-gray-50">
                   <button type="button" @click="insertImage"
@@ -67,7 +113,14 @@
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Publish Options</label>
+              <label class="text-sm font-medium text-green-700 mb-2 flex items-center gap-2">
+                <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+                  <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+                </svg>
+                Publish Options
+              </label>
               <div class="flex items-center space-x-4">
                 <label class="inline-flex items-center">
                   <input v-model="blog.is_published" type="checkbox" class="rounded border-gray-300">

@@ -34,7 +34,13 @@
         <div class="container mx-auto px-4">
           <!-- Header -->
           <div class="max-w-4xl mx-auto mb-12">
-            <h1 class="text-4xl md:text-5xl font-bold mb-6">{{ post.title }}</h1>
+            <h1 class="text-4xl md:text-5xl font-bold mb-6 text-green-700 flex items-center gap-2">
+              <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+              </svg>
+              {{ post.title }}
+            </h1>
             <div class="flex items-center gap-6 text-gray-600">
               <div class="flex items-center gap-2">
                 <span>{{ post.author }}</span>
@@ -44,18 +50,18 @@
           </div>
 
           <!-- Featured Image -->
-          <div v-if="post.featured_image_url" class="max-w-5xl mx-auto mb-12">
+          <div v-if="post.featured_image_url" class="mb-12">
             <img :src="post.featured_image_url" :alt="post.title"
-              class="w-full h-[400px] object-cover rounded-2xl shadow-lg">
+              class="w-full h-auto max-h-[400px] object-contain rounded-2xl shadow-lg">
           </div>
 
           <!-- Content -->
-          <div class="max-w-4xl mx-auto">
-            <div class="prose prose-lg max-w-none blog-content" v-html="postHtmlContent"></div>
+          <div>
+            <div class="prose prose-lg blog-content" v-html="postHtmlContent"></div>
           </div>
 
           <!-- Back to Blog -->
-          <div class="max-w-4xl mx-auto mt-12 pt-8 border-t">
+          <div class="mt-12 pt-8 border-t">
             <NuxtLink to="/blog" class="inline-flex items-center text-blue-600 hover:underline">
               <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -77,22 +83,42 @@
       <!-- Other Blogs Section -->
       <section v-if="otherPosts.length" class="py-16 bg-gray-50 border-t mt-16">
         <div class="container mx-auto px-4">
-          <h2 class="text-2xl font-bold mb-8">More from the Blog</h2>
+          <h2 class="text-2xl font-bold mb-8 text-green-700 flex items-center gap-2">
+            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+            </svg>
+            More from the Blog
+          </h2>
           <div class="flex flex-col gap-6">
             <NuxtLink v-for="other in otherPosts" :key="other.id" :to="`/blog/${other.slug}`"
               class="flex items-center bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
               <div class="flex-shrink-0 w-28 h-28 bg-gray-200 flex items-center justify-center overflow-hidden">
                 <img v-if="other.featured_image_url" :src="other.featured_image_url" :alt="other.title"
                   class="object-cover w-full h-full" />
-                <div v-else class="w-full h-full flex items-center justify-center">
-                  <span class="text-gray-500">No image</span>
+                <div v-else class="w-full h-full object-cover flex items-center justify-center">
+                  <span class="text-gray-500 flex items-center gap-1">
+                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" stroke-width="2"
+                      viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+                    </svg>
+                    No image
+                  </span>
                 </div>
               </div>
               <div class="p-6 flex-1 min-w-0">
                 <div class="flex items-center gap-4 mb-2">
                   <span class="text-gray-500 text-sm">{{ formatDate(other.published_at) }}</span>
                 </div>
-                <h3 class="text-lg font-bold mb-1 truncate">{{ other.title }}</h3>
+                <h3 class="text-lg font-bold mb-1 truncate text-green-700 flex items-center gap-1">
+                  <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+                  </svg>
+                  {{ other.title }}
+                </h3>
                 <p class="text-gray-600 mb-2 line-clamp-2">{{ other.excerpt }}</p>
                 <span class="text-blue-600 hover:underline text-sm">Read More →</span>
               </div>
@@ -100,12 +126,63 @@
           </div>
         </div>
       </section>
+
+      <!-- Blog Comments Section -->
+      <section v-if="post" class="max-w-2xl mx-auto mt-12 mb-24">
+        <h2 class="text-2xl font-bold mb-6 text-green-700 flex items-center gap-2">
+          <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M17 8h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          Comments
+        </h2>
+        <div v-if="commentsPending" class="text-center py-4">
+          <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+          <p class="mt-2 text-gray-600">Loading comments...</p>
+        </div>
+        <div v-else>
+          <div v-if="comments.length === 0" class="text-gray-500 mb-6">No comments yet. Be the first to comment!</div>
+          <div class="relative mb-8">
+            <ul class="space-y-6 max-h-64 overflow-y-auto pr-2 bg-white rounded-lg shadow p-4">
+              <li v-for="comment in comments" :key="comment.id" class="border-b last:border-b-0 pb-4">
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="font-semibold text-gray-800">{{ comment.name }}</span>
+                  <span class="text-gray-400 text-xs">{{ formatDate(comment.created_at) }}</span>
+                </div>
+                <div class="text-gray-700 whitespace-pre-line">{{ comment.content }}</div>
+              </li>
+            </ul>
+            <div v-if="comments.length > 5"
+              class="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-white to-transparent pointer-events-none">
+            </div>
+          </div>
+        </div>
+        <form @submit.prevent="submitComment" class="bg-white p-6 rounded-lg shadow space-y-4">
+          <h3 class="text-lg font-semibold mb-2">Leave a Comment</h3>
+          <div class="flex flex-col gap-2">
+            <input v-model="commentForm.name" type="text" placeholder="Name" required
+              class="border rounded px-3 py-2" />
+            <input v-model="commentForm.email" type="email" placeholder="Email" required
+              class="border rounded px-3 py-2" />
+            <textarea v-model="commentForm.content" placeholder="Your comment..." required rows="3"
+              class="border rounded px-3 py-2"></textarea>
+          </div>
+          <button type="submit" :disabled="commentSubmitting"
+            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50">
+            {{ commentSubmitting ? 'Posting...' : 'Post Comment' }}
+          </button>
+          <div v-if="commentError" class="text-red-600 mt-2">{{ commentError }}</div>
+          <div v-if="commentSuccess" class="text-green-600 mt-2">Comment posted!</div>
+        </form>
+      </section>
     </main>
     <TheFooter />
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref, computed, watch } from 'vue'
 
 interface BlogPost {
   id: string;
@@ -188,6 +265,54 @@ const otherPosts = computed(() => {
   // Exclude the current post by slug
   return all.filter((b: any) => b.slug !== slug)
 })
+
+// Blog Comments Logic
+const comments = ref<any[]>([])
+const commentsPending = ref(true)
+const commentForm = ref({ name: '', email: '', content: '' })
+const commentSubmitting = ref(false)
+const commentError = ref('')
+const commentSuccess = ref(false)
+
+async function fetchComments() {
+  commentsPending.value = true
+  commentError.value = ''
+  try {
+    const { data } = await $fetch(`/api/blogs/${slug}/comments`)
+    comments.value = data || []
+  } catch (e) {
+    commentError.value = 'Failed to load comments.'
+  } finally {
+    commentsPending.value = false
+  }
+}
+
+async function submitComment() {
+  commentSubmitting.value = true
+  commentError.value = ''
+  commentSuccess.value = false
+  try {
+    await $fetch(`/api/blogs/${slug}/comments`, {
+      method: 'POST',
+      body: { ...commentForm.value }
+    })
+    commentForm.value = { name: '', email: '', content: '' }
+    commentSuccess.value = true
+    fetchComments()
+  } catch (e) {
+    commentError.value = 'Failed to post comment.'
+  } finally {
+    commentSubmitting.value = false
+    setTimeout(() => (commentSuccess.value = false), 2000)
+  }
+}
+
+watch(post, (val) => {
+  if (val) fetchComments()
+})
+
+// Initial fetch
+await fetchComments();
 </script>
 
 <style scoped>

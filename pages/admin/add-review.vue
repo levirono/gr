@@ -3,12 +3,25 @@
     <TheHeader />
     <main class="py-8">
       <div class="container mx-auto px-4">
-        <h1 class="text-3xl font-bold mb-8">Add New Review</h1>
+        <h1 class="text-3xl font-bold mb-8 text-green-700 flex items-center gap-2">
+          <svg class="w-7 h-7 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+            <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+          </svg>
+          Add New Review
+        </h1>
 
         <form @submit.prevent="handleSubmit" class="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
           <!-- Basic Information -->
           <div class="space-y-6">
-            <h2 class="text-xl font-semibold mb-4">Basic Information</h2>
+            <h2 class="text-xl font-semibold mb-4 text-green-700 flex items-center gap-2">
+              <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+                <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+              </svg>
+              Basic Information
+            </h2>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
@@ -66,7 +79,14 @@
 
           <!-- Featured Image -->
           <div class="mt-8 space-y-6">
-            <h2 class="text-xl font-semibold mb-4">Featured Image</h2>
+            <h2 class="text-xl font-semibold mb-4 text-green-700 flex items-center gap-2">
+              <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+                <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+              </svg>
+              Featured Image
+            </h2>
             <div class="space-y-4">
               <div v-if="review.featured_image_url" class="relative group">
                 <img :src="review.featured_image_url" alt="Featured Image" class="w-full h-48 object-cover rounded-lg">
@@ -95,7 +115,14 @@
 
           <!-- Quick Summary -->
           <div class="mt-8 space-y-6">
-            <h2 class="text-xl font-semibold mb-4">Quick Summary</h2>
+            <h2 class="text-xl font-semibold mb-4 text-green-700 flex items-center gap-2">
+              <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+                <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+              </svg>
+              Quick Summary
+            </h2>
             <div class="space-y-4">
               <div v-for="(value, key) in review.quick_summary" :key="key" class="grid grid-cols-2 gap-4">
                 <input v-model="summaryKeys[key]" type="text" placeholder="Key" class="px-3 py-2 border rounded-md">
@@ -116,7 +143,14 @@
 
           <!-- Pros and Cons -->
           <div class="mt-8 space-y-6">
-            <h2 class="text-xl font-semibold mb-4">Pros and Cons</h2>
+            <h2 class="text-xl font-semibold mb-4 text-green-700 flex items-center gap-2">
+              <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+                <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+              </svg>
+              Pros and Cons
+            </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
                 <h3 class="font-medium mb-4">Pros</h3>
@@ -154,7 +188,14 @@
 
           <!-- Review Sections -->
           <div class="mt-8 space-y-6">
-            <h2 class="text-xl font-semibold mb-4">Review Sections</h2>
+            <h2 class="text-xl font-semibold mb-4 text-green-700 flex items-center gap-2">
+              <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+                <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+              </svg>
+              Review Sections
+            </h2>
 
             <!-- Design Section -->
             <div class="border rounded-lg p-4">
@@ -363,7 +404,14 @@
 
           <!-- Retailers -->
           <div class="mt-8 space-y-6">
-            <h2 class="text-xl font-semibold mb-4">Where to Buy</h2>
+            <h2 class="text-xl font-semibold mb-4 text-green-700 flex items-center gap-2">
+              <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+                <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+              </svg>
+              Where to Buy
+            </h2>
             <div class="space-y-4">
               <div v-for="(retailer, index) in retailers" :key="index" class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <input v-model="retailer.name" type="text" placeholder="Retailer Name"
@@ -393,7 +441,14 @@
 
           <!-- Image Upload Section -->
           <div class="bg-white rounded-lg shadow-md p-8 mb-8">
-            <h2 class="text-2xl font-bold mb-6">Review Images</h2>
+            <h2 class="text-2xl font-bold mb-6 text-green-700 flex items-center gap-2">
+              <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+                <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+              </svg>
+              Review Images
+            </h2>
 
             <!-- Upload Progress -->
             <div v-if="uploadingImages" class="mb-4">

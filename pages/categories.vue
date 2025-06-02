@@ -5,14 +5,20 @@
       <!-- Category Selector -->
       <section class="bg-gray-50 py-8">
         <div class="container mx-auto px-4">
-          <h1 class="text-4xl font-bold mb-4">Device Categories</h1>
-          <p class="text-gray-600 mb-6">Browse reviews by device category</p>
+          <h1 class="text-4xl font-bold mb-4 text-green-700 flex items-center gap-2">
+            <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+              <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+            </svg>
+            Device Categories
+          </h1>
+          <p class="text-green-600 mb-6">Browse reviews by device category</p>
           <div class="flex flex-wrap gap-4 mb-4">
             <button v-for="category in categories" :key="category.id" @click="selectCategory(category)" :class="[
               'px-4 py-2 rounded-full border transition',
               selectedCategory?.id === category.id
-                ? 'bg-blue-600 text-white border-blue-600'
-                : 'bg-white text-gray-700 border-gray-300 hover:bg-blue-50'
+                ? 'bg-green-600 text-white border-green-600'
+                : 'bg-white text-green-700 border-green-300 hover:bg-green-50'
             ]">
               <span class="mr-2 text-2xl">{{ category.icon }}</span>
               {{ category.name }}
@@ -25,35 +31,55 @@
       <section class="py-8">
         <div class="container mx-auto px-4">
           <div v-if="pending" class="text-center py-12">
-            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-            <p class="mt-4 text-gray-600">Loading reviews...</p>
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto"></div>
+            <p class="mt-4 text-green-600">Loading reviews...</p>
           </div>
           <div v-else-if="error" class="text-center py-12">
             <p class="text-red-600">Error loading reviews. Please try again later.</p>
           </div>
           <div v-else>
             <div v-if="filteredReviews.length === 0" class="text-center py-12">
-              <p class="text-gray-600">No reviews found for this category.</p>
+              <p class="text-green-600 flex items-center justify-center gap-2">
+                <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+                  <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+                </svg>
+                No reviews found for this category.
+              </p>
             </div>
             <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <div v-for="review in filteredReviews" :key="review.id"
-                class="bg-white rounded-lg shadow-md overflow-hidden">
+                class="bg-white rounded-lg shadow-md overflow-hidden border border-green-100">
                 <NuxtLink :to="`/reviews/${review.slug}`" class="block">
                   <div class="relative h-48">
                     <img v-if="review.featured_image_url" :src="review.featured_image_url" :alt="review.title"
                       class="w-full h-full object-contain bg-gray-100">
-                    <div v-else class="w-full h-full bg-gray-200 flex items-center justify-center">
-                      <span class="text-gray-500">No image available</span>
+                    <div v-else class="w-full h-full bg-green-50 flex items-center justify-center">
+                      <svg class="w-8 h-8 text-green-400 mr-2" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
+                        <rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="2"
+                          fill="none" />
+                        <path d="M8 16l2-2 4 4 4-6" stroke="currentColor" stroke-width="2" fill="none" />
+                      </svg>
+                      <span class="text-green-500">No image available</span>
                     </div>
                   </div>
                   <div class="p-6">
-                    <h3 class="text-xl font-semibold mb-2">{{ review.title }}</h3>
+                    <h3 class="text-xl font-semibold mb-2 text-green-700 flex items-center gap-2">
+                      <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+                        <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+                      </svg>
+                      {{ review.title }}
+                    </h3>
                     <p class="text-gray-600 line-clamp-3">{{ review.excerpt }}</p>
                   </div>
                 </NuxtLink>
                 <div class="p-6">
                   <div class="flex items-center gap-4 mb-4">
-                    <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+                    <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
                       {{ review.category?.name }}
                     </span>
                     <span class="text-gray-500 text-sm">{{ formatDate(review.created_at) }}</span>
@@ -61,7 +87,7 @@
                   <div class="flex items-center gap-2 mb-4">
                     <div class="flex text-yellow-400">
                       <span v-for="n in 5" :key="n" class="text-lg">
-                        {{ n <= Math.round(review.rating) ? '★' : '☆' }} </span>
+                        {{ n <= Math.round(review.rating) ? '\u2605' : '\u2606' }} </span>
                     </div>
                     <span class="text-gray-600">({{ review.rating }}/5)</span>
                   </div>
