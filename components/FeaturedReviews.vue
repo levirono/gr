@@ -64,7 +64,6 @@
               </div>
               <span class="text-gray-600">({{ review.rating || 'N/A' }}/5)</span>
             </div>
-            <p class="text-gray-600 mb-4 line-clamp-3">{{ review.excerpt }}</p>
           </div>
         </div>
       </div>

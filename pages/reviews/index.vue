@@ -50,7 +50,7 @@
                   </svg>
                   {{ review.title }}
                 </h3>
-                <p class="text-gray-600 line-clamp-3">{{ review.excerpt }}</p>
+                <p class="text-gray-600 line-clamp-3">{{ review.excerpt }}</p> l
               </div>
             </NuxtLink>
             <div class="p-6">
@@ -67,7 +67,6 @@
                 </div>
                 <span class="text-gray-600">({{ review.rating }}/5)</span>
               </div>
-              <p class="text-gray-600 mb-4 line-clamp-3">{{ review.excerpt }}</p>
             </div>
           </div>
         </div>
