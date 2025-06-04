@@ -9,7 +9,7 @@
         Latest Reviews
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div v-for="review in latestReviews.data" :key="review.id"
+        <div v-for="review in latestReviews?.data" :key="review.id"
           class="bg-white rounded-lg shadow-md overflow-hidden border border-green-100">
           <NuxtLink :to="`/reviews/${review.slug}`" class="block">
             <div class="relative h-48">
