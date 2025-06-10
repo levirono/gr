@@ -39,6 +39,31 @@
             </svg>
             Blog
           </NuxtLink>
+          <div class="hidden md:flex items-center ml-4 relative">
+            <template v-if="user && user.username">
+              <div class="relative">
+                <span class="ml-4 px-4 py-2 rounded bg-green-500 text-white font-semibold cursor-pointer select-none"
+                  @click="toggleLogoutMenu">
+                  {{ user.username }}
+                </span>
+                <transition name="fade">
+                  <div v-if="showLogoutMenu"
+                    class="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 rounded shadow-lg z-50 border border-gray-100 dark:border-gray-700">
+                    <button @click="logout"
+                      class="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-b">
+                      Log out
+                    </button>
+                  </div>
+                </transition>
+              </div>
+            </template>
+            <template v-else>
+              <NuxtLink to="/auth/login"
+                class="ml-4 px-4 py-2 rounded bg-blue-500 text-white font-semibold hover:bg-blue-600 transition-colors duration-200">
+                Login</NuxtLink>
+            </template>
+          </div>
+
         </div>
 
         <!-- Mobile Menu Button -->
@@ -84,11 +109,33 @@
           </svg>
           Blog
         </NuxtLink>
+        <NuxtLink to="/login"
+          class="block px-4 py-2 rounded bg-blue-500 text-white font-semibold hover:bg-blue-600 transition-colors duration-200 text-center"
+          @click="showMobileMenu = false">Login</NuxtLink>
+
       </div>
     </nav>
   </header>
 </template>
 
 <script setup>
-const isMenuOpen = ref(false)
+import { useAuth } from '~/composables/useAuth';
+import { useRouter } from 'vue-router';
+import { ref } from 'vue';
+
+const isMenuOpen = ref(false);
+const showLogoutMenu = ref(false);
+const { user, logout: authLogout } = useAuth();
+const router = useRouter();
+
+function toggleLogoutMenu() {
+  showLogoutMenu.value = !showLogoutMenu.value;
+}
+
+function logout() {
+  authLogout();
+  showLogoutMenu.value = false;
+  router.push('/login');
+}
+
 </script>
