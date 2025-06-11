@@ -486,6 +486,7 @@ const { data: reviewData, pending, error } = await useFetch<any>(`/api/reviews/$
     if (!response?.data) return null;
 
     const data = response.data;
+    if (!data) return null; // Add this null check
 
     // Process images - handle different possible structures
     // For standard images array
@@ -552,7 +553,7 @@ const { data: reviewData, pending, error } = await useFetch<any>(`/api/reviews/$
     console.log('Raw image data:', {
       featured: data.featured_image_url ? 'Yes' : 'No',
       images: data.images,
-      design_images: data.design_images,
+      design_images: data.images,
       display_images: data.display_images
     });
 

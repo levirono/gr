@@ -25,7 +25,6 @@ export default defineEventHandler(async (event) => {
 
       case 'POST':
         const body = await readBody(event)
-        // Check if user already exists (by id or email)
         const { data: existing, error: findError } = await supabase
           .from('users')
           .select('id')
@@ -33,7 +32,6 @@ export default defineEventHandler(async (event) => {
           .limit(1);
         if (findError) throw findError;
         if (existing && existing.length > 0) {
-          // User already exists, do not insert again
           return existing[0];
         }
         const { data: newUser, error: postError } = await supabase

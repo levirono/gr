@@ -60,7 +60,6 @@
                   {{ post.title }}
                 </h2>
                 <p class="text-gray-600 mb-2 line-clamp-2">{{ post.excerpt }}</p>
-                <span class="text-blue-600 hover:underline text-sm">Read More →</span>
               </div>
             </NuxtLink>
           </div>
