@@ -52,30 +52,33 @@ const { setUser } = useAuth();
 
 const onLogin = async () => {
     try {
+        // Only send email and password for login
         const response = await $fetch('/api/auth/login', {
             method: 'POST',
-            body: { email: email.value, password: password.value, username: username.value }
+            body: { email: email.value, password: password.value }
         });
-        if (response && response.error) {
+        if (response && 'error' in response) {
             alert(response.error);
-        } else if (response && response.user) {
+        } else if (response && 'user' in response) {
             // Fetch user role from users table
             const userId = response.user.id;
             const userDetails = await $fetch(`/api/users?user_id=${userId}`);
             let role = 'user';
-            if (userDetails && userDetails.length > 0 && userDetails[0].role) {
+            if (Array.isArray(userDetails) && userDetails.length > 0 && userDetails[0].role) {
                 role = userDetails[0].role;
             }
             setUser({
                 email: response.user.email,
-                username: response.user.user_metadata?.username || response.user.email,
+                username: (typeof response.user.user_metadata === 'object' && response.user.user_metadata !== null && 'username' in response.user.user_metadata
+                    ? response.user.user_metadata.username
+                    : username.value || response.user.email),
                 role
             });
             alert('Login successful!');
             await router.push('/');
         }
-    } catch (err) {
-        alert('Login failed.');
+    } catch (err: any) {
+        alert('Login failed. ' + (err?.message || err));
     }
 };
 </script>

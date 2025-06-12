@@ -110,7 +110,7 @@
                   <thead class="bg-green-50">
                     <tr>
                       <th
-                        class="px-8 py-4 text-left text-sm font-bold text-green-700 uppercase tracking-wider border-b border-green-200 border-r border-green-200">
+                        class="px-8 py-4 text-left text-sm font-bold text-green-700 uppercase tracking-wider border-b border-green-200 border-r">
                         Category</th>
                       <th
                         class="px-8 py-4 text-left text-sm font-bold text-green-700 uppercase tracking-wider border-b border-green-200">
@@ -375,7 +375,7 @@
                 More from this brand
               </h3>
               <div class="text-gray-500 text-sm italic">Coming soon: more devices from {{ review.brand || 'this brand'
-                }}.</div>
+              }}.</div>
             </div>
             <!-- More Devices -->
             <div class="bg-white rounded-2xl shadow p-6 border border-green-100">

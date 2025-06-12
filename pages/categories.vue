@@ -104,13 +104,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useFetch, useRoute, useRouter } from '#app'
 
 interface Category {
   id: string;
   name: string;
-  icon?: string;
+  slug: string; // Added slug property
+  icon: string; // Made icon required
 }
 
 interface Review {
@@ -130,12 +131,18 @@ const reviews = ref<Review[]>([])
 const pending = ref(false)
 const error = ref<string | null>(null)
 const route = useRoute()
+const router = useRouter()
 
 const fetchCategories = async () => {
   const { data } = await useFetch('/api/categories', {
     transform: (response) => response?.data || []
   })
-  categories.value = data.value
+  categories.value = (data.value || []).map((cat: any) => ({
+    id: String(cat.id),
+    name: String(cat.name),
+    slug: String(cat.slug ?? cat.name?.toLowerCase().replace(/\s+/g, '-')),
+    icon: String(cat.icon ?? '📦')
+  }))
   // If a selected category is provided in the query, use it
   const selectedSlug = route.query.selected
   if (selectedSlug) {
@@ -144,11 +151,15 @@ const fetchCategories = async () => {
     )
     if (found) {
       selectedCategory.value = found
-    } else {
+    } else if (categories.value.length > 0) {
       selectedCategory.value = categories.value[0]
+    } else {
+      selectedCategory.value = null
     }
   } else if (categories.value.length > 0 && !selectedCategory.value) {
     selectedCategory.value = categories.value[0]
+  } else {
+    selectedCategory.value = null
   }
 }
 
@@ -161,7 +172,7 @@ const fetchReviews = async () => {
       query: { category: selectedCategory.value.id },
       transform: (response) => response?.data || []
     })
-    reviews.value = data.value
+    reviews.value = data.value ?? []
   } catch (e) {
     error.value = 'Failed to load reviews.'
   } finally {
@@ -171,8 +182,15 @@ const fetchReviews = async () => {
 
 const selectCategory = (category: Category) => {
   selectedCategory.value = category
+  // Update the route query for persistence
+  router.replace({ query: { ...route.query, selected: category.slug } })
   fetchReviews() // Immediately fetch reviews for the selected category
 }
+
+// Reactively fetch reviews when the selected category changes (e.g., via route query)
+watch(() => selectedCategory.value, (newVal, oldVal) => {
+  if (newVal && newVal !== oldVal) fetchReviews()
+})
 
 onMounted(async () => {
   await fetchCategories()
@@ -180,18 +198,8 @@ onMounted(async () => {
 })
 
 const filteredReviews = computed(() => {
-  if (!selectedCategory.value) return []
-  // Only show reviews where the review's category_id matches the selected category's id
-  return reviews.value.filter(
-    (review: any) => {
-      // Some APIs return category as an object, some as id, so check both
-      return (
-        review.category_id === selectedCategory.value.id ||
-        review.category?.id === selectedCategory.value.id ||
-        review.category === selectedCategory.value.id
-      )
-    }
-  )
+  // Since fetchReviews already filters by category, just return reviews.value
+  return reviews.value
 })
 
 const formatDate = (date: string) => {

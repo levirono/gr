@@ -210,7 +210,7 @@
                   <label class="block text-sm font-medium text-gray-700 mb-2">Images</label>
                   <div class="grid grid-cols-3 gap-4">
                     <div v-for="(image, index) in designImages" :key="index" class="relative">
-                      <img v-if="image.preview" :src="image.preview" class="w-full h-32 object-cover rounded-lg">
+                      <img v-if="image.preview" :src="typeof image.preview === 'string' ? image.preview : ''" class="w-full h-32 object-cover rounded-lg">
                       <div v-else class="w-full h-32 bg-gray-200 rounded-lg flex items-center justify-center">
                         <span class="text-gray-500">No image</span>
                       </div>
@@ -530,7 +530,7 @@ const review = ref({
   content: '',
   excerpt: '',
   rating: 0,
-  quick_summary: {},
+  quick_summary: {} as Record<string, string>,
   pros: [''],
   cons: [''],
   sections: {
@@ -545,7 +545,7 @@ const review = ref({
       refresh_rate: '',
       brightness: '',
       protection: '',
-      specs: {}
+      specs: {} as Record<string, string>
     },
     camera: {
       front: {
@@ -585,10 +585,10 @@ const review = ref({
   featured_image_public_id: ''
 })
 
-const retailers = ref([])
-const designImages = ref([])
-const summaryKeys = ref({})
-const displaySpecKeys = ref({})
+const retailers = ref<Array<{ name: string; price: number; link: string }>>([])
+const designImages = ref<Array<{ file: File; preview: string | ArrayBuffer | null }>>([])
+const summaryKeys = ref<Record<string, string>>({})
+const displaySpecKeys = ref<Record<string, string>>({})
 const isSubmitting = ref(false)
 
 // Image upload state
@@ -597,14 +597,16 @@ const uploadProgress = ref(0)
 const uploadedImages = ref<Array<{ url: string; public_id: string; section: string }>>([])
 
 const isUploading = ref(false)
-const uploadStatus = ref(null)
-const featuredImageInput = ref(null)
+const uploadStatus = ref<null | { type: string; message: string }>(null)
+import { ref } from 'vue'
 
-const triggerFeaturedImageUpload = () => featuredImageInput.value?.click()
+const featuredImageInput = ref<HTMLInputElement | null>(null)
 
-const handleFeaturedImageUpload = async (event) => {
-  const input = event.target
-  if (!input.files?.length) return
+const triggerFeaturedImageUpload = (): void => featuredImageInput.value?.click()
+
+const handleFeaturedImageUpload = async (event: Event) => {
+  const input = event.target as HTMLInputElement | null
+  if (!input || !input.files?.length) return
 
   try {
     isUploading.value = true
@@ -648,11 +650,11 @@ const removeFeaturedImage = () => {
 
 // Helper functions for managing arrays
 const addPro = () => review.value.pros.push('')
-const removePro = (index) => review.value.pros.splice(index, 1)
+const removePro = (index: number) => review.value.pros.splice(index, 1)
 const addCon = () => review.value.cons.push('')
-const removeCon = (index) => review.value.cons.splice(index, 1)
+const removeCon = (index: number) => review.value.cons.splice(index, 1)
 const addRetailer = () => retailers.value.push({ name: '', price: 0, link: '' })
-const removeRetailer = (index) => retailers.value.splice(index, 1)
+const removeRetailer = (index: number) => retailers.value.splice(index, 1)
 
 // Helper functions for managing objects
 const addSummaryItem = () => {
@@ -661,7 +663,7 @@ const addSummaryItem = () => {
   review.value.quick_summary[key] = ''
 }
 
-const removeSummaryItem = (key) => {
+const removeSummaryItem = (key: string) => {
   delete summaryKeys.value[key]
   delete review.value.quick_summary[key]
 }
@@ -672,22 +674,24 @@ const addDisplaySpec = () => {
   review.value.sections.display.specs[key] = ''
 }
 
-const removeDisplaySpec = (key) => {
+const removeDisplaySpec = (key: string) => {
   delete displaySpecKeys.value[key]
   delete review.value.sections.display.specs[key]
 }
 
 // Handle image uploads
-const handleDesignImageUpload = async (event, index) => {
-  const file = event.target.files[0]
-  if (!file) return
+const handleDesignImageUpload = async (event: Event, index: number) => {
+  const input = event.target as HTMLInputElement
+  if (!input.files?.length) return
+
+  const file = input.files[0]
 
   // Create preview
   const reader = new FileReader()
   reader.onload = (e) => {
     designImages.value[index] = {
       file,
-      preview: e.target.result
+      preview: e.target?.result ?? null
     }
   }
   reader.readAsDataURL(file)

@@ -35,7 +35,12 @@ import { useAuth } from '~/composables/useAuth';
 import { useRouter } from 'vue-router';
 import { onMounted } from 'vue';
 
-const { user } = useAuth();
+interface User {
+  role: string;
+  // add other properties as needed
+}
+
+const { user } = useAuth() as { user: Ref<User | null> };
 const router = useRouter();
 
 onMounted(() => {

@@ -24,7 +24,7 @@
                 <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
                 <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
               </svg>
-              {{ category?.name }} Reviews
+              {{ category?.data?.name }} Reviews
             </h1>
             <!-- Filters -->
             <div class="flex gap-4">
@@ -138,8 +138,8 @@ const { data: reviews, pending: reviewsPending, error } = await useFetch<{ data:
     category: slug
   },
   transform: (response) => {
-    if (!response?.data) return []
-    return response.data
+    if (!response?.data) return { data: [] }
+    return { data: response.data }
   }
 })
 
