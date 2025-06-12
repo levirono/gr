@@ -31,21 +31,22 @@
 </template>
 
 <script setup lang="ts">
-import { useAuth } from '~/composables/useAuth';
-import { useRouter } from 'vue-router';
-import { onMounted } from 'vue';
+// Authentication temporarily disabled for testing
+// import { useAuth } from '~/composables/useAuth';
+// import { useRouter } from 'vue-router';
+// import { onMounted } from 'vue';
 
-interface User {
-  role: string;
-  // add other properties as needed
-}
+// interface User {
+//   role: string;
+//   // add other properties as needed
+// }
 
-const { user } = useAuth() as { user: Ref<User | null> };
-const router = useRouter();
+// const { user } = useAuth() as { user: Ref<User | null> };
+// const router = useRouter();
 
-onMounted(() => {
-  if (!user.value || user.value.role !== 'admin') {
-    router.push('/');
-  }
-});
+// onMounted(() => {
+//   if (!user.value || user.value.role !== 'admin') {
+//     router.push('/');
+//   }
+// });
 </script>

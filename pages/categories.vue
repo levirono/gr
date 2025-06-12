@@ -186,7 +186,6 @@ const selectCategory = (category: Category) => {
   router.replace({ query: { ...route.query, selected: category.slug } })
   fetchReviews() // Immediately fetch reviews for the selected category
 }
-
 // Reactively fetch reviews when the selected category changes (e.g., via route query)
 watch(() => selectedCategory.value, (newVal, oldVal) => {
   if (newVal && newVal !== oldVal) fetchReviews()

@@ -210,7 +210,8 @@
                   <label class="block text-sm font-medium text-gray-700 mb-2">Images</label>
                   <div class="grid grid-cols-3 gap-4">
                     <div v-for="(image, index) in designImages" :key="index" class="relative">
-                      <img v-if="image.preview" :src="typeof image.preview === 'string' ? image.preview : ''" class="w-full h-32 object-cover rounded-lg">
+                      <img v-if="image.preview" :src="typeof image.preview === 'string' ? image.preview : ''"
+                        class="w-full h-32 object-cover rounded-lg">
                       <div v-else class="w-full h-32 bg-gray-200 rounded-lg flex items-center justify-center">
                         <span class="text-gray-500">No image</span>
                       </div>
@@ -400,6 +401,83 @@
                 </div>
               </div>
             </div>
+
+            <!-- Processor/Chipset Section -->
+            <div class="border rounded-lg p-4">
+              <h3 class="font-medium mb-4">Processor / Chipset</h3>
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Processor / Chipset</label>
+                  <input v-model="review.sections.processor.name" type="text"
+                    placeholder="e.g. Snapdragon 8 Gen 2, Apple M1" class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">GPU</label>
+                  <input v-model="review.sections.processor.gpu" type="text"
+                    placeholder="e.g. Adreno 740, Mali-G78, RTX 4060" class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">RAM</label>
+                  <input v-model="review.sections.processor.ram" type="text" placeholder="e.g. 8GB, 16GB DDR5"
+                    class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Operating System</label>
+                  <input v-model="review.sections.processor.os" type="text"
+                    placeholder="e.g. Android 14, Windows 11, iOS 17" class="w-full px-3 py-2 border rounded-md">
+                </div>
+              </div>
+            </div>
+
+            <!-- Ports Section -->
+            <div class="border rounded-lg p-4">
+              <h3 class="font-medium mb-4">Ports</h3>
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Ports</label>
+                  <input v-model="review.sections.ports.ports" type="text" placeholder="e.g. USB-C, HDMI, 3.5mm jack"
+                    class="w-full px-3 py-2 border rounded-md">
+                </div>
+              </div>
+            </div>
+
+            <!-- Audio Section -->
+            <div class="border rounded-lg p-4">
+              <h3 class="font-medium mb-4">Audio Features</h3>
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Audio Features</label>
+                  <input v-model="review.sections.audio.features" type="text"
+                    placeholder="e.g. Stereo speakers, Dolby Atmos" class="w-full px-3 py-2 border rounded-md">
+                </div>
+              </div>
+            </div>
+
+            <!-- Special Features Section -->
+            <div class="border rounded-lg p-4">
+              <h3 class="font-medium mb-4">Special Features</h3>
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Special Features</label>
+                  <input v-model="review.sections.special_features.features" type="text"
+                    placeholder="e.g. Touchscreen, RGB lighting, Water resistance"
+                    class="w-full px-3 py-2 border rounded-md">
+                </div>
+              </div>
+            </div>
+
+            <!-- Gaming Features Section -->
+            <div class="border rounded-lg p-4">
+              <h3 class="font-medium mb-4">Gaming Features</h3>
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Gaming Features</label>
+                  <input v-model="review.sections.gaming.features" type="text"
+                    placeholder="e.g. 144Hz display, Game mode, Haptic feedback"
+                    class="w-full px-3 py-2 border rounded-md">
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- Retailers -->
@@ -577,6 +655,24 @@ const review = ref({
       type: '',
       charging: '',
       wireless: ''
+    },
+    processor: {
+      name: '',
+      gpu: '',
+      ram: '',
+      os: ''
+    },
+    ports: {
+      ports: ''
+    },
+    audio: {
+      features: ''
+    },
+    special_features: {
+      features: ''
+    },
+    gaming: {
+      features: ''
     }
   },
   verdict: '',
