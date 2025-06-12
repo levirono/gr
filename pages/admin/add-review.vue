@@ -197,14 +197,29 @@
               Review Sections
             </h2>
 
-            <!-- Design Section -->
+            <!-- Design & Build Section -->
             <div class="border rounded-lg p-4">
               <h3 class="font-medium mb-4">Design & Build</h3>
               <div class="space-y-4">
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Content</label>
-                  <textarea v-model="review.sections.design.content" rows="3"
-                    class="w-full px-3 py-2 border rounded-md"></textarea>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Frame Material</label>
+                  <input v-model="review.sections.design.frame" type="text"
+                    placeholder="e.g. Aluminum, Plastic, Wood, Titanium" class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Glass Type</label>
+                  <input v-model="review.sections.design.glass" type="text"
+                    placeholder="e.g. Gorilla Glass Victus, Sapphire, None" class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Body Type</label>
+                  <input v-model="review.sections.design.body" type="text"
+                    placeholder="e.g. Unibody, Foldable, Slider, Bar" class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Other Design Features</label>
+                  <input v-model="review.sections.design.other" type="text"
+                    placeholder="e.g. IP68, MIL-STD-810H, Removable back" class="w-full px-3 py-2 border rounded-md">
                 </div>
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-2">Images</label>
@@ -227,11 +242,6 @@
             <div class="border rounded-lg p-4">
               <h3 class="font-medium mb-4">Display</h3>
               <div class="space-y-4">
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Content</label>
-                  <textarea v-model="review.sections.display.content" rows="3"
-                    class="w-full px-3 py-2 border rounded-md"></textarea>
-                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Technology</label>
@@ -270,14 +280,11 @@
                         <input v-model="review.sections.display.specs[key]" type="text" placeholder="Value"
                           class="flex-1 px-3 py-2 border rounded-md">
                         <button type="button" @click="removeDisplaySpec(key)"
-                          class="px-3 py-2 text-red-600 hover:text-red-800">
-                          Remove
-                        </button>
+                          class="px-3 py-2 text-red-600 hover:text-red-800">Remove</button>
                       </div>
                     </div>
-                    <button type="button" @click="addDisplaySpec" class="text-blue-600 hover:text-blue-800">
-                      + Add Specification
-                    </button>
+                    <button type="button" @click="addDisplaySpec" class="text-blue-600 hover:text-blue-800">+ Add
+                      Specification</button>
                   </div>
                 </div>
               </div>
@@ -613,11 +620,13 @@ const review = ref({
   cons: [''],
   sections: {
     design: {
-      content: '',
+      frame: '',
+      glass: '',
+      body: '',
+      other: '',
       images: []
     },
     display: {
-      content: '',
       technology: '',
       resolution: '',
       refresh_rate: '',
