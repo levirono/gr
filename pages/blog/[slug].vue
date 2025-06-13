@@ -183,6 +183,7 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
+import { useHead } from '#imports'
 
 interface BlogPost {
   id: string;
@@ -313,6 +314,24 @@ watch(post, (val) => {
 
 // Initial fetch
 await fetchComments();
+
+// Set Open Graph and Twitter Card meta tags for social sharing (title, image, excerpt)
+if (post.value) {
+  useHead({
+    title: post.value.title,
+    meta: [
+      { property: 'og:title', content: post.value.title },
+      { property: 'og:description', content: post.value.excerpt || '' },
+      { property: 'og:image', content: post.value.featured_image_url || '' },
+      { property: 'og:type', content: 'article' },
+      { property: 'og:url', content: window?.location?.href || '' },
+      { name: 'twitter:card', content: 'summary_large_image' },
+      { name: 'twitter:title', content: post.value.title },
+      { name: 'twitter:description', content: post.value.excerpt || '' },
+      { name: 'twitter:image', content: post.value.featured_image_url || '' }
+    ]
+  })
+}
 </script>
 
 <style scoped>
