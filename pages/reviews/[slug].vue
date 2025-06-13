@@ -95,6 +95,19 @@
               </div>
             </div>
 
+            <!-- Main Review Content -->
+            <div v-if="review.content" class="bg-white rounded-2xl shadow-xl p-10 mb-12 border border-green-200">
+              <h2 class="text-2xl font-bold mb-6 text-green-600 flex items-center gap-2">
+                <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+                  <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+                </svg>
+                Review Content
+              </h2>
+              <div class="prose max-w-none text-lg text-gray-800" v-html="review.content"></div>
+            </div>
+
             <!-- Device Specs Section -->
             <div class="bg-white rounded-2xl shadow-xl p-10 mb-12 border border-green-200">
               <h2 class="text-3xl font-extrabold mb-8 text-green-600 tracking-tight flex items-center gap-2">
@@ -118,135 +131,138 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <!-- Display -->
-                    <template v-if="review.sections?.display">
+                    <!-- Design & Build -->
+                    <template v-if="review.sections?.design && (review.sections.design.frame || review.sections.design.glass || review.sections.design.body || review.sections.design.other)">
                       <tr class="border-b border-green-200 hover:bg-green-50 transition">
-                        <td
-                          class="px-8 py-6 font-semibold text-green-700 align-top whitespace-nowrap border-r border-green-200">
-                          Display</td>
+                        <td class="px-8 py-6 font-semibold text-green-700 align-top whitespace-nowrap border-r border-green-200">Design & Build</td>
                         <td class="px-8 py-6">
-                          <div v-if="review.sections.display.technology" class="flex mb-2"><span
-                              class="font-semibold w-40">Technology:</span> <span>{{ review.sections.display.technology
-                              }}</span></div>
-                          <div v-if="review.sections.display.resolution" class="flex mb-2"><span
-                              class="font-semibold w-40">Resolution:</span> <span>{{ review.sections.display.resolution
-                              }}</span></div>
-                          <div v-if="review.sections.display.refresh_rate" class="flex mb-2"><span
-                              class="font-semibold w-40">Refresh Rate:</span> <span>{{
-                                review.sections.display.refresh_rate }}</span></div>
-                          <div v-if="review.sections.display.brightness" class="flex mb-2"><span
-                              class="font-semibold w-40">Brightness:</span> <span>{{ review.sections.display.brightness
-                              }}</span></div>
-                          <div v-if="review.sections.display.protection" class="flex mb-2"><span
-                              class="font-semibold w-40">Protection:</span> <span>{{ review.sections.display.protection
-                              }}</span></div>
+                          <div v-if="review.sections.design.frame" class="flex mb-2"><span class="font-semibold w-40">Frame:</span> <span>{{ review.sections.design.frame }}</span></div>
+                          <div v-if="review.sections.design.glass" class="flex mb-2"><span class="font-semibold w-40">Glass:</span> <span>{{ review.sections.design.glass }}</span></div>
+                          <div v-if="review.sections.design.body" class="flex mb-2"><span class="font-semibold w-40">Body:</span> <span>{{ review.sections.design.body }}</span></div>
+                          <div v-if="review.sections.design.other" class="flex mb-2"><span class="font-semibold w-40">Other:</span> <span>{{ review.sections.design.other }}</span></div>
+                        </td>
+                      </tr>
+                    </template>
+                    <!-- Display -->
+                    <template v-if="review.sections?.display && (review.sections.display.technology || review.sections.display.resolution || review.sections.display.refresh_rate || review.sections.display.brightness || review.sections.display.protection || (review.sections.display.specs && Object.keys(review.sections.display.specs).length > 0))">
+                      <tr class="border-b border-green-200 hover:bg-green-50 transition">
+                        <td class="px-8 py-6 font-semibold text-green-700 align-top whitespace-nowrap border-r border-green-200">Display</td>
+                        <td class="px-8 py-6">
+                          <div v-if="review.sections.display.technology" class="flex mb-2"><span class="font-semibold w-40">Technology:</span> <span>{{ review.sections.display.technology }}</span></div>
+                          <div v-if="review.sections.display.resolution" class="flex mb-2"><span class="font-semibold w-40">Resolution:</span> <span>{{ review.sections.display.resolution }}</span></div>
+                          <div v-if="review.sections.display.refresh_rate" class="flex mb-2"><span class="font-semibold w-40">Refresh Rate:</span> <span>{{ review.sections.display.refresh_rate }}</span></div>
+                          <div v-if="review.sections.display.brightness" class="flex mb-2"><span class="font-semibold w-40">Brightness:</span> <span>{{ review.sections.display.brightness }}</span></div>
+                          <div v-if="review.sections.display.protection" class="flex mb-2"><span class="font-semibold w-40">Protection:</span> <span>{{ review.sections.display.protection }}</span></div>
+                          <div v-if="review.sections.display.specs && Object.keys(review.sections.display.specs).length > 0">
+                            <div v-for="(val, key) in review.sections.display.specs" :key="key" class="flex mb-2"><span class="font-semibold w-40">{{ formatKeyName(key) }}:</span> <span>{{ val }}</span></div>
+                          </div>
                         </td>
                       </tr>
                     </template>
                     <!-- Camera -->
-                    <template v-if="review.sections?.camera">
+                    <template v-if="review.sections?.camera && (review.sections.camera.front?.specs || review.sections.camera.front?.features || review.sections.camera.front?.video || review.sections.camera.rear?.specs || review.sections.camera.rear?.features || review.sections.camera.rear?.video)">
                       <tr class="border-b border-green-200 hover:bg-green-50 transition">
-                        <td
-                          class="px-8 py-6 font-semibold text-green-700 align-top whitespace-nowrap border-r border-green-200">
-                          Camera</td>
+                        <td class="px-8 py-6 font-semibold text-green-700 align-top whitespace-nowrap border-r border-green-200">Camera</td>
                         <td class="px-8 py-6">
                           <div class="flex flex-col md:flex-row gap-8">
-                            <div class="flex-1">
+                            <div class="flex-1" v-if="review.sections.camera.rear?.specs || review.sections.camera.rear?.features || review.sections.camera.rear?.video">
                               <div class="font-semibold text-green-400 mb-1">Rear</div>
-                              <div v-if="review.sections.camera.rear?.specs" class="flex mb-1"><span
-                                  class="font-semibold w-28">Specs:</span> <span>{{ review.sections.camera.rear.specs
-                                  }}</span></div>
-                              <div v-if="review.sections.camera.rear?.features" class="flex mb-1"><span
-                                  class="font-semibold w-28">Features:</span> <span>{{
-                                    review.sections.camera.rear.features }}</span></div>
-                              <div v-if="review.sections.camera.rear?.video" class="flex mb-1"><span
-                                  class="font-semibold w-28">Video:</span> <span>{{ review.sections.camera.rear.video
-                                  }}</span></div>
+                              <div v-if="review.sections.camera.rear?.specs" class="flex mb-1"><span class="font-semibold w-28">Specs:</span> <span>{{ review.sections.camera.rear.specs }}</span></div>
+                              <div v-if="review.sections.camera.rear?.features" class="flex mb-1"><span class="font-semibold w-28">Features:</span> <span>{{ review.sections.camera.rear.features }}</span></div>
+                              <div v-if="review.sections.camera.rear?.video" class="flex mb-1"><span class="font-semibold w-28">Video:</span> <span>{{ review.sections.camera.rear.video }}</span></div>
                             </div>
-                            <div class="flex-1">
+                            <div class="flex-1" v-if="review.sections.camera.front?.specs || review.sections.camera.front?.features || review.sections.camera.front?.video">
                               <div class="font-semibold text-green-400 mb-1">Front</div>
-                              <div v-if="review.sections.camera.front?.specs" class="flex mb-1"><span
-                                  class="font-semibold w-28">Specs:</span> <span>{{ review.sections.camera.front.specs
-                                  }}</span></div>
-                              <div v-if="review.sections.camera.front?.features" class="flex mb-1"><span
-                                  class="font-semibold w-28">Features:</span> <span>{{
-                                    review.sections.camera.front.features }}</span></div>
-                              <div v-if="review.sections.camera.front?.video" class="flex mb-1"><span
-                                  class="font-semibold w-28">Video:</span> <span>{{ review.sections.camera.front.video
-                                  }}</span></div>
+                              <div v-if="review.sections.camera.front?.specs" class="flex mb-1"><span class="font-semibold w-28">Specs:</span> <span>{{ review.sections.camera.front.specs }}</span></div>
+                              <div v-if="review.sections.camera.front?.features" class="flex mb-1"><span class="font-semibold w-28">Features:</span> <span>{{ review.sections.camera.front.features }}</span></div>
+                              <div v-if="review.sections.camera.front?.video" class="flex mb-1"><span class="font-semibold w-28">Video:</span> <span>{{ review.sections.camera.front.video }}</span></div>
                             </div>
                           </div>
-                        </td>
-                      </tr>
-                    </template>
-                    <!-- Storage -->
-                    <template v-if="review.sections?.storage">
-                      <tr class="border-b border-green-200 hover:bg-green-50 transition">
-                        <td
-                          class="px-8 py-6 font-semibold text-green-700 align-top whitespace-nowrap border-r border-green-200">
-                          Storage</td>
-                        <td class="px-8 py-6">
-                          <div v-if="review.sections.storage.internal" class="flex mb-2"><span
-                              class="font-semibold w-40">Internal:</span> <span>{{ review.sections.storage.internal
-                              }}</span></div>
-                          <div v-if="review.sections.storage.expandable" class="flex mb-2"><span
-                              class="font-semibold w-40">Expandable:</span> <span>{{ review.sections.storage.expandable
-                              }}</span></div>
-                        </td>
-                      </tr>
-                    </template>
-                    <!-- Battery -->
-                    <template v-if="review.sections?.battery">
-                      <tr class="border-b border-green-200 hover:bg-green-50 transition">
-                        <td
-                          class="px-8 py-6 font-semibold text-green-700 align-top whitespace-nowrap border-r border-green-200">
-                          Battery</td>
-                        <td class="px-8 py-6">
-                          <div v-if="review.sections.battery.capacity" class="flex mb-2"><span
-                              class="font-semibold w-40">Capacity:</span> <span>{{ review.sections.battery.capacity
-                              }}</span></div>
-                          <div v-if="review.sections.battery.type" class="flex mb-2"><span
-                              class="font-semibold w-40">Type:</span> <span>{{ review.sections.battery.type }}</span>
-                          </div>
-                          <div v-if="review.sections.battery.charging" class="flex mb-2"><span
-                              class="font-semibold w-40">Charging:</span> <span>{{ review.sections.battery.charging
-                              }}</span></div>
-                          <div v-if="review.sections.battery.wireless" class="flex mb-2"><span
-                              class="font-semibold w-40">Wireless Charging:</span> <span>{{
-                                review.sections.battery.wireless }}</span></div>
                         </td>
                       </tr>
                     </template>
                     <!-- Connectivity -->
-                    <template v-if="review.sections?.connectivity">
+                    <template v-if="review.sections?.connectivity && (review.sections.connectivity.network || review.sections.connectivity.wifi || review.sections.connectivity.bluetooth || review.sections.connectivity.gps || review.sections.connectivity.nfc || review.sections.connectivity.usb || review.sections.connectivity.sim)">
                       <tr class="border-b border-green-200 hover:bg-green-50 transition">
-                        <td
-                          class="px-8 py-6 font-semibold text-green-700 align-top whitespace-nowrap border-r border-green-200">
-                          Connectivity</td>
+                        <td class="px-8 py-6 font-semibold text-green-700 align-top whitespace-nowrap border-r border-green-200">Connectivity</td>
                         <td class="px-8 py-6">
-                          <div v-if="review.sections.connectivity.network" class="flex mb-2"><span
-                              class="font-semibold w-40">Network:</span> <span>{{ review.sections.connectivity.network
-                              }}</span></div>
-                          <div v-if="review.sections.connectivity.wifi" class="flex mb-2"><span
-                              class="font-semibold w-40">WiFi:</span> <span>{{ review.sections.connectivity.wifi
-                              }}</span>
-                          </div>
-                          <div v-if="review.sections.connectivity.greentooth" class="flex mb-2"><span
-                              class="font-semibold w-40">greentooth:</span> <span>{{
-                                review.sections.connectivity.greentooth
-                              }}</span></div>
-                          <div v-if="review.sections.connectivity.gps" class="flex mb-2"><span
-                              class="font-semibold w-40">GPS:</span> <span>{{ review.sections.connectivity.gps }}</span>
-                          </div>
-                          <div v-if="review.sections.connectivity.nfc" class="flex mb-2"><span
-                              class="font-semibold w-40">NFC:</span> <span>{{ review.sections.connectivity.nfc }}</span>
-                          </div>
-                          <div v-if="review.sections.connectivity.usb" class="flex mb-2"><span
-                              class="font-semibold w-40">USB:</span> <span>{{ review.sections.connectivity.usb }}</span>
-                          </div>
-                          <div v-if="review.sections.connectivity.sim" class="flex mb-2"><span
-                              class="font-semibold w-40">SIM:</span> <span>{{ review.sections.connectivity.sim }}</span>
-                          </div>
+                          <div v-if="review.sections.connectivity.network" class="flex mb-2"><span class="font-semibold w-40">Network:</span> <span>{{ review.sections.connectivity.network }}</span></div>
+                          <div v-if="review.sections.connectivity.wifi" class="flex mb-2"><span class="font-semibold w-40">WiFi:</span> <span>{{ review.sections.connectivity.wifi }}</span></div>
+                          <div v-if="review.sections.connectivity.bluetooth" class="flex mb-2"><span class="font-semibold w-40">Bluetooth:</span> <span>{{ review.sections.connectivity.bluetooth }}</span></div>
+                          <div v-if="review.sections.connectivity.gps" class="flex mb-2"><span class="font-semibold w-40">GPS:</span> <span>{{ review.sections.connectivity.gps }}</span></div>
+                          <div v-if="review.sections.connectivity.nfc" class="flex mb-2"><span class="font-semibold w-40">NFC:</span> <span>{{ review.sections.connectivity.nfc }}</span></div>
+                          <div v-if="review.sections.connectivity.usb" class="flex mb-2"><span class="font-semibold w-40">USB:</span> <span>{{ review.sections.connectivity.usb }}</span></div>
+                          <div v-if="review.sections.connectivity.sim" class="flex mb-2"><span class="font-semibold w-40">SIM:</span> <span>{{ review.sections.connectivity.sim }}</span></div>
+                        </td>
+                      </tr>
+                    </template>
+                    <!-- Storage -->
+                    <template v-if="review.sections?.storage && (review.sections.storage.internal || review.sections.storage.expandable)">
+                      <tr class="border-b border-green-200 hover:bg-green-50 transition">
+                        <td class="px-8 py-6 font-semibold text-green-700 align-top whitespace-nowrap border-r border-green-200">Storage</td>
+                        <td class="px-8 py-6">
+                          <div v-if="review.sections.storage.internal" class="flex mb-2"><span class="font-semibold w-40">Internal:</span> <span>{{ review.sections.storage.internal }}</span></div>
+                          <div v-if="review.sections.storage.expandable" class="flex mb-2"><span class="font-semibold w-40">Expandable:</span> <span>{{ review.sections.storage.expandable }}</span></div>
+                        </td>
+                      </tr>
+                    </template>
+                    <!-- Battery -->
+                    <template v-if="review.sections?.battery && (review.sections.battery.capacity || review.sections.battery.type || review.sections.battery.charging || review.sections.battery.wireless)">
+                      <tr class="border-b border-green-200 hover:bg-green-50 transition">
+                        <td class="px-8 py-6 font-semibold text-green-700 align-top whitespace-nowrap border-r border-green-200">Battery</td>
+                        <td class="px-8 py-6">
+                          <div v-if="review.sections.battery.capacity" class="flex mb-2"><span class="font-semibold w-40">Capacity:</span> <span>{{ review.sections.battery.capacity }}</span></div>
+                          <div v-if="review.sections.battery.type" class="flex mb-2"><span class="font-semibold w-40">Type:</span> <span>{{ review.sections.battery.type }}</span></div>
+                          <div v-if="review.sections.battery.charging" class="flex mb-2"><span class="font-semibold w-40">Charging:</span> <span>{{ review.sections.battery.charging }}</span></div>
+                          <div v-if="review.sections.battery.wireless" class="flex mb-2"><span class="font-semibold w-40">Wireless Charging:</span> <span>{{ review.sections.battery.wireless }}</span></div>
+                        </td>
+                      </tr>
+                    </template>
+                    <!-- Processor -->
+                    <template v-if="review.sections?.processor && (review.sections.processor.name || review.sections.processor.gpu || review.sections.processor.ram || review.sections.processor.os)">
+                      <tr class="border-b border-green-200 hover:bg-green-50 transition">
+                        <td class="px-8 py-6 font-semibold text-green-700 align-top whitespace-nowrap border-r border-green-200">Processor</td>
+                        <td class="px-8 py-6">
+                          <div v-if="review.sections.processor.name" class="flex mb-2"><span class="font-semibold w-40">Processor:</span> <span>{{ review.sections.processor.name }}</span></div>
+                          <div v-if="review.sections.processor.gpu" class="flex mb-2"><span class="font-semibold w-40">GPU:</span> <span>{{ review.sections.processor.gpu }}</span></div>
+                          <div v-if="review.sections.processor.ram" class="flex mb-2"><span class="font-semibold w-40">RAM:</span> <span>{{ review.sections.processor.ram }}</span></div>
+                          <div v-if="review.sections.processor.os" class="flex mb-2"><span class="font-semibold w-40">Operating System:</span> <span>{{ review.sections.processor.os }}</span></div>
+                        </td>
+                      </tr>
+                    </template>
+                    <!-- Ports -->
+                    <template v-if="review.sections?.ports && review.sections.ports.ports">
+                      <tr class="border-b border-green-200 hover:bg-green-50 transition">
+                        <td class="px-8 py-6 font-semibold text-green-700 align-top whitespace-nowrap border-r border-green-200">Ports</td>
+                        <td class="px-8 py-6">
+                          <div class="flex mb-2"><span class="font-semibold w-40">Ports:</span> <span>{{ review.sections.ports.ports }}</span></div>
+                        </td>
+                      </tr>
+                    </template>
+                    <!-- Audio -->
+                    <template v-if="review.sections?.audio && review.sections.audio.features">
+                      <tr class="border-b border-green-200 hover:bg-green-50 transition">
+                        <td class="px-8 py-6 font-semibold text-green-700 align-top whitespace-nowrap border-r border-green-200">Audio</td>
+                        <td class="px-8 py-6">
+                          <div class="flex mb-2"><span class="font-semibold w-40">Features:</span> <span>{{ review.sections.audio.features }}</span></div>
+                        </td>
+                      </tr>
+                    </template>
+                    <!-- Special Features -->
+                    <template v-if="review.sections?.special_features && review.sections.special_features.features">
+                      <tr class="border-b border-green-200 hover:bg-green-50 transition">
+                        <td class="px-8 py-6 font-semibold text-green-700 align-top whitespace-nowrap border-r border-green-200">Special Features</td>
+                        <td class="px-8 py-6">
+                          <div class="flex mb-2"><span class="font-semibold w-40">Features:</span> <span>{{ review.sections.special_features.features }}</span></div>
+                        </td>
+                      </tr>
+                    </template>
+                    <!-- Gaming Features -->
+                    <template v-if="review.sections?.gaming && review.sections.gaming.features">
+                      <tr class="border-b border-green-200 hover:bg-green-50 transition">
+                        <td class="px-8 py-6 font-semibold text-green-700 align-top whitespace-nowrap border-r border-green-200">Gaming Features</td>
+                        <td class="px-8 py-6">
+                          <div class="flex mb-2"><span class="font-semibold w-40">Features:</span> <span>{{ review.sections.gaming.features }}</span></div>
                         </td>
                       </tr>
                     </template>
