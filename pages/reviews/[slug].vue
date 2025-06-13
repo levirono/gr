@@ -414,6 +414,7 @@
 <script setup lang="ts">
 import ImageGalleryModal from '~/components/ImageGalleryModal.vue'
 import { ref, onMounted } from 'vue'
+import { useHead } from '#imports'
 
 interface Review {
   id: string;
@@ -452,6 +453,7 @@ interface Review {
   created_at: string;
   updated_at: string;
   author_id: string;
+  category?: { name: string };
 }
 
 interface Comment {
@@ -709,6 +711,24 @@ const submitComment = async () => {
     submitting.value = false;
   }
 };
+
+// Set Open Graph and Twitter Card meta tags for social sharing
+if (review.value) {
+  useHead({
+    title: review.value.title,
+    meta: [
+      { property: 'og:title', content: review.value.title },
+      { property: 'og:description', content: review.value.excerpt || '' },
+      { property: 'og:image', content: review.value.featured_image_url || '' },
+      { property: 'og:type', content: 'article' },
+      { property: 'og:url', content: window?.location?.href || '' },
+      { name: 'twitter:card', content: 'summary_large_image' },
+      { name: 'twitter:title', content: review.value.title },
+      { name: 'twitter:description', content: review.value.excerpt || '' },
+      { name: 'twitter:image', content: review.value.featured_image_url || '' }
+    ]
+  })
+}
 
 // Fetch categories on component mount
 // Check if image URLs actually exist and are accessible
