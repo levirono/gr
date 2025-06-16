@@ -120,7 +120,6 @@
                   {{ other.title }}
                 </h3>
                 <p class="text-gray-600 mb-2 line-clamp-2">{{ other.excerpt }}</p>
-                <span class="text-blue-600 hover:underline text-sm">Read More →</span>
               </div>
             </NuxtLink>
           </div>
@@ -138,38 +137,47 @@
           Comments
         </h2>
         <div v-if="commentsPending" class="text-center py-4">
-          <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+          <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600 mx-auto"></div>
           <p class="mt-2 text-gray-600">Loading comments...</p>
         </div>
         <div v-else>
-          <div v-if="comments.length === 0" class="text-gray-500 mb-6">No comments yet. Be the first to comment!</div>
+          <div v-if="comments.length === 0" class="text-gray-400 mb-6 text-center italic">No comments yet. Be the first
+            to comment!</div>
           <div class="relative mb-8">
-            <ul class="space-y-6 max-h-64 overflow-y-auto pr-2 bg-white rounded-lg shadow p-4">
-              <li v-for="comment in comments" :key="comment.id" class="border-b last:border-b-0 pb-4">
-                <div class="flex items-center gap-2 mb-1">
-                  <span class="font-semibold text-gray-800">{{ comment.name }}</span>
-                  <span class="text-gray-400 text-xs">{{ formatDate(comment.created_at) }}</span>
+            <ul
+              class="space-y-6 max-h-64 overflow-y-auto pr-2 bg-green-50 rounded-2xl shadow border border-green-100 p-4">
+              <li v-for="comment in comments" :key="comment.id" class="pb-4">
+                <div class="flex items-center gap-3 mb-1">
+                  <div
+                    class="w-10 h-10 rounded-full bg-green-200 flex items-center justify-center font-bold text-green-700 text-lg">
+                    {{ comment.name.charAt(0).toUpperCase() }}
+                  </div>
+                  <div>
+                    <span class="font-semibold text-green-800">{{ comment.name }}</span>
+                    <span class="text-gray-400 text-xs ml-2">{{ formatDate(comment.created_at) }}</span>
+                  </div>
                 </div>
-                <div class="text-gray-700 whitespace-pre-line">{{ comment.content }}</div>
+                <div class="text-gray-700 bg-white rounded-lg px-4 py-2 border border-green-100">{{ comment.content }}
+                </div>
               </li>
             </ul>
             <div v-if="comments.length > 5"
-              class="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-white to-transparent pointer-events-none">
+              class="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-green-50 to-transparent pointer-events-none">
             </div>
           </div>
         </div>
-        <form @submit.prevent="submitComment" class="bg-white p-6 rounded-lg shadow space-y-4">
-          <h3 class="text-lg font-semibold mb-2">Leave a Comment</h3>
-          <div class="flex flex-col gap-2">
+        <form @submit.prevent="submitComment" class="bg-white p-8 rounded-2xl shadow border border-green-100 space-y-4">
+          <h3 class="text-lg font-semibold mb-2 text-green-700">Leave a Comment</h3>
+          <div class="flex flex-col gap-3 md:flex-row md:gap-6">
             <input v-model="commentForm.name" type="text" placeholder="Name" required
-              class="border rounded px-3 py-2" />
+              class="border border-green-200 rounded px-4 py-2 bg-green-50 focus:ring-2 focus:ring-green-400 focus:outline-none flex-1" />
             <input v-model="commentForm.email" type="email" placeholder="Email" required
-              class="border rounded px-3 py-2" />
-            <textarea v-model="commentForm.content" placeholder="Your comment..." required rows="3"
-              class="border rounded px-3 py-2"></textarea>
+              class="border border-green-200 rounded px-4 py-2 bg-green-50 focus:ring-2 focus:ring-green-400 focus:outline-none flex-1" />
           </div>
+          <textarea v-model="commentForm.content" placeholder="Your comment..." required rows="3"
+            class="border border-green-200 rounded px-4 py-2 bg-green-50 focus:ring-2 focus:ring-green-400 focus:outline-none w-full"></textarea>
           <button type="submit" :disabled="commentSubmitting"
-            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50">
+            class="bg-green-600 text-white px-6 py-2 rounded-md font-bold hover:bg-green-700 transition disabled:opacity-50">
             {{ commentSubmitting ? 'Posting...' : 'Post Comment' }}
           </button>
           <div v-if="commentError" class="text-red-600 mt-2">{{ commentError }}</div>
