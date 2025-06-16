@@ -514,7 +514,19 @@
                 </svg>
                 More devices
               </h3>
-              <div class="text-gray-500 text-sm italic">Coming soon: more device suggestions.</div>
+              <div v-if="categoryDevices.length > 0">
+                <div v-for="item in categoryDevices" :key="item.id" class="mb-4 flex gap-3 items-center">
+                  <NuxtLink :to="`/reviews/${item.slug}`" class="flex items-center gap-3 hover:underline">
+                    <img v-if="item.featured_image_url" :src="item.featured_image_url" :alt="item.title"
+                      class="w-14 h-14 object-contain rounded border border-green-100 bg-gray-50" />
+                    <div>
+                      <div class="font-semibold text-green-700">{{ item.title }}</div>
+                      <div class="text-gray-500 text-xs">{{ formatDate(item.created_at) }}</div>
+                    </div>
+                  </NuxtLink>
+                </div>
+              </div>
+              <div v-else class="text-gray-500 text-sm italic">No other devices in this category.</div>
             </div>
           </div>
         </aside>
@@ -894,6 +906,7 @@ const validateImages = async () => {
 };
 
 const brandReviews = ref<Review[]>([]);
+const categoryDevices = ref<Review[]>([]);
 
 // Fetch other reviews from the same brand (excluding current review)
 const fetchBrandReviews = async () => {
@@ -911,10 +924,34 @@ const fetchBrandReviews = async () => {
   }
 };
 
+// Fetch other devices in the same category (excluding current review), randomized
+const fetchCategoryDevices = async () => {
+  if (!review.value || !review.value.category_id) {
+    categoryDevices.value = [];
+    return;
+  }
+  try {
+    // Fetch all reviews
+    const { data } = await useFetch<{ data: Review[] }>(`/api/reviews`);
+    // Only include reviews with the same category, and exclude the current review
+    let filtered = (data.value?.data || []).filter(r => r.category_id === review.value.category_id && r.slug !== review.value.slug);
+    // Shuffle the array for random order
+    for (let i = filtered.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [filtered[i], filtered[j]] = [filtered[j], filtered[i]];
+    }
+    categoryDevices.value = filtered;
+  } catch (e) {
+    categoryDevices.value = [];
+  }
+};
+
+// Update onMounted to include fetchCategoryDevices
 onMounted(() => {
   fetchCategories();
   validateImages();
   fetchBrandReviews();
+  fetchCategoryDevices();
 });
 </script>
 
