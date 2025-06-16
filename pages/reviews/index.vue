@@ -23,9 +23,23 @@
           <p class="text-red-600">Error loading reviews. Please try again later.</p>
         </div>
 
+        <!-- Brand Filter Buttons -->
+        <div v-if="brandList.length" class="flex flex-wrap gap-3 mb-8">
+          <button v-for="brand in brandList" :key="brand" @click="selectedBrand = brand" :class="[
+            'px-4 py-2 rounded-full font-semibold border transition',
+            selectedBrand === brand ? 'bg-green-600 text-white border-green-700' : 'bg-white text-green-700 border-green-300 hover:bg-green-50'
+          ]">
+            {{ brand }}
+          </button>
+          <button v-if="selectedBrand" @click="selectedBrand = ''"
+            class="px-4 py-2 rounded-full font-semibold border bg-gray-200 text-gray-700 border-gray-300 hover:bg-gray-100 transition">
+            Clear Filter
+          </button>
+        </div>
+
         <!-- Reviews Grid -->
-        <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div v-for="review in (reviews?.data || [])" :key="review.id"
+        <div v-if="filteredReviews.length" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div v-for="review in filteredReviews" :key="review.id"
             class="bg-white rounded-lg shadow-md overflow-hidden border border-green-100">
             <NuxtLink :to="`/reviews/${review.slug}`" class="block">
               <div class="relative h-48">
@@ -50,7 +64,7 @@
                   </svg>
                   {{ review.title }}
                 </h3>
-                <p class="text-gray-600 line-clamp-3">{{ review.excerpt }}</p> l
+                <p class="text-gray-600 line-clamp-3">{{ review.excerpt }}</p>
               </div>
             </NuxtLink>
             <div class="p-6">
@@ -70,12 +84,17 @@
             </div>
           </div>
         </div>
+        <div v-else-if="!pending && !error" class="text-center text-gray-400 py-16 text-xl">
+          No reviews found.
+        </div>
       </div>
     </main>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref, computed } from 'vue'
+
 interface Review {
   id: string;
   title: string;
@@ -97,6 +116,21 @@ const { data: reviews, pending, error } = await useFetch<{ data: Review[] }>('/a
     if (!response?.data) return { data: [] }
     return { data: response.data }
   }
+})
+
+// Extract unique brands from reviews
+const brandList = computed(() => {
+  if (!reviews.value?.data) return []
+  const brands = reviews.value.data.map(r => r.brand).filter(Boolean)
+  return Array.from(new Set(brands))
+})
+
+const selectedBrand = ref('')
+
+// Filter reviews by selected brand
+const filteredReviews = computed(() => {
+  if (!selectedBrand.value) return reviews.value?.data || []
+  return (reviews.value?.data || []).filter(r => r.brand === selectedBrand.value)
 })
 
 // Format date to relative time
