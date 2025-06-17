@@ -164,15 +164,32 @@ const fetchCategories = async () => {
 }
 
 const fetchReviews = async () => {
-  if (!selectedCategory.value) return
+  if (!selectedCategory.value) {
+    reviews.value = [];
+    return;
+  }
   pending.value = true
   error.value = null
   try {
     const { data } = await useFetch('/api/reviews', {
       query: { category: selectedCategory.value.id },
       transform: (response) => response?.data || []
-    })
-    reviews.value = data.value ?? []
+    });
+    // Only include reviews whose category matches the selectedCategory (by id or name)
+    reviews.value = (data.value ?? []).filter(r => {
+      if (!r.category) return false;
+      // r.category can be an object or string
+      if (typeof r.category === 'object' && r.category.id) {
+        return String(r.category.id) === String(selectedCategory.value.id);
+      }
+      if (typeof r.category === 'object' && r.category.name) {
+        return r.category.name === selectedCategory.value.name;
+      }
+      if (typeof r.category === 'string') {
+        return r.category === selectedCategory.value.id || r.category === selectedCategory.value.name;
+      }
+      return false;
+    });
   } catch (e) {
     error.value = 'Failed to load reviews.'
   } finally {
@@ -190,6 +207,22 @@ const selectCategory = (category: Category) => {
 watch(() => selectedCategory.value, (newVal, oldVal) => {
   if (newVal && newVal !== oldVal) fetchReviews()
 })
+// Watch for changes in the route query to update selectedCategory and fetch reviews
+watch(
+  () => route.query.selected,
+  (selectedSlug) => {
+    if (!selectedSlug) return;
+    const found = categories.value.find(
+      c => c.slug === selectedSlug || c.name.toLowerCase() === selectedSlug
+    );
+    if (found) {
+      if (!selectedCategory.value || selectedCategory.value.id !== found.id) {
+        selectedCategory.value = found;
+        fetchReviews();
+      }
+    }
+  }
+);
 
 onMounted(async () => {
   await fetchCategories()

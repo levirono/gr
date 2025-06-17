@@ -120,7 +120,7 @@
                   {{ other.title }}
                 </h3>
                 <p class="text-gray-600 mb-2 line-clamp-2">{{ other.excerpt }}</p>
-              </div>
+                </div>
             </NuxtLink>
           </div>
         </div>
