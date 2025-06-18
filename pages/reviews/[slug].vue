@@ -180,7 +180,7 @@
                           <div
                             v-if="review.sections.display.specs && Object.keys(review.sections.display.specs).length > 0">
                             <div v-for="(val, key) in review.sections.display.specs" :key="key" class="flex mb-2"><span
-                                class="font-semibold w-40">{{ formatKeyName(key) }}:</span> <span>{{ val }}</span></div>
+                                class="font-semibold w-40">{{ formatKeyName(String(key)) }}:</span> <span>{{ val }}</span></div>
                           </div>
                         </td>
                       </tr>
@@ -578,6 +578,7 @@ interface Review {
   updated_at: string;
   author_id: string;
   category?: { name: string };
+  brand?: string; // Added brand property
 }
 
 interface Comment {

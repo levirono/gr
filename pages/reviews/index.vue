@@ -104,6 +104,7 @@ interface Review {
   };
   excerpt: string;
   rating: number;
+  brand?: string;
   featured_image_url?: string;
   images?: Array<{
     cloudinary_url: string;
@@ -121,7 +122,9 @@ const { data: reviews, pending, error } = await useFetch<{ data: Review[] }>('/a
 // Extract unique brands from reviews
 const brandList = computed(() => {
   if (!reviews.value?.data) return []
-  const brands = reviews.value.data.map(r => r.brand).filter(Boolean)
+  const brands = reviews.value.data
+    .map(r => r.brand)
+    .filter((b): b is string => typeof b === 'string' && b.length > 0)
   return Array.from(new Set(brands))
 })
 

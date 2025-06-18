@@ -177,7 +177,7 @@ const fetchReviews = async () => {
     });
     // Only include reviews whose category matches the selectedCategory (by id or name)
     reviews.value = (data.value ?? []).filter(r => {
-      if (!r.category) return false;
+      if (!r.category || !selectedCategory.value) return false;
       // r.category can be an object or string
       if (typeof r.category === 'object' && r.category.id) {
         return String(r.category.id) === String(selectedCategory.value.id);
