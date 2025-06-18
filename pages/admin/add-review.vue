@@ -222,6 +222,11 @@
                     placeholder="e.g. IP68, MIL-STD-810H, Removable back" class="w-full px-3 py-2 border rounded-md">
                 </div>
                 <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Weight</label>
+                  <input v-model="review.sections.design.weight" type="text" placeholder="e.g. 180g, 7.8mm"
+                    class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
                   <label class="block text-sm font-medium text-gray-700 mb-2">Images</label>
                   <div class="grid grid-cols-3 gap-4">
                     <div v-for="(image, index) in designImages" :key="index" class="relative">
@@ -362,6 +367,16 @@
                   <input v-model="review.sections.connectivity.sim" type="text"
                     placeholder="e.g. Dual SIM (Nano-SIM, dual stand-by)" class="w-full px-3 py-2 border rounded-md">
                 </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Cellular</label>
+                  <input v-model="review.sections.connectivity.cellular" type="text" placeholder="e.g. 4G, 5G"
+                    class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Ethernet</label>
+                  <input v-model="review.sections.connectivity.ethernet" type="text" placeholder="e.g. Yes/No"
+                    class="w-full px-3 py-2 border rounded-md">
+                </div>
               </div>
             </div>
 
@@ -378,6 +393,11 @@
                   <label class="block text-sm font-medium text-gray-700 mb-2">Expandable Storage</label>
                   <input v-model="review.sections.storage.expandable" type="text"
                     placeholder="e.g. microSDXC (dedicated slot)" class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Storage Type</label>
+                  <input v-model="review.sections.storage.type" type="text" placeholder="e.g. SSD, HDD, UFS"
+                    class="w-full px-3 py-2 border rounded-md">
                 </div>
               </div>
             </div>
@@ -406,6 +426,11 @@
                   <input v-model="review.sections.battery.wireless" type="text" placeholder="e.g. 50W wireless"
                     class="w-full px-3 py-2 border rounded-md">
                 </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Battery Life</label>
+                  <input v-model="review.sections.battery.life" type="text"
+                    placeholder="e.g. 10 hours usage, 300h standby" class="w-full px-3 py-2 border rounded-md">
+                </div>
               </div>
             </div>
 
@@ -433,6 +458,31 @@
                   <input v-model="review.sections.processor.os" type="text"
                     placeholder="e.g. Android 14, Windows 11, iOS 17" class="w-full px-3 py-2 border rounded-md">
                 </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Processor Type</label>
+                  <input v-model="review.sections.processor.type" type="text" placeholder="e.g. ARM, x86, Snapdragon"
+                    class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Core Count</label>
+                  <input v-model="review.sections.processor.cores" type="text" placeholder="e.g. Octa-core"
+                    class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Clock Speed</label>
+                  <input v-model="review.sections.processor.clock" type="text" placeholder="e.g. 3.2GHz"
+                    class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Architecture</label>
+                  <input v-model="review.sections.processor.architecture" type="text" placeholder="e.g. 64-bit"
+                    class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">RAM Type</label>
+                  <input v-model="review.sections.processor.ram_type" type="text" placeholder="e.g. DDR5, LPDDR4X"
+                    class="w-full px-3 py-2 border rounded-md">
+                </div>
               </div>
             </div>
 
@@ -443,6 +493,21 @@
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-2">Ports</label>
                   <input v-model="review.sections.ports.ports" type="text" placeholder="e.g. USB-C, HDMI, 3.5mm jack"
+                    class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">HDMI / DisplayPort</label>
+                  <input v-model="review.sections.ports.hdmi" type="text" placeholder="e.g. HDMI 2.1, DisplayPort 1.4"
+                    class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Charging Port</label>
+                  <input v-model="review.sections.ports.charging" type="text" placeholder="e.g. USB-C, Proprietary"
+                    class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">SIM Slot / eSIM / Memory Card Slot</label>
+                  <input v-model="review.sections.ports.sim" type="text" placeholder="e.g. Dual SIM, eSIM"
                     class="w-full px-3 py-2 border rounded-md">
                 </div>
               </div>
@@ -456,6 +521,31 @@
                   <label class="block text-sm font-medium text-gray-700 mb-2">Audio Features</label>
                   <input v-model="review.sections.audio.features" type="text"
                     placeholder="e.g. Stereo speakers, Dolby Atmos" class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Speakers</label>
+                  <input v-model="review.sections.audio.speakers" type="text" placeholder="e.g. Stereo, Dolby Atmos"
+                    class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Microphones</label>
+                  <input v-model="review.sections.audio.microphones" type="text" placeholder="e.g. Dual-array"
+                    class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Audio Jack</label>
+                  <input v-model="review.sections.audio.jack" type="text" placeholder="e.g. 3.5mm, None"
+                    class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Codec Support</label>
+                  <input v-model="review.sections.audio.codec" type="text" placeholder="e.g. AAC, LDAC, aptX"
+                    class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Noise Cancellation</label>
+                  <input v-model="review.sections.audio.noise_cancellation" type="text"
+                    placeholder="e.g. Active, Passive" class="w-full px-3 py-2 border rounded-md">
                 </div>
               </div>
             </div>
@@ -483,6 +573,647 @@
                     placeholder="e.g. 144Hz display, Game mode, Haptic feedback"
                     class="w-full px-3 py-2 border rounded-md">
                 </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Device-Specific Specifications Section -->
+          <div class="mt-8 space-y-6">
+            <h2 class="text-xl font-semibold mb-4 text-green-700 flex items-center gap-2">
+              <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+                <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+              </svg>
+              Device-Specific Specifications
+            </h2>
+            <!-- Laptops -->
+            <div v-if="selectedCategory && selectedCategory.slug === 'laptop'"
+              class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Form Factor</label>
+                <input v-model="review.sections.laptop.form_factor" type="text"
+                  placeholder="e.g. Ultrabook, Convertible" class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Keyboard Type</label>
+                <input v-model="review.sections.laptop.keyboard_type" type="text" placeholder="e.g. Backlit, Mechanical"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Trackpad / Pointer</label>
+                <input v-model="review.sections.laptop.trackpad" type="text" placeholder="e.g. Precision Touchpad"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">I/O Ports</label>
+                <input v-model="review.sections.laptop.io_ports" type="text" placeholder="e.g. HDMI, SD card reader"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Upgradability</label>
+                <input v-model="review.sections.laptop.upgradability" type="text"
+                  placeholder="e.g. RAM slots, Storage bays" class="w-full px-3 py-2 border rounded-md">
+              </div>
+            </div>
+            <!-- Gaming Devices -->
+            <div v-if="selectedCategory && selectedCategory.slug === 'gaming'"
+              class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">GPU</label>
+                <input v-model="review.sections.gaming.gpu" type="text" placeholder="e.g. NVIDIA RTX, AMD Radeon"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Controller Support</label>
+                <input v-model="review.sections.gaming.controller_support" type="text"
+                  placeholder="e.g. Wired, Wireless" class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Display Modes</label>
+                <input v-model="review.sections.gaming.display_modes" type="text" placeholder="e.g. 4K HDR, 120Hz"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Cooling System</label>
+                <input v-model="review.sections.gaming.cooling_system" type="text"
+                  placeholder="e.g. Vapor chamber, Liquid metal" class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Exclusive Titles / Game Store</label>
+                <input v-model="review.sections.gaming.exclusive_titles" type="text"
+                  placeholder="e.g. PlayStation Store" class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Storage Speed</label>
+                <input v-model="review.sections.gaming.storage_speed" type="text" placeholder="e.g. NVMe SSD"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">RGB Lighting</label>
+                <input v-model="review.sections.gaming.rgb_lighting" type="text" placeholder="e.g. Yes/No"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+            </div>
+            <!-- Smartphones -->
+            <div v-if="selectedCategory && selectedCategory.slug === 'smartphone'"
+              class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Camera System</label>
+                <input v-model="review.sections.smartphone.camera_system" type="text" placeholder="e.g. Triple-lens"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">SIM Setup</label>
+                <input v-model="review.sections.smartphone.sim_setup" type="text" placeholder="e.g. Dual SIM, eSIM"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Display Cutouts</label>
+                <input v-model="review.sections.smartphone.display_cutouts" type="text"
+                  placeholder="e.g. Notch, Hole-punch" class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Face Unlock / In-screen Fingerprint</label>
+                <input v-model="review.sections.smartphone.face_unlock" type="text" placeholder="e.g. Yes/No"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Mobile Chipset</label>
+                <input v-model="review.sections.smartphone.mobile_chipset" type="text"
+                  placeholder="e.g. Snapdragon, Exynos" class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">OS Custom UI</label>
+                <input v-model="review.sections.smartphone.os_custom_ui" type="text" placeholder="e.g. MIUI, One UI"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Network Bands</label>
+                <input v-model="review.sections.smartphone.network_bands" type="text" placeholder="e.g. LTE, 5G SA/NSA"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+            </div>
+            <!-- Audio Devices -->
+            <div v-if="selectedCategory && selectedCategory.slug === 'audio-device'"
+              class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Driver Size</label>
+                <input v-model="review.sections.audio_device.driver_size" type="text" placeholder="e.g. 40mm"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Audio Format Support</label>
+                <input v-model="review.sections.audio_device.audio_format_support" type="text"
+                  placeholder="e.g. AAC, aptX, LDAC" class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">ANC (Active Noise Cancellation)</label>
+                <input v-model="review.sections.audio_device.anc" type="text" placeholder="e.g. Hybrid, Feedforward"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Mic Array</label>
+                <input v-model="review.sections.audio_device.mic_array" type="text" placeholder="e.g. Beamforming"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Battery Life per Charge + Case</label>
+                <input v-model="review.sections.audio_device.battery_life_per_charge" type="text"
+                  placeholder="e.g. 8h + 24h case" class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Water Resistance</label>
+                <input v-model="review.sections.audio_device.water_resistance" type="text" placeholder="e.g. IPX4, IPX7"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Multi-device Pairing</label>
+                <input v-model="review.sections.audio_device.multipoint" type="text" placeholder="e.g. Yes/No"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Voice Assistant Integration</label>
+                <input v-model="review.sections.audio_device.voice_assistant" type="text"
+                  placeholder="e.g. Google Assistant" class="w-full px-3 py-2 border rounded-md">
+              </div>
+            </div>
+            <!-- Cameras -->
+            <div v-if="selectedCategory && selectedCategory.slug === 'camera'"
+              class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Sensor Type</label>
+                <input v-model="review.sections.camera_device.sensor_type" type="text"
+                  placeholder="e.g. Full-frame, APS-C" class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Sensor Size</label>
+                <input v-model="review.sections.camera_device.sensor_size" type="text" placeholder="e.g. 36x24mm"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Lens Mount</label>
+                <input v-model="review.sections.camera_device.lens_mount" type="text"
+                  placeholder="e.g. Canon EF, Sony E" class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">ISO Range</label>
+                <input v-model="review.sections.camera_device.iso_range" type="text" placeholder="e.g. 100-51200"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Shutter Speed</label>
+                <input v-model="review.sections.camera_device.shutter_speed" type="text"
+                  placeholder="e.g. 1/8000s - 30s" class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Autofocus System</label>
+                <input v-model="review.sections.camera_device.autofocus" type="text" placeholder="e.g. Phase-detect"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Video Recording</label>
+                <input v-model="review.sections.camera_device.video_recording" type="text" placeholder="e.g. 4K60, 8K"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">In-body Stabilization (IBIS)</label>
+                <input v-model="review.sections.camera_device.ibis" type="text" placeholder="e.g. Yes/No"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">External Mic / Flash Support</label>
+                <input v-model="review.sections.camera_device.external_mic_flash" type="text" placeholder="e.g. Yes/No"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+            </div>
+            <!-- Accessories -->
+            <div v-if="selectedCategory && selectedCategory.slug === 'accessory'"
+              class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Charging Standards</label>
+                <input v-model="review.sections.accessory.charging_standards" type="text"
+                  placeholder="e.g. USB-PD, MagSafe" class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Power Output</label>
+                <input v-model="review.sections.accessory.power_output" type="text" placeholder="e.g. 65W, 100W"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Compatibility</label>
+                <input v-model="review.sections.accessory.compatibility" type="text" placeholder="e.g. MFI, Cross-brand"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Cable Rating</label>
+                <input v-model="review.sections.accessory.cable_rating" type="text"
+                  placeholder="e.g. USB 3.2, Thunderbolt" class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Port Types</label>
+                <input v-model="review.sections.accessory.port_types" type="text" placeholder="e.g. USB-A, HDMI"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Build Quality</label>
+                <input v-model="review.sections.accessory.build_quality" type="text"
+                  placeholder="e.g. Braided, Reinforced" class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Latency (for input devices)</label>
+                <input v-model="review.sections.accessory.latency" type="text" placeholder="e.g. 1ms"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+            </div>
+            <!-- Tablets -->
+            <div v-if="selectedCategory && selectedCategory.slug === 'tablet'"
+              class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Pen Support</label>
+                <input v-model="review.sections.tablet.pen_support" type="text" placeholder="e.g. Apple Pencil, S Pen"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Keyboard Support</label>
+                <input v-model="review.sections.tablet.keyboard_support" type="text" placeholder="e.g. Smart Connector"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Use Mode</label>
+                <input v-model="review.sections.tablet.use_mode" type="text"
+                  placeholder="e.g. Split screen, Landscape lock" class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">OS or Forks</label>
+                <input v-model="review.sections.tablet.os_fork" type="text" placeholder="e.g. iPadOS, Android UI"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Display Aspect Ratio</label>
+                <input v-model="review.sections.tablet.aspect_ratio" type="text" placeholder="e.g. 3:2, 16:10"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+            </div>
+            <!-- Wearables -->
+            <div v-if="selectedCategory && selectedCategory.slug === 'wearable'"
+              class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Health Sensors</label>
+                <input v-model="review.sections.wearable.health_sensors" type="text" placeholder="e.g. HR, SpO2, ECG"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Sport Modes</label>
+                <input v-model="review.sections.wearable.sport_modes" type="text" placeholder="e.g. Running, Swimming"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Battery Life</label>
+                <input v-model="review.sections.wearable.battery_life" type="text" placeholder="e.g. 7 days"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Display Type</label>
+                <input v-model="review.sections.wearable.display_type" type="text" placeholder="e.g. AMOLED, MIP"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Watch Faces & Customization</label>
+                <input v-model="review.sections.wearable.watch_faces" type="text" placeholder="e.g. Customizable"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Strap Material & Size</label>
+                <input v-model="review.sections.wearable.strap" type="text" placeholder="e.g. Silicone, 22mm"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Companion App Ecosystem</label>
+                <input v-model="review.sections.wearable.companion_app" type="text"
+                  placeholder="e.g. Apple Health, Fitbit" class="w-full px-3 py-2 border rounded-md">
+              </div>
+            </div>
+          </div>
+
+          <!-- Universal Specifications Section -->
+          <div class="mt-8 space-y-6">
+            <h2 class="text-xl font-semibold mb-4 text-green-700 flex items-center gap-2">
+              <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+                <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+              </svg>
+              Universal Specifications
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- Battery and Power -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Battery Type</label>
+                <input v-model="review.sections.battery.type" type="text" placeholder="e.g. Li-ion, Li-Po"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Battery Capacity</label>
+                <input v-model="review.sections.battery.capacity" type="text" placeholder="e.g. 5000mAh, 60Wh"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Charging Speed</label>
+                <input v-model="review.sections.battery.charging" type="text"
+                  placeholder="e.g. Fast Charging, 67W, Wireless" class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Battery Life</label>
+                <input v-model="review.sections.battery.life" type="text"
+                  placeholder="e.g. 10 hours usage, 300h standby" class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <!-- Processor -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Processor Type</label>
+                <input v-model="review.sections.processor.type" type="text" placeholder="e.g. ARM, x86, Snapdragon"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Core Count</label>
+                <input v-model="review.sections.processor.cores" type="text" placeholder="e.g. Octa-core"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Clock Speed</label>
+                <input v-model="review.sections.processor.clock" type="text" placeholder="e.g. 3.2GHz"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Architecture</label>
+                <input v-model="review.sections.processor.architecture" type="text" placeholder="e.g. 64-bit"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <!-- Display -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Screen Size</label>
+                <input v-model="review.sections.display.size" type="text" placeholder="e.g. 6.5\"" class=" w-full px-3
+                  py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Display Type</label>
+                <input v-model="review.sections.display.technology" type="text" placeholder="e.g. OLED, IPS"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Resolution</label>
+                <input v-model="review.sections.display.resolution" type="text" placeholder="e.g. 1080x2400"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Refresh Rate</label>
+                <input v-model="review.sections.display.refresh_rate" type="text" placeholder="e.g. 120Hz"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Touchscreen Support</label>
+                <input v-model="review.sections.display.touchscreen" type="text" placeholder="e.g. Yes/No"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <!-- Graphics -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">GPU Type</label>
+                <input v-model="review.sections.graphics.type" type="text" placeholder="e.g. Integrated, Dedicated"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">GPU Brand</label>
+                <input v-model="review.sections.graphics.brand" type="text" placeholder="e.g. NVIDIA, AMD"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">VR/AR Support</label>
+                <input v-model="review.sections.graphics.vr_ar" type="text" placeholder="e.g. Yes/No"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <!-- Storage -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Storage Type</label>
+                <input v-model="review.sections.storage.type" type="text" placeholder="e.g. SSD, HDD, UFS"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Storage Capacity</label>
+                <input v-model="review.sections.storage.internal" type="text" placeholder="e.g. 256GB, 1TB"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Expandable Storage</label>
+                <input v-model="review.sections.storage.expandable" type="text" placeholder="e.g. microSD support"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <!-- RAM -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">RAM Capacity</label>
+                <input v-model="review.sections.processor.ram" type="text" placeholder="e.g. 8GB, 16GB"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">RAM Type</label>
+                <input v-model="review.sections.processor.ram_type" type="text" placeholder="e.g. DDR5, LPDDR4X"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <!-- Connectivity -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Wi-Fi</label>
+                <input v-model="review.sections.connectivity.wifi" type="text" placeholder="e.g. Wi-Fi 6E"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Bluetooth</label>
+                <input v-model="review.sections.connectivity.bluetooth" type="text" placeholder="e.g. 5.3"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Cellular</label>
+                <input v-model="review.sections.connectivity.cellular" type="text" placeholder="e.g. 4G, 5G"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Infrared / NFC / UWB</label>
+                <input v-model="review.sections.connectivity.nfc" type="text" placeholder="e.g. Yes/No"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">GPS</label>
+                <input v-model="review.sections.connectivity.gps" type="text" placeholder="e.g. Yes/No"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Ethernet</label>
+                <input v-model="review.sections.connectivity.ethernet" type="text" placeholder="e.g. Yes/No"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">USB / Thunderbolt / Type-C /
+                  Lightning</label>
+                <input v-model="review.sections.ports.ports" type="text" placeholder="e.g. USB-C, Thunderbolt 4"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <!-- Audio -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Speakers</label>
+                <input v-model="review.sections.audio.speakers" type="text" placeholder="e.g. Stereo, Dolby Atmos"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Microphones</label>
+                <input v-model="review.sections.audio.microphones" type="text" placeholder="e.g. Dual-array"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Audio Jack</label>
+                <input v-model="review.sections.audio.jack" type="text" placeholder="e.g. 3.5mm, None"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Codec Support</label>
+                <input v-model="review.sections.audio.codec" type="text" placeholder="e.g. AAC, LDAC, aptX"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Noise Cancellation</label>
+                <input v-model="review.sections.audio.noise_cancellation" type="text" placeholder="e.g. Active, Passive"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <!-- Camera -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Main Camera</label>
+                <input v-model="review.sections.camera.rear.specs" type="text" placeholder="e.g. 50MP, f/1.8"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Front Camera</label>
+                <input v-model="review.sections.camera.front.specs" type="text" placeholder="e.g. 32MP"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Video Recording</label>
+                <input v-model="review.sections.camera.rear.video" type="text" placeholder="e.g. 4K, 8K"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Stabilization</label>
+                <input v-model="review.sections.camera.stabilization" type="text" placeholder="e.g. OIS, EIS"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Zoom</label>
+                <input v-model="review.sections.camera.zoom" type="text" placeholder="e.g. Optical, Digital"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <!-- Security -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Biometrics</label>
+                <input v-model="review.sections.security.biometrics" type="text" placeholder="e.g. Fingerprint, Face ID"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Password/PIN/Pattern</label>
+                <input v-model="review.sections.security.password" type="text" placeholder="e.g. Yes/No"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">TPM / Secure Enclave</label>
+                <input v-model="review.sections.security.tpm" type="text" placeholder="e.g. Yes/No"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <!-- Cooling and Thermals -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Cooling Type</label>
+                <input v-model="review.sections.cooling.type" type="text" placeholder="e.g. Passive, Active"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Thermal Management</label>
+                <input v-model="review.sections.cooling.thermal" type="text" placeholder="e.g. Vapor chamber, Fans"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <!-- Build and Design -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Material</label>
+                <input v-model="review.sections.design.frame" type="text" placeholder="e.g. Plastic, Metal, Glass"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Form Factor</label>
+                <input v-model="review.sections.design.body" type="text" placeholder="e.g. Clamshell, Foldable"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">IP Rating</label>
+                <input v-model="review.sections.design.other" type="text" placeholder="e.g. IP68"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Weight & Dimensions</label>
+                <input v-model="review.sections.design.weight" type="text" placeholder="e.g. 180g, 7.8mm"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <!-- Operating System -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Operating System</label>
+                <input v-model="review.sections.processor.os" type="text" placeholder="e.g. Android, Windows, iOS"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <!-- Software Features -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">App Ecosystem</label>
+                <input v-model="review.sections.software.ecosystem" type="text"
+                  placeholder="e.g. Google Play, App Store" class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">AI Enhancements</label>
+                <input v-model="review.sections.software.ai" type="text"
+                  placeholder="e.g. Voice Assistant, Smart Optimization" class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Cloud Sync/Backup</label>
+                <input v-model="review.sections.software.cloud" type="text" placeholder="e.g. iCloud, Google Drive"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Customization Options</label>
+                <input v-model="review.sections.software.customization" type="text" placeholder="e.g. Themes, Widgets"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <!-- Ports & Expansion -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">HDMI / DisplayPort</label>
+                <input v-model="review.sections.ports.hdmi" type="text" placeholder="e.g. HDMI 2.1, DisplayPort 1.4"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Charging Port</label>
+                <input v-model="review.sections.ports.charging" type="text" placeholder="e.g. USB-C, Proprietary"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">SIM Slot / eSIM / Memory Card Slot</label>
+                <input v-model="review.sections.ports.sim" type="text" placeholder="e.g. Dual SIM, eSIM"
+                  class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <!-- Sensors -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Sensors</label>
+                <input v-model="review.sections.sensors.sensors" type="text"
+                  placeholder="e.g. Accelerometer, Gyroscope, Heart Rate" class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <!-- Compatibility -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Accessories Support</label>
+                <input v-model="review.sections.compatibility.accessories" type="text"
+                  placeholder="e.g. Apple Pencil, S Pen" class="w-full px-3 py-2 border rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Platform Integration</label>
+                <input v-model="review.sections.compatibility.platform" type="text"
+                  placeholder="e.g. Apple Continuity, Samsung DeX" class="w-full px-3 py-2 border rounded-md">
               </div>
             </div>
           </div>
@@ -624,6 +1355,7 @@ const review = ref({
       glass: '',
       body: '',
       other: '',
+      weight: '', // Added
       images: []
     },
     display: {
@@ -632,7 +1364,9 @@ const review = ref({
       refresh_rate: '',
       brightness: '',
       protection: '',
-      specs: {} as Record<string, string>
+      specs: {} as Record<string, string>,
+      size: '', // Added
+      touchscreen: '' // Added
     },
     camera: {
       front: {
@@ -644,7 +1378,9 @@ const review = ref({
         specs: '',
         features: '',
         video: ''
-      }
+      },
+      stabilization: '', // Added
+      zoom: '' // Added
     },
     connectivity: {
       network: '',
@@ -653,36 +1389,152 @@ const review = ref({
       gps: '',
       nfc: '',
       usb: '',
-      sim: ''
+      sim: '',
+      cellular: '', // Added
+      ethernet: '' // Added
     },
     storage: {
       internal: '',
-      expandable: ''
+      expandable: '',
+      type: '' // Added
     },
     battery: {
       capacity: '',
       type: '',
       charging: '',
-      wireless: ''
+      wireless: '',
+      life: '' // Added
     },
     processor: {
       name: '',
       gpu: '',
       ram: '',
-      os: ''
+      os: '',
+      type: '', // Added
+      cores: '', // Added
+      clock: '', // Added
+      architecture: '', // Added
+      ram_type: '' // Added
     },
     ports: {
-      ports: ''
+      ports: '',
+      hdmi: '', // Added
+      charging: '', // Added
+      sim: '' // Added
     },
     audio: {
-      features: ''
+      features: '',
+      speakers: '', // Added
+      microphones: '', // Added
+      jack: '', // Added
+      codec: '', // Added
+      noise_cancellation: '' // Added
     },
     special_features: {
       features: ''
     },
     gaming: {
       features: ''
-    }
+    },
+    graphics: {
+      type: '', // Added
+      brand: '', // Added
+      vr_ar: '' // Added
+    },
+    security: {
+      biometrics: '', // Added
+      password: '', // Added
+      tpm: '' // Added
+    },
+    cooling: {
+      type: '', // Added
+      thermal: '' // Added
+    },
+    software: {
+      ecosystem: '', // Added
+      ai: '', // Added
+      cloud: '', // Added
+      customization: '' // Added
+    },
+    sensors: {
+      sensors: '' // Added
+    },
+    compatibility: {
+      accessories: '', // Added
+      platform: '' // Added
+    },
+    // Add device-specific fields to the data model
+    laptop: {
+      form_factor: '',
+      keyboard_type: '',
+      trackpad: '',
+      io_ports: '',
+      upgradability: ''
+    },
+    gaming: {
+      gpu: '',
+      controller_support: '',
+      display_modes: '',
+      cooling_system: '',
+      exclusive_titles: '',
+      storage_speed: '',
+      rgb_lighting: ''
+    },
+    smartphone: {
+      camera_system: '',
+      sim_setup: '',
+      display_cutouts: '',
+      face_unlock: '',
+      mobile_chipset: '',
+      os_custom_ui: '',
+      network_bands: ''
+    },
+    audio_device: {
+      driver_size: '',
+      audio_format_support: '',
+      anc: '',
+      mic_array: '',
+      battery_life_per_charge: '',
+      water_resistance: '',
+      multipoint: '',
+      voice_assistant: ''
+    },
+    camera_device: {
+      sensor_type: '',
+      sensor_size: '',
+      lens_mount: '',
+      iso_range: '',
+      shutter_speed: '',
+      autofocus: '',
+      video_recording: '',
+      ibis: '',
+      external_mic_flash: ''
+    },
+    accessory: {
+      charging_standards: '',
+      power_output: '',
+      compatibility: '',
+      cable_rating: '',
+      port_types: '',
+      build_quality: '',
+      latency: ''
+    },
+    tablet: {
+      pen_support: '',
+      keyboard_support: '',
+      use_mode: '',
+      os_fork: '',
+      aspect_ratio: ''
+    },
+    wearable: {
+      health_sensors: '',
+      sport_modes: '',
+      battery_life: '',
+      display_type: '',
+      watch_faces: '',
+      strap: '',
+      companion_app: ''
+    },
   },
   verdict: '',
   is_featured: false,
