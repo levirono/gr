@@ -909,9 +909,9 @@ const validateImages = async () => {
 const brandReviews = ref<Review[]>([]);
 const categoryDevices = ref<Review[]>([]);
 
-// Fetch other reviews from the same brand (excluding current review)
-const fetchBrandReviews = async () => {
-  if (!review.value || !review.value.brand) {
+// Fetch other reviews from the same brand with the same category (excluding current review)
+const fetchBrandReviews: () => Promise<void> = async () => {
+  if (!review.value || !review.value.brand || !review.value.category) {
     brandReviews.value = [];
     return;
   }
