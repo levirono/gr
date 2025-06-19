@@ -3,13 +3,15 @@
     <TheHeader />
     <main class="py-8">
       <div class="container mx-auto px-4">
-        <h1 class="text-3xl font-bold mb-8 text-green-700 flex items-center gap-2">
+        <h1 class="text-3xl font-bold mb-8 text-green-700 flex items-center gap-2 
+            justify-center sm:justify-start text-center sm:text-left">
           <svg class="w-7 h-7 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
             <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
           </svg>
           Add New Review
         </h1>
+
 
         <form @submit.prevent="handleSubmit" class="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
           <!-- Basic Information -->
@@ -1472,6 +1474,7 @@ const review = ref({
       upgradability: ''
     },
     gaming: {
+      features: '',
       gpu: '',
       controller_support: '',
       display_modes: '',
@@ -1732,6 +1735,10 @@ const handleSubmit = async () => {
     isSubmitting.value = false;
   }
 };
+
+const selectedCategory = computed(() => {
+  return categories.value.find(c => c.id === review.value.category_id) || null
+})
 
 const selectedCategoryIsSmartphone = computed(() => {
   const cat = categories.value.find(c => c.id === review.value.category_id)

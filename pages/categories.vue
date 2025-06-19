@@ -13,17 +13,19 @@
             Device Categories
           </h1>
           <p class="text-green-600 mb-6">Browse reviews by device category</p>
-          <div class="flex flex-wrap gap-4 mb-4">
+          <div class="flex flex-wrap items-center gap-4 mb-4">
             <button v-for="category in categories" :key="category.id" @click="selectCategory(category)" :class="[
-              'px-4 py-2 rounded-full border transition',
+              'px-4 py-2 rounded-full border transition flex items-center',
               selectedCategory?.id === category.id
                 ? 'bg-green-600 text-white border-green-600'
                 : 'bg-white text-green-700 border-green-300 hover:bg-green-50'
             ]">
-              <span class="mr-2 text-2xl">{{ category.icon }}</span>
-              {{ category.name }}
+              <span class="mr-2 text-2xl">
+                {{ categoryIcons[category.slug] || '📦' }}
+              </span> {{ category.name }}
             </button>
           </div>
+
         </div>
       </section>
 
@@ -161,6 +163,16 @@ const fetchCategories = async () => {
   } else {
     selectedCategory.value = null
   }
+}
+const categoryIcons: Record<string, string> = {
+  smartphones: '📱',
+  laptops: '💻',
+  tablets: '📱',
+  wearables: '⌚',
+  audio: '🎧',
+  cameras: '📷',
+  gaming: '🎮',
+  accessories: '🔌',
 }
 
 const fetchReviews = async () => {
