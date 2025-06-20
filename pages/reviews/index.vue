@@ -37,6 +37,16 @@
           </button>
         </div>
 
+        <!-- Search Input -->
+        <div class="mb-8 flex justify-center">
+          <input
+            v-model="searchQuery"
+            type="text"
+            placeholder="Search reviews by title, brand, or description..."
+            class="w-full max-w-md px-4 py-2 rounded-lg border border-green-200 focus:border-green-500 focus:ring-2 focus:ring-green-100 text-gray-700 shadow-sm bg-white placeholder-gray-400 transition"
+          />
+        </div>
+
         <!-- Reviews Grid -->
         <div v-if="filteredReviews.length" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div v-for="review in filteredReviews" :key="review.id"
@@ -129,11 +139,23 @@ const brandList = computed(() => {
 })
 
 const selectedBrand = ref('')
+const searchQuery = ref('')
 
-// Filter reviews by selected brand
+// Filter reviews by selected brand and search query
 const filteredReviews = computed(() => {
-  if (!selectedBrand.value) return reviews.value?.data || []
-  return (reviews.value?.data || []).filter(r => r.brand === selectedBrand.value)
+  let result = reviews.value?.data || []
+  if (selectedBrand.value) {
+    result = result.filter(r => r.brand === selectedBrand.value)
+  }
+  if (searchQuery.value.trim()) {
+    const q = searchQuery.value.trim().toLowerCase()
+    result = result.filter(r =>
+      r.title.toLowerCase().includes(q) ||
+      (r.excerpt && r.excerpt.toLowerCase().includes(q)) ||
+      (r.brand && r.brand.toLowerCase().includes(q))
+    )
+  }
+  return result
 })
 
 // Format date to relative time
