@@ -3,11 +3,15 @@
     <TheHeader />
     <main>
       <!-- Hero Section -->
-      <section class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
-        <div class="container mx-auto px-4">
-          <div class="max-w-3xl mx-auto text-center">
-            <h1 class="text-5xl font-bold mb-6">Tech Insights & News</h1>
-            <p class="text-xl mb-8">Stay updated with the latest in technology, reviews, and industry insights</p>
+      <section class="bg-gradient-to-r from-gray-50 via-gray-200 to-gray-400 text-white py-20">
+        <div class="container mx-auto px-4 flex flex-col items-center justify-center">
+          <div class="max-w-3xl w-full text-center">
+            <h1 class="text-5xl font-bold mb-6 bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
+              Tech Insights & News
+            </h1>
+            <p class="text-xl mb-8 bg-gradient-to-r from-blue-700 via-green-600 to-blue-900 bg-clip-text text-transparent">
+              Stay updated with the latest in technology, reviews, and industry insights
+            </p>
             <div class="flex justify-center gap-4">
               <input v-model="searchQuery" type="search" placeholder="Search articles..."
                 class="px-6 py-3 rounded-full w-full max-w-md text-gray-900">
