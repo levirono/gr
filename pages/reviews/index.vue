@@ -39,12 +39,8 @@
 
         <!-- Search Input -->
         <div class="mb-8 flex justify-center">
-          <input
-            v-model="searchQuery"
-            type="text"
-            placeholder="Search reviews by title, brand, or description..."
-            class="w-full max-w-md px-4 py-2 rounded-lg border border-green-200 focus:border-green-500 focus:ring-2 focus:ring-green-100 text-gray-700 shadow-sm bg-white placeholder-gray-400 transition"
-          />
+          <input v-model="searchQuery" type="text" placeholder="Search reviews by title, brand, or description..."
+            class="w-full max-w-md px-4 py-2 rounded-lg border border-green-200 focus:border-green-500 focus:ring-2 focus:ring-green-100 text-gray-700 shadow-sm bg-white placeholder-gray-400 transition" />
         </div>
 
         <!-- Reviews Grid -->
