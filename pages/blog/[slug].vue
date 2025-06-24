@@ -90,15 +90,17 @@
             </svg>
             More from the Blog
           </h2>
-          <div class="flex flex-col gap-6">
+          <div class="flex flex-col gap-8">
             <NuxtLink v-for="other in otherPosts" :key="other.id" :to="`/blog/${other.slug}`"
-              class="flex items-center bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-              <div class="flex-shrink-0 w-28 h-28 bg-gray-200 flex items-center justify-center overflow-hidden">
+              class="group flex items-center bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 border-l-8 border-gradient-to-b from-blue-500 to-green-400 hover:scale-[1.025] hover:border-blue-600 focus:ring-4 focus:ring-blue-200 relative animate-fade-in"
+              style="min-height:7rem">
+              <div
+                class="flex-shrink-0 w-32 h-32 bg-gradient-to-br from-blue-100 via-green-100 to-blue-50 flex items-center justify-center overflow-hidden relative">
                 <img v-if="other.featured_image_url" :src="other.featured_image_url" :alt="other.title"
-                  class="object-cover w-full h-full" />
-                <div v-else class="w-full h-full object-cover flex items-center justify-center">
-                  <span class="text-gray-500 flex items-center gap-1">
-                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" stroke-width="2"
+                  class="object-cover w-full h-full rounded-xl shadow-md group-hover:scale-105 transition-transform duration-300">
+                <div v-else class="w-full h-full flex items-center justify-center">
+                  <span class="text-gray-400 flex items-center gap-1 text-2xl">
+                    <svg class="w-7 h-7 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
                       viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round"
                         d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
@@ -106,21 +108,31 @@
                     No image
                   </span>
                 </div>
-              </div>
-              <div class="p-6 flex-1 min-w-0">
-                <div class="flex items-center gap-4 mb-2">
-                  <span class="text-gray-500 text-sm">{{ formatDate(other.published_at) }}</span>
+                <div
+                  class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none rounded-xl">
                 </div>
-                <h3 class="text-lg font-bold mb-1 truncate text-green-700 flex items-center gap-1">
-                  <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" stroke-width="2"
-                    viewBox="0 0 24 24">
+              </div>
+              <div class="p-8 flex-1 min-w-0 flex flex-col justify-center">
+                <div class="flex items-center gap-4 mb-2">
+                  <span
+                    class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-green-400 text-white font-bold text-lg shadow-md border-2 border-white">
+                    {{ other.author ? other.author[0].toUpperCase() : '?' }}
+                  </span>
+                  <span class="text-gray-400 text-sm font-medium">
+                    {{ formatDate(other.published_at) }}
+                  </span>
+                </div>
+                <h3
+                  class="text-2xl font-extrabold mb-2 truncate text-green-700 flex items-center gap-2 group-hover:text-blue-700 transition-colors">
+                  <svg class="w-6 h-6 text-blue-500 group-hover:text-green-500 transition-colors" fill="none"
+                    stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round"
                       d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
                   </svg>
                   {{ other.title }}
                 </h3>
-                <p class="text-gray-600 mb-2 line-clamp-2">{{ other.excerpt }}</p>
-                </div>
+                <p class="text-gray-600 mb-2 line-clamp-3 text-lg leading-relaxed">{{ other.excerpt }}</p>
+              </div>
             </NuxtLink>
           </div>
         </div>
@@ -343,6 +355,22 @@ if (post.value) {
 </script>
 
 <style scoped>
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.7s cubic-bezier(.4, 2, .3, 1) both;
+}
+
 .blog-content {
   /* Remove max-width so content stretches to container */
   max-width: 100%;

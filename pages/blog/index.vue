@@ -34,17 +34,19 @@
       </div>
 
       <!-- Blog Grid -->
-      <section v-else class="py-16">
+      <section v-else class="py-16 bg-gradient-to-br from-blue-50 via-white to-green-50 relative overflow-hidden">
         <div class="container mx-auto px-4">
-          <div class="flex flex-col gap-6">
+          <div class="flex flex-col gap-8">
             <NuxtLink v-for="post in filteredPosts" :key="post.id" :to="`/blog/${post.slug}`"
-              class="flex items-center bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-              <div class="flex-shrink-0 w-28 h-28 bg-gray-200 flex items-center justify-center overflow-hidden">
+              class="group flex items-center bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 border-l-8 border-gradient-to-b from-blue-500 to-green-400 hover:scale-[1.025] hover:border-blue-600 focus:ring-4 focus:ring-blue-200 relative animate-fade-in"
+              style="min-height:7rem">
+              <div
+                class="flex-shrink-0 w-32 h-32 bg-gradient-to-br from-blue-100 via-green-100 to-blue-50 flex items-center justify-center overflow-hidden relative">
                 <img v-if="post.featured_image_url" :src="post.featured_image_url" :alt="post.title"
-                  class="object-cover w-full h-full">
+                  class="object-cover w-full h-full rounded-xl shadow-md group-hover:scale-105 transition-transform duration-300">
                 <div v-else class="w-full h-full flex items-center justify-center">
-                  <span class="text-gray-500 flex items-center gap-1">
-                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" stroke-width="2"
+                  <span class="text-gray-400 flex items-center gap-1 text-2xl">
+                    <svg class="w-7 h-7 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
                       viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round"
                         d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
@@ -52,28 +54,38 @@
                     No image
                   </span>
                 </div>
-              </div>
-              <div class="p-6 flex-1 min-w-0">
-                <div class="flex items-center gap-4 mb-2">
-                  <span class="text-gray-500 text-sm">{{ formatDate(post.published_at) }}</span>
+                <div
+                  class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none rounded-xl">
                 </div>
-                <h2 class="text-lg font-bold mb-1 truncate text-green-700 flex items-center gap-1">
-                  <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" stroke-width="2"
-                    viewBox="0 0 24 24">
+              </div>
+              <div class="p-8 flex-1 min-w-0 flex flex-col justify-center">
+                <div class="flex items-center gap-4 mb-2">
+                  <span
+                    class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-green-400 text-white font-bold text-lg shadow-md border-2 border-white">
+                    {{ post.author ? post.author[0].toUpperCase() : '?' }}
+                  </span>
+                  <span class="text-gray-400 text-sm font-medium">
+                    {{ formatDate(post.published_at) }}
+                  </span>
+                </div>
+                <h2
+                  class="text-2xl font-extrabold mb-2 truncate text-green-700 flex items-center gap-2 group-hover:text-blue-700 transition-colors">
+                  <svg class="w-6 h-6 text-blue-500 group-hover:text-green-500 transition-colors" fill="none"
+                    stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round"
                       d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
                   </svg>
                   {{ post.title }}
                 </h2>
-                <p class="text-gray-600 mb-2 line-clamp-2">{{ post.excerpt }}</p>
+                <p class="text-gray-600 mb-2 line-clamp-3 text-lg leading-relaxed">{{ post.excerpt }}</p>
               </div>
             </NuxtLink>
           </div>
           <!-- Pagination -->
           <div v-if="pagination.total_pages > 1" class="mt-12 flex justify-center gap-2">
             <button v-for="page in pagination.total_pages" :key="page" @click="currentPage = page"
-              class="px-4 py-2 rounded-md"
-              :class="currentPage === page ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-100'">
+              class="px-4 py-2 rounded-md font-semibold shadow-sm border border-blue-200 transition-colors duration-200"
+              :class="currentPage === page ? 'bg-blue-600 text-white border-blue-600 scale-105' : 'bg-white text-gray-600 hover:bg-blue-50'">
               {{ page }}
             </button>
           </div>
@@ -171,6 +183,22 @@ const formatDate = (date: string) => {
 </script>
 
 <style scoped>
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.7s cubic-bezier(.4, 2, .3, 1) both;
+}
+
 .blog-content img {
   max-width: 320px;
   max-height: 220px;
