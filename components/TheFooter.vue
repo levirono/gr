@@ -54,7 +54,16 @@
         <div>
           <h4 class="font-semibold mb-4">Contact</h4>
           <ul class="space-y-2">
-            <li class="text-gray-400">Email: contact@devicereview.com</li>
+            <li>
+              <a
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=genixlsolutions@gmail.com.com"
+                target="_blank"
+                rel="noopener"
+                class="text-gray-400 hover:text-white underline"
+              >
+                Email: genixlsolutions@gmail.com.com
+              </a>
+            </li>
             <li class="text-gray-400">Follow us on social media</li>
           </ul>
         </div>
