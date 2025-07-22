@@ -62,16 +62,16 @@
 
           <!-- Back to Blog -->
           <div class="mt-12 pt-8 border-t">
-  <NuxtLink
-    to="/blog"
-    class="inline-flex items-center bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors"
-  >
-    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-    </svg>
-    Back to Blog
-  </NuxtLink>
-</div>
+            <NuxtLink
+              to="/blog"
+              class="inline-flex items-center bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors"
+            >
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              Back to Blog
+            </NuxtLink>
+        </div>
 
         </div>
       </article>
