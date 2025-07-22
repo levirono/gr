@@ -97,7 +97,7 @@
       </section>
 
       <!-- Newsletter -->
-      <section class="py-16 bg-blue-600 text-white">
+      <section class="py-16 bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 text-white">
         <div class="container mx-auto px-4">
           <div class="max-w-2xl mx-auto text-center">
             <h2 class="text-3xl font-bold mb-4">Stay Updated</h2>
