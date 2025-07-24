@@ -95,6 +95,7 @@
         </div>
       </div>
     </main>
+    <TheFooter />
   </div>
 </template>
 

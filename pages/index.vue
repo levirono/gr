@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen">
-    <TheHeader />
+    <TheHeader/>
     <main>
       <HeroSection />
       <LatestReviews />
