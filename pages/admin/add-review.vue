@@ -12,84 +12,100 @@
           Add New Review
         </h1>
 
-
-        <form @submit.prevent="handleSubmit" class="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
+        <form @submit.prevent="handleSubmit" class="max-w-4xl mx-auto space-y-4">
           <!-- Basic Information -->
-          <div class="space-y-6">
-            <h2 class="text-xl font-semibold mb-4 text-green-700 flex items-center gap-2">
-              <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
-                viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
-                <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+          <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <button type="button" @click="toggleSection('basic')" 
+              class="w-full px-6 py-4 text-left bg-gradient-to-r from-green-50 to-green-100 hover:from-green-100 hover:to-green-150 transition-all duration-200 flex items-center justify-between border-b border-green-200">
+              <h2 class="text-xl font-semibold text-green-700">Basic Information</h2>
+              <span class="text-sm text-green-600 bg-green-200 px-2 py-1 rounded-full">Required</span>
+              <svg :class="[openSections.basic ? 'rotate-180' : '', 'w-5 h-5 text-green-600 transition-transform duration-200']" 
+                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
               </svg>
-              Basic Information
-            </h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Title</label>
-                <input v-model="review.title" type="text" required class="w-full px-3 py-2 border rounded-md">
+            </button>
+            <div v-show="openSections.basic" class="p-6 space-y-6">
+              <div class="text-sm text-gray-600 mb-4 p-3 bg-blue-50 rounded-lg border-l-4 border-blue-400">
+                <strong>📝 Quick Start:</strong> Fill in the basic details about your review - title, category, rating, and content.
               </div>
 
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
-                <select v-model="review.category_id" required
-                  class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                  <option value="" disabled>Select a category</option>
-                  <option v-for="category in categories" :key="category.id" :value="category.id">
-                    {{ category.name }}
-                  </option>
-                </select>
-                <p class="mt-1 text-sm text-gray-500">Choose the device category for this review</p>
-              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Title</label>
+                  <input v-model="review.title" type="text" required class="w-full px-3 py-2 border rounded-md">
+                </div>
 
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Rating (0-5)</label>
-                <input v-model.number="review.rating" type="number" min="0" max="5" step="0.1" required
-                  class="w-full px-3 py-2 border rounded-md">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                  <select v-model="review.category_id" required
+                    class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                    <option value="" disabled>Select a category</option>
+                    <option v-for="category in categories" :key="category.id" :value="category.id">
+                      {{ category.name }}
+                    </option>
+                  </select>
+                  <p class="mt-1 text-sm text-gray-500">Choose the device category for this review</p>
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Rating (0-5)</label>
+                  <input v-model.number="review.rating" type="number" min="0" max="5" step="0.1" required
+                    class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Brand Name</label>
+                  <input v-model="review.brand" type="text" required class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                </div>
               </div>
 
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Featured Review</label>
                 <div class="mt-2">
                   <label class="inline-flex items-center">
-                    <input v-model="review.is_featured" type="checkbox" class="rounded border-gray-300">
+                    <input v-model="review.is_featured" type="checkbox" class="rounded border-gray-300 text-green-600 focus:ring-green-500">
                     <span class="ml-2">Mark as featured</span>
                   </label>
                 </div>
               </div>
-            </div>
 
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Excerpt</label>
-              <textarea v-model="review.excerpt" required rows="3"
-                class="w-full px-3 py-2 border rounded-md"></textarea>
-            </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Excerpt</label>
+                <textarea v-model="review.excerpt" required rows="3"
+                  class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500"></textarea>
+              </div>
 
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Content</label>
-              <textarea v-model="review.content" required rows="6"
-                class="w-full px-3 py-2 border rounded-md"></textarea>
-            </div>
-
-            <!-- New Brand Name Field -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Brand Name</label>
-              <input v-model="review.brand" type="text" required class="w-full px-3 py-2 border rounded-md">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Content</label>
+                <textarea v-model="review.content" required rows="6"
+                  class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500"></textarea>
+              </div>
             </div>
           </div>
 
           <!-- Featured Image -->
-          <div class="mt-8 space-y-6">
-            <h2 class="text-xl font-semibold mb-4 text-green-700 flex items-center gap-2">
-              <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
-                viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
-                <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+          <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <button type="button" @click="toggleSection('image')" 
+              class="w-full px-6 py-4 text-left bg-gradient-to-r from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-150 transition-all duration-200 flex items-center justify-between border-b border-blue-200">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                  <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <h2 class="text-xl font-semibold text-blue-700">Featured Image</h2>
+                <span class="text-sm text-blue-600 bg-blue-200 px-2 py-1 rounded-full">Optional</span>
+              </div>
+              <svg :class="[openSections.image ? 'rotate-180' : '', 'w-5 h-5 text-blue-600 transition-transform duration-200']" 
+                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
               </svg>
-              Featured Image
-            </h2>
-            <div class="space-y-4">
+            </button>
+            <div v-show="openSections.image" class="p-6">
+              <div class="text-sm text-gray-600 mb-4 p-3 bg-yellow-50 rounded-lg border-l-4 border-yellow-400">
+                <strong>🖼️ Tip:</strong> Add a high-quality featured image to make your review more engaging.
+              </div>
+              <div class="space-y-4">
               <div v-if="review.featured_image_url" class="relative group">
                 <img :src="review.featured_image_url" alt="Featured Image" class="w-full h-48 object-cover rounded-lg">
                 <div
@@ -112,20 +128,33 @@
               <p v-if="uploadStatus" :class="uploadStatus.type === 'error' ? 'text-red-600' : 'text-green-600'">
                 {{ uploadStatus.message }}
               </p>
+              </div>
             </div>
           </div>
 
           <!-- Quick Summary -->
-          <div class="mt-8 space-y-6">
-            <h2 class="text-xl font-semibold mb-4 text-green-700 flex items-center gap-2">
-              <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
-                viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
-                <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+          <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <button type="button" @click="toggleSection('summary')" 
+              class="w-full px-6 py-4 text-left bg-gradient-to-r from-purple-50 to-purple-100 hover:from-purple-100 hover:to-purple-150 transition-all duration-200 flex items-center justify-between border-b border-purple-200">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
+                  <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </div>
+                <h2 class="text-xl font-semibold text-purple-700">Quick Summary</h2>
+                <span class="text-sm text-purple-600 bg-purple-200 px-2 py-1 rounded-full">Optional</span>
+              </div>
+              <svg :class="[openSections.summary ? 'rotate-180' : '', 'w-5 h-5 text-purple-600 transition-transform duration-200']" 
+                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
               </svg>
-              Quick Summary
-            </h2>
-            <div class="space-y-4">
+            </button>
+            <div v-show="openSections.summary" class="p-6">
+              <div class="text-sm text-gray-600 mb-4 p-3 bg-purple-50 rounded-lg border-l-4 border-purple-400">
+                <strong>📊 Quick Facts:</strong> Add key specifications and features for easy reference.
+              </div>
+              <div class="space-y-4">
               <div v-for="(value, key) in review.quick_summary" :key="key" class="grid grid-cols-2 gap-4">
                 <input v-model="summaryKeys[key]" type="text" placeholder="Key" class="px-3 py-2 border rounded-md">
                 <div class="flex gap-2">
@@ -137,23 +166,36 @@
                   </button>
                 </div>
               </div>
-              <button type="button" @click="addSummaryItem" class="text-blue-600 hover:text-blue-800">
+              <button type="button" @click="addSummaryItem" class="text-purple-600 hover:text-purple-800">
                 + Add Summary Item
               </button>
+              </div>
             </div>
           </div>
 
           <!-- Pros and Cons -->
-          <div class="mt-8 space-y-6">
-            <h2 class="text-xl font-semibold mb-4 text-green-700 flex items-center gap-2">
-              <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
-                viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
-                <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+          <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <button type="button" @click="toggleSection('proscons')" 
+              class="w-full px-6 py-4 text-left bg-gradient-to-r from-orange-50 to-orange-100 hover:from-orange-100 hover:to-orange-150 transition-all duration-200 flex items-center justify-between border-b border-orange-200">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
+                  <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h2 class="text-xl font-semibold text-orange-700">Pros and Cons</h2>
+                <span class="text-sm text-orange-600 bg-orange-200 px-2 py-1 rounded-full">Recommended</span>
+              </div>
+              <svg :class="[openSections.proscons ? 'rotate-180' : '', 'w-5 h-5 text-orange-600 transition-transform duration-200']" 
+                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
               </svg>
-              Pros and Cons
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            </button>
+            <div v-show="openSections.proscons" class="p-6">
+              <div class="text-sm text-gray-600 mb-4 p-3 bg-orange-50 rounded-lg border-l-4 border-orange-400">
+                <strong>⚖️ Balance:</strong> List the strengths and weaknesses to help readers make informed decisions.
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
                 <h3 class="font-medium mb-4">Pros</h3>
                 <div class="space-y-4">
@@ -180,28 +222,55 @@
                       Remove
                     </button>
                   </div>
-                  <button type="button" @click="addCon" class="text-blue-600 hover:text-blue-800">
+                  <button type="button" @click="addCon" class="text-orange-600 hover:text-orange-800">
                     + Add Con
                   </button>
                 </div>
+              </div>
               </div>
             </div>
           </div>
 
           <!-- Review Sections -->
-          <div class="mt-8 space-y-6">
-            <h2 class="text-xl font-semibold mb-4 text-green-700 flex items-center gap-2">
-              <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
-                viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
-                <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+          <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <button type="button" @click="toggleSection('specifications')" 
+              class="w-full px-6 py-4 text-left bg-gradient-to-r from-indigo-50 to-indigo-100 hover:from-indigo-100 hover:to-indigo-150 transition-all duration-200 flex items-center justify-between border-b border-indigo-200">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center">
+                  <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                  </svg>
+                </div>
+                <h2 class="text-xl font-semibold text-indigo-700">Review Specifications</h2>
+                <span class="text-sm text-indigo-600 bg-indigo-200 px-2 py-1 rounded-full">Optional</span>
+              </div>
+              <svg :class="[openSections.specifications ? 'rotate-180' : '', 'w-5 h-5 text-indigo-600 transition-transform duration-200']" 
+                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
               </svg>
-              Review Sections
-            </h2>
+            </button>
+            <div v-show="openSections.specifications" class="p-6 space-y-4">
+              <div class="text-sm text-gray-600 mb-4 p-3 bg-indigo-50 rounded-lg border-l-4 border-indigo-400">
+                <strong>🔧 Technical Details:</strong> Add detailed specifications for each component category.
+              </div>
+            </div>
 
             <!-- Design & Build Section -->
-            <div class="border rounded-lg p-4">
-              <h3 class="font-medium mb-4">Design & Build</h3>
+            <div class="border rounded-lg overflow-hidden">
+              <button type="button" @click="toggleSection('design')" 
+                class="w-full px-4 py-3 text-left bg-gradient-to-r from-gray-50 to-gray-100 hover:from-gray-100 hover:to-gray-150 transition-all duration-200 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                  </svg>
+                  <h3 class="font-medium text-gray-700">Design & Build</h3>
+                </div>
+                <svg :class="[openSections.design ? 'rotate-180' : '', 'w-4 h-4 text-gray-600 transition-transform duration-200']" 
+                  fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div v-show="openSections.design" class="p-4">
               <div class="space-y-4">
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-2">Frame Material</label>
@@ -243,11 +312,26 @@
                   </div>
                 </div>
               </div>
+              </div>
             </div>
+            
 
             <!-- Display Section -->
-            <div class="border rounded-lg p-4">
-              <h3 class="font-medium mb-4">Display</h3>
+            <div class="border rounded-lg overflow-hidden">
+              <button type="button" @click="toggleSection('display')" 
+                class="w-full px-4 py-3 text-left bg-gradient-to-r from-gray-50 to-gray-100 hover:from-gray-100 hover:to-gray-150 transition-all duration-200 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  <h3 class="font-medium text-gray-700">Display</h3>
+                </div>
+                <svg :class="[openSections.display ? 'rotate-180' : '', 'w-4 h-4 text-gray-600 transition-transform duration-200']" 
+                  fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div v-show="openSections.display" class="p-4">
               <div class="space-y-4">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
@@ -578,6 +662,7 @@
               </div>
             </div>
           </div>
+        </div>
 
           <!-- Device-Specific Specifications Section -->
           <div class="mt-8 space-y-6">
@@ -1340,6 +1425,33 @@ interface Category {
 }
 
 const categories = ref<Category[]>([]);
+
+// Accordion state management
+const openSections = ref({
+  basic: true, // Keep basic section open by default
+  image: false,
+  summary: false,
+  proscons: false,
+  specifications: false,
+  // Subsections within specifications
+  design: false,
+  display: false,
+  camera: false,
+  connectivity: false,
+  storage: false,
+  battery: false,
+  processor: false,
+  audio: false,
+  deviceSpecific: false,
+  universal: false,
+  retailers: false,
+  submit: false
+});
+
+// Toggle section visibility
+const toggleSection = (sectionName: string) => {
+  openSections.value[sectionName] = !openSections.value[sectionName];
+};
 
 const review = ref({
   brand: '',
