@@ -33,31 +33,48 @@
       <article v-else-if="post" class="py-16">
         <div class="container mx-auto px-4">
           <!-- Header -->
-          <div class="max-w-4xl mx-auto mb-12">
-            <h1 class="text-4xl md:text-5xl font-bold mb-6 text-green-700 flex items-center gap-2">
-              <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" stroke-width="2"
-                viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
-              </svg>
+          <div class="max-w-4xl mx-auto mb-16">
+            <h1 class="text-4xl md:text-6xl font-bold mb-8 text-green-700 leading-tight">
               {{ post.title }}
             </h1>
-            <div class="flex items-center gap-6 text-gray-600">
+            <div class="flex flex-wrap items-center gap-6 text-gray-600 mb-6">
               <div class="flex items-center gap-2">
-                <span>{{ post.author }}</span>
+                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <span class="font-medium">{{ post.author }}</span>
               </div>
-              <span>{{ formatDate(post.published_at) }}</span>
+              <div class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <span>{{ formatDate(post.published_at) }}</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>{{ readingTime }} min read</span>
+              </div>
+            </div>
+            <!-- Article excerpt/description -->
+            <div v-if="post.excerpt" class="text-xl text-gray-700 leading-relaxed border-l-4 border-green-500 pl-6 bg-green-50 py-4 rounded-r-lg">
+              {{ post.excerpt }}
             </div>
           </div>
 
           <!-- Featured Image -->
-          <div v-if="post.featured_image_url" class="mb-12">
-            <img :src="post.featured_image_url" :alt="post.title"
-              class="w-full h-auto max-h-[400px] object-contain rounded-2xl shadow-lg">
+          <div v-if="post.featured_image_url" class="mb-16">
+            <div class="relative overflow-hidden rounded-2xl shadow-2xl">
+              <img :src="post.featured_image_url" :alt="post.title"
+                class="w-full h-auto max-h-[500px] object-cover transition-transform duration-300 hover:scale-105">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+            </div>
           </div>
 
           <!-- Content -->
-          <div>
-            <div class="prose prose-lg blog-content" v-html="postHtmlContent"></div>
+          <div class="max-w-4xl mx-auto">
+            <div class="prose prose-xl prose-green max-w-none blog-content" v-html="postHtmlContent"></div>
           </div>
 
           <!-- Back to Blog -->
@@ -71,8 +88,7 @@
               </svg>
               Back to Blog
             </NuxtLink>
-        </div>
-
+          </div>
         </div>
       </article>
 
@@ -234,6 +250,15 @@ const { data, pending, error } = await useFetch<{ data: BlogPost | null }>(`/api
 // Extract the post data from the nested response
 const post = computed(() => data.value?.data || null);
 
+// Calculate reading time
+const readingTime = computed(() => {
+  if (!post.value?.content) return 0;
+  const wordsPerMinute = 200;
+  const textContent = post.value.content.replace(/<[^>]*>/g, '');
+  const wordCount = textContent.split(/\s+/).length;
+  return Math.ceil(wordCount / wordsPerMinute);
+});
+
 // Use Nuxt's inject to get the markdown parser
 const $markdown = (useNuxtApp() as any).$markdown as (markdown: string) => string;
 
@@ -378,20 +403,193 @@ if (post.value) {
 .blog-content {
   /* Remove max-width so content stretches to container */
   max-width: 100%;
+  line-height: 1.8;
+  color: #374151;
 }
 
 .blog-content p {
-  margin-top: 1.25em;
-  margin-bottom: 1.25em;
-  /* Make paragraphs fill the width */
-  width: 100%;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+  font-size: 1.125rem;
+  line-height: 1.8;
+  text-align: justify;
+}
+
+.blog-content h1,
+.blog-content h2,
+.blog-content h3,
+.blog-content h4,
+.blog-content h5,
+.blog-content h6 {
+  color: #059669;
+  font-weight: 700;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+.blog-content h1 {
+  font-size: 2.25rem;
+  border-bottom: 3px solid #10b981;
+  padding-bottom: 0.5rem;
+}
+
+.blog-content h2 {
+  font-size: 1.875rem;
+  border-bottom: 2px solid #34d399;
+  padding-bottom: 0.25rem;
+}
+
+.blog-content h3 {
+  font-size: 1.5rem;
+}
+
+.blog-content h4 {
+  font-size: 1.25rem;
+}
+
+.blog-content blockquote {
+  border-left: 4px solid #10b981;
+  background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+  padding: 1.5rem;
+  margin: 2rem 0;
+  border-radius: 0 0.5rem 0.5rem 0;
+  font-style: italic;
+  position: relative;
+}
+
+.blog-content blockquote::before {
+  content: '"';
+  font-size: 4rem;
+  color: #10b981;
+  position: absolute;
+  top: -0.5rem;
+  left: 1rem;
+  font-family: serif;
+}
+
+.blog-content code {
+  background-color: #f3f4f6;
+  color: #059669;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.blog-content pre {
+  background-color: #1f2937;
+  color: #f9fafb;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin: 2rem 0;
+  border: 1px solid #374151;
+}
+
+.blog-content pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  font-size: 0.875rem;
+}
+
+.blog-content ul,
+.blog-content ol {
+  margin: 1.5rem 0;
+  padding-left: 2rem;
+}
+
+.blog-content li {
+  margin: 0.5rem 0;
+  line-height: 1.7;
+}
+
+.blog-content ul li::marker {
+  color: #10b981;
+}
+
+.blog-content ol li::marker {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.blog-content a {
+  color: #059669;
+  text-decoration: underline;
+  text-decoration-color: #34d399;
+  text-underline-offset: 3px;
+  transition: all 0.2s ease;
+}
+
+.blog-content a:hover {
+  color: #047857;
+  text-decoration-color: #10b981;
 }
 
 .blog-content img {
   max-width: 100%;
   height: auto;
-  border-radius: 0.5rem;
-  margin: 1.5rem auto;
+  border-radius: 0.75rem;
+  margin: 2rem auto;
   display: block;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  transition: transform 0.3s ease;
+}
+
+.blog-content img:hover {
+  transform: scale(1.02);
+}
+
+.blog-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  background: white;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.blog-content th,
+.blog-content td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.blog-content th {
+  background-color: #059669;
+  color: white;
+  font-weight: 600;
+}
+
+.blog-content tr:hover {
+  background-color: #f9fafb;
+}
+
+.blog-content hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #10b981, transparent);
+  margin: 3rem 0;
+}
+
+/* Reading progress indicator */
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: rgba(16, 185, 129, 0.2);
+  z-index: 1000;
+}
+
+.reading-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981, #34d399);
+  width: 0%;
+  transition: width 0.1s ease;
 }
 </style>
