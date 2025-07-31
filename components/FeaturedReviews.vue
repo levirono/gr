@@ -18,7 +18,7 @@
         <p class="text-red-600">Error loading featured reviews. Please try again later.</p>
       </div>
 
-      <div v-else-if="!featuredReviews.data.length" class="text-center py-8">
+      <div v-else-if="!featuredReviews?.data.length" class="text-center py-8">
         <p class="text-gray-600">No featured reviews available at the moment.</p>
       </div>
 
