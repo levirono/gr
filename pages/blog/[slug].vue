@@ -1,89 +1,92 @@
 <template>
-  <div class="min-h-screen bg-gray-50">
+  <div class="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-white relative overflow-x-hidden">
+    <!-- Reading Progress Bar -->
+    <div class="reading-progress z-50">
+      <div class="reading-progress-bar" :style="{ width: readingProgress + '%' }"></div>
+    </div>
     <TheHeader />
     <main>
       <!-- Breadcrumb -->
-      <div class="bg-white border-b">
-        <div class="container mx-auto px-4 py-4">
-          <div class="flex items-center space-x-2 text-sm">
-            <NuxtLink to="/" class="text-blue-600 hover:underline">Home</NuxtLink>
-            <span class="text-gray-400">/</span>
-            <NuxtLink to="/blog" class="text-blue-600 hover:underline">Blog</NuxtLink>
-            <span class="text-gray-400">/</span>
-            <span class="text-gray-600 truncate">{{ post?.title }}</span>
-          </div>
+      <div class="bg-white/70 backdrop-blur border-b border-green-100 shadow-sm sticky top-0 z-40 transition-all">
+        <div class="container mx-auto px-4 py-4 flex items-center space-x-2 text-sm">
+          <NuxtLink to="/" class="text-blue-600 hover:underline hover:text-green-600 transition">Home</NuxtLink>
+          <span class="text-gray-400">/</span>
+          <NuxtLink to="/blog" class="text-blue-600 hover:underline hover:text-green-600 transition">Blog</NuxtLink>
+          <span class="text-gray-400">/</span>
+          <span class="text-gray-600 truncate font-semibold tracking-wide">{{ post?.title }}</span>
         </div>
       </div>
 
       <!-- Loading State -->
-      <div v-if="pending" class="text-center py-12">
-        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-        <p class="mt-4 text-gray-600">Loading blog post...</p>
+      <div v-if="pending" class="flex flex-col items-center justify-center py-24">
+        <div class="animate-spin rounded-full h-16 w-16 border-b-4 border-green-500 shadow-lg"></div>
+        <p class="mt-6 text-xl text-gray-600 font-medium">Loading blog post...</p>
       </div>
 
       <!-- Error State -->
-      <div v-else-if="error" class="text-center py-12">
-        <p class="text-red-600">Error loading blog post. Please try again later.</p>
-        <NuxtLink to="/blog" class="mt-4 inline-block text-blue-600 hover:underline">
+      <div v-else-if="error" class="flex flex-col items-center justify-center py-24">
+        <p class="text-2xl text-red-600 font-bold">Error loading blog post.</p>
+        <NuxtLink to="/blog" class="mt-6 inline-block text-blue-600 hover:underline hover:text-green-600 text-lg transition">
           Return to Blog
         </NuxtLink>
       </div>
 
       <!-- Blog Content -->
-      <article v-else-if="post" class="py-16">
+      <article v-else-if="post" class="py-20">
         <div class="container mx-auto px-4">
           <!-- Header -->
-          <div class="max-w-4xl mx-auto mb-16">
-            <h1 class="text-4xl md:text-6xl font-bold mb-8 text-green-700 leading-tight">
-              {{ post.title }}
-            </h1>
-            <div class="flex flex-wrap items-center gap-6 text-gray-600 mb-6">
-              <div class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-                <span class="font-medium">{{ post.author }}</span>
+          <div class="max-w-4xl mx-auto mb-16 glass-card shadow-2xl relative overflow-hidden">
+            <!-- Animated Gradient Glow -->
+            <div class="absolute -inset-2 pointer-events-none z-0 animate-glow"></div>
+            <div class="relative z-10 p-10">
+              <h1 class="text-5xl md:text-7xl font-extrabold mb-8 text-green-700 leading-tight tracking-tight drop-shadow-lg futuristic-title">
+                {{ post.title }}
+              </h1>
+              <div class="flex flex-wrap items-center gap-8 text-gray-600 mb-8 text-lg">
+                <div class="flex items-center gap-2">
+                  <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                  <span class="font-semibold">{{ post.author }}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <span>{{ formatDate(post.published_at) }}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span>{{ readingTime }} min read</span>
+                </div>
               </div>
-              <div class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <span>{{ formatDate(post.published_at) }}</span>
+              <div v-if="post.excerpt" class="text-2xl text-gray-700 leading-relaxed border-l-4 border-green-500/70 pl-8 bg-gradient-to-r from-green-50/80 to-blue-50/60 py-6 rounded-r-xl shadow-inner font-medium italic">
+                {{ post.excerpt }}
               </div>
-              <div class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span>{{ readingTime }} min read</span>
-              </div>
-            </div>
-            <!-- Article excerpt/description -->
-            <div v-if="post.excerpt" class="text-xl text-gray-700 leading-relaxed border-l-4 border-green-500 pl-6 bg-green-50 py-4 rounded-r-lg">
-              {{ post.excerpt }}
             </div>
           </div>
 
           <!-- Featured Image -->
-          <div v-if="post.featured_image_url" class="mb-16">
-            <div class="relative overflow-hidden rounded-2xl shadow-2xl">
-              <img :src="post.featured_image_url" :alt="post.title"
-                class="w-full h-auto max-h-[500px] object-cover transition-transform duration-300 hover:scale-105">
-              <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-            </div>
+          <div v-if="post.featured_image_url" class="mb-16 max-w-4xl mx-auto rounded-3xl overflow-hidden shadow-2xl relative group">
+            <img :src="post.featured_image_url" :alt="post.title"
+              class="w-full h-auto max-h-[500px] object-cover transition-transform duration-500 group-hover:scale-105 brightness-95 saturate-125">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
           </div>
 
           <!-- Content -->
-          <div class="max-w-4xl mx-auto">
-            <div class="prose prose-xl prose-green max-w-none blog-content" v-html="postHtmlContent"></div>
+          <div class="max-w-4xl mx-auto glass-card prose prose-xl prose-green max-w-none blog-content px-8 py-10 shadow-xl">
+            <div v-html="postHtmlContent"></div>
           </div>
 
           <!-- Back to Blog -->
-          <div class="mt-12 pt-8 border-t">
+          <div class="mt-16 pt-10 border-t border-green-100 text-center">
             <NuxtLink
               to="/blog"
-              class="inline-flex items-center bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors"
+              class="inline-flex items-center bg-gradient-to-r from-green-600 via-blue-500 to-green-400 text-white px-6 py-3 rounded-xl font-bold text-lg shadow-lg hover:scale-105 hover:shadow-2xl transition-all duration-200"
             >
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
               Back to Blog
@@ -93,34 +96,33 @@
       </article>
 
       <!-- Not Found -->
-      <div v-else class="text-center py-12">
-        <p class="text-gray-600">Blog post not found.</p>
-        <NuxtLink to="/blog" class="mt-4 inline-block text-blue-600 hover:underline">
+      <div v-else class="flex flex-col items-center justify-center py-24">
+        <p class="text-2xl text-gray-600 font-bold">Blog post not found.</p>
+        <NuxtLink to="/blog" class="mt-6 inline-block text-blue-600 hover:underline hover:text-green-600 text-lg transition">
           Return to Blog
         </NuxtLink>
       </div>
 
       <!-- Other Blogs Section -->
-      <section v-if="otherPosts.length" class="py-16 bg-gray-50 border-t mt-16">
+      <section v-if="otherPosts.length" class="py-20 bg-gradient-to-br from-green-50 via-blue-50 to-white border-t border-green-100 mt-20">
         <div class="container mx-auto px-4">
-          <h2 class="text-2xl font-bold mb-8 text-green-700 flex items-center gap-2">
-            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <h2 class="text-3xl font-extrabold mb-10 text-green-700 flex items-center gap-3 tracking-tight">
+            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round"
                 d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
             </svg>
             More from the Blog
           </h2>
-          <div class="flex flex-col gap-8">
+          <div class="grid md:grid-cols-2 gap-10">
             <NuxtLink v-for="other in otherPosts" :key="other.id" :to="`/blog/${other.slug}`"
-              class="group flex items-center bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 border-l-8 border-gradient-to-b from-blue-500 to-green-400 hover:scale-[1.025] hover:border-blue-600 focus:ring-4 focus:ring-blue-200 relative animate-fade-in"
-              style="min-height:7rem">
+              class="group flex items-center glass-card rounded-3xl shadow-xl hover:shadow-2xl transition-shadow duration-300 border-l-8 border-gradient-to-b from-blue-500 to-green-400 hover:scale-[1.03] hover:border-blue-600 focus:ring-4 focus:ring-blue-200 relative animate-fade-in overflow-hidden min-h-[7rem]">
               <div
-                class="flex-shrink-0 w-32 h-32 bg-gradient-to-br from-blue-100 via-green-100 to-blue-50 flex items-center justify-center overflow-hidden relative">
+                class="flex-shrink-0 w-36 h-36 bg-gradient-to-br from-blue-100 via-green-100 to-blue-50 flex items-center justify-center overflow-hidden relative">
                 <img v-if="other.featured_image_url" :src="other.featured_image_url" :alt="other.title"
                   class="object-cover w-full h-full rounded-xl shadow-md group-hover:scale-105 transition-transform duration-300">
                 <div v-else class="w-full h-full flex items-center justify-center">
-                  <span class="text-gray-400 flex items-center gap-1 text-2xl">
-                    <svg class="w-7 h-7 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                  <span class="text-gray-400 flex items-center gap-1 text-3xl">
+                    <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
                       viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round"
                         d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
@@ -135,16 +137,16 @@
               <div class="p-8 flex-1 min-w-0 flex flex-col justify-center">
                 <div class="flex items-center gap-4 mb-2">
                   <span
-                    class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-green-400 text-white font-bold text-lg shadow-md border-2 border-white">
+                    class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-green-400 text-white font-bold text-xl shadow-md border-2 border-white">
                     {{ other.author ? other.author[0].toUpperCase() : '?' }}
                   </span>
-                  <span class="text-gray-400 text-sm font-medium">
+                  <span class="text-gray-400 text-base font-medium">
                     {{ formatDate(other.published_at) }}
                   </span>
                 </div>
                 <h3
                   class="text-2xl font-extrabold mb-2 truncate text-green-700 flex items-center gap-2 group-hover:text-blue-700 transition-colors">
-                  <svg class="w-6 h-6 text-blue-500 group-hover:text-green-500 transition-colors" fill="none"
+                  <svg class="w-7 h-7 text-blue-500 group-hover:text-green-500 transition-colors" fill="none"
                     stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round"
                       d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
@@ -159,29 +161,26 @@
       </section>
 
       <!-- Blog Comments Section -->
-      <section v-if="post" class="max-w-2xl mx-auto mt-12 mb-24">
-        <h2 class="text-2xl font-bold mb-6 text-green-700 flex items-center gap-2">
-          <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <section v-if="post" class="max-w-2xl mx-auto mt-16 mb-32 glass-card px-8 py-10 shadow-2xl">
+        <h2 class="text-2xl font-bold mb-8 text-green-700 flex items-center gap-3 tracking-tight">
+          <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round"
               d="M17 8h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2" />
             <circle cx="12" cy="7" r="4" />
           </svg>
           Comments
         </h2>
-        <div v-if="commentsPending" class="text-center py-4">
-          <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600 mx-auto"></div>
-          <p class="mt-2 text-gray-600">Loading comments...</p>
+        <div v-if="commentsPending" class="flex flex-col items-center py-6">
+          <div class="animate-spin rounded-full h-10 w-10 border-b-4 border-green-600 mx-auto"></div>
+          <p class="mt-3 text-gray-600 text-lg">Loading comments...</p>
         </div>
         <div v-else>
-          <div v-if="comments.length === 0" class="text-gray-400 mb-6 text-center italic">No comments yet. Be the first
-            to comment!</div>
-          <div class="relative mb-8">
-            <ul
-              class="space-y-6 max-h-64 overflow-y-auto pr-2 bg-green-50 rounded-2xl shadow border border-green-100 p-4">
+          <div v-if="comments.length === 0" class="text-gray-400 mb-8 text-center italic text-lg">No comments yet. Be the first to comment!</div>
+          <div class="relative mb-10">
+            <ul class="space-y-6 max-h-64 overflow-y-auto pr-2 bg-green-50/80 rounded-2xl shadow border border-green-100 p-4">
               <li v-for="comment in comments" :key="comment.id" class="pb-4">
                 <div class="flex items-center gap-3 mb-1">
-                  <div
-                    class="w-10 h-10 rounded-full bg-green-200 flex items-center justify-center font-bold text-green-700 text-lg">
+                  <div class="w-11 h-11 rounded-full bg-green-200 flex items-center justify-center font-bold text-green-700 text-xl shadow">
                     {{ comment.name.charAt(0).toUpperCase() }}
                   </div>
                   <div>
@@ -189,27 +188,25 @@
                     <span class="text-gray-400 text-xs ml-2">{{ formatDate(comment.created_at) }}</span>
                   </div>
                 </div>
-                <div class="text-gray-700 bg-white rounded-lg px-4 py-2 border border-green-100">{{ comment.content }}
-                </div>
+                <div class="text-gray-700 bg-white/80 rounded-lg px-5 py-3 border border-green-100 shadow-sm">{{ comment.content }}</div>
               </li>
             </ul>
             <div v-if="comments.length > 5"
-              class="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-green-50 to-transparent pointer-events-none">
-            </div>
+              class="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-green-50/80 to-transparent pointer-events-none"></div>
           </div>
         </div>
-        <form @submit.prevent="submitComment" class="bg-white p-8 rounded-2xl shadow border border-green-100 space-y-4">
+        <form @submit.prevent="submitComment" class="bg-white/80 p-8 rounded-2xl shadow border border-green-100 space-y-5">
           <h3 class="text-lg font-semibold mb-2 text-green-700">Leave a Comment</h3>
           <div class="flex flex-col gap-3 md:flex-row md:gap-6">
             <input v-model="commentForm.name" type="text" placeholder="Name" required
-              class="border border-green-200 rounded px-4 py-2 bg-green-50 focus:ring-2 focus:ring-green-400 focus:outline-none flex-1" />
+              class="border border-green-200 rounded px-4 py-2 bg-green-50 focus:ring-2 focus:ring-green-400 focus:outline-none flex-1 text-lg" />
             <input v-model="commentForm.email" type="email" placeholder="Email" required
-              class="border border-green-200 rounded px-4 py-2 bg-green-50 focus:ring-2 focus:ring-green-400 focus:outline-none flex-1" />
+              class="border border-green-200 rounded px-4 py-2 bg-green-50 focus:ring-2 focus:ring-green-400 focus:outline-none flex-1 text-lg" />
           </div>
           <textarea v-model="commentForm.content" placeholder="Your comment..." required rows="3"
-            class="border border-green-200 rounded px-4 py-2 bg-green-50 focus:ring-2 focus:ring-green-400 focus:outline-none w-full"></textarea>
+            class="border border-green-200 rounded px-4 py-2 bg-green-50 focus:ring-2 focus:ring-green-400 focus:outline-none w-full text-lg"></textarea>
           <button type="submit" :disabled="commentSubmitting"
-            class="bg-green-600 text-white px-6 py-2 rounded-md font-bold hover:bg-green-700 transition disabled:opacity-50">
+            class="bg-gradient-to-r from-green-600 via-blue-500 to-green-400 text-white px-8 py-3 rounded-xl font-bold text-lg hover:scale-105 hover:shadow-lg transition disabled:opacity-50">
             {{ commentSubmitting ? 'Posting...' : 'Post Comment' }}
           </button>
           <div v-if="commentError" class="text-red-600 mt-2">{{ commentError }}</div>
@@ -222,7 +219,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { useHead } from '#imports'
 
 interface BlogPost {
@@ -381,37 +378,98 @@ if (post.value) {
     ]
   })
 }
+
+
+// Reading progress bar logic
+const readingProgress = ref(0)
+function updateReadingProgress() {
+  const article = document.querySelector('article')
+  if (!article) return
+  const rect = article.getBoundingClientRect()
+  const winHeight = window.innerHeight
+  const total = rect.height - winHeight * 0.5
+  const scrolled = Math.min(Math.max(winHeight - rect.top, 0), total)
+  readingProgress.value = total > 0 ? Math.round((scrolled / total) * 100) : 0
+}
+onMounted(() => {
+  window.addEventListener('scroll', updateReadingProgress)
+  updateReadingProgress()
+})
+onUnmounted(() => {
+  window.removeEventListener('scroll', updateReadingProgress)
+})
 </script>
 
 <style scoped>
-@keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-
-  to {
-    opacity: 1;
-    transform: none;
-  }
+/* Glassmorphism card */
+.glass-card {
+  background: rgba(255,255,255,0.85);
+  border-radius: 2rem;
+  box-shadow: 0 8px 32px 0 rgba(16,185,129,0.08), 0 1.5px 6px 0 rgba(59,130,246,0.06);
+  backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(16,185,129,0.10);
+  position: relative;
+  overflow: hidden;
 }
 
-.animate-fade-in {
-  animation: fade-in 0.7s cubic-bezier(.4, 2, .3, 1) both;
+/* Animated gradient glow for header */
+@keyframes glow {
+  0% { background-position: 0% 50%;}
+  50% { background-position: 100% 50%;}
+  100% { background-position: 0% 50%;}
+}
+.animate-glow {
+  background: linear-gradient(120deg, #10b981 0%, #3b82f6 50%, #34d399 100%);
+  opacity: 0.15;
+  filter: blur(32px);
+  background-size: 200% 200%;
+  animation: glow 6s ease-in-out infinite;
+  z-index: 0;
+  border-radius: 2rem;
 }
 
+/* Futuristic title font */
+.futuristic-title {
+  letter-spacing: -0.02em;
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+  text-shadow: 0 2px 24px #10b98133, 0 1px 0 #fff;
+}
+
+/* Reading progress indicator */
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 5px;
+  background: transparent;
+  z-index: 1000;
+}
+.reading-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981, #3b82f6, #34d399);
+  width: 0%;
+  border-radius: 0 2px 2px 0;
+  transition: width 0.2s cubic-bezier(.4,2,.3,1);
+  box-shadow: 0 0 8px #10b98166;
+}
+
+/* Blog content improvements */
 .blog-content {
-  /* Remove max-width so content stretches to container */
   max-width: 100%;
-  line-height: 1.8;
-  color: #374151;
+  line-height: 1.85;
+  color: #22223b;
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+  font-size: 1.18rem;
+  letter-spacing: -0.01em;
+  background: transparent;
 }
 
 .blog-content p {
   margin-top: 1.5em;
   margin-bottom: 1.5em;
-  font-size: 1.125rem;
-  line-height: 1.8;
+  font-size: 1.18rem;
+  line-height: 1.85;
   text-align: justify;
 }
 
@@ -422,20 +480,22 @@ if (post.value) {
 .blog-content h5,
 .blog-content h6 {
   color: #059669;
-  font-weight: 700;
+  font-weight: 800;
   margin-top: 2.5rem;
   margin-bottom: 1rem;
-  line-height: 1.3;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 12px #10b98122;
 }
 
 .blog-content h1 {
-  font-size: 2.25rem;
+  font-size: 2.6rem;
   border-bottom: 3px solid #10b981;
   padding-bottom: 0.5rem;
 }
 
 .blog-content h2 {
-  font-size: 1.875rem;
+  font-size: 2rem;
   border-bottom: 2px solid #34d399;
   padding-bottom: 0.25rem;
 }
@@ -456,6 +516,7 @@ if (post.value) {
   border-radius: 0 0.5rem 0.5rem 0;
   font-style: italic;
   position: relative;
+  box-shadow: 0 2px 12px #10b98111;
 }
 
 .blog-content blockquote::before {
@@ -466,6 +527,7 @@ if (post.value) {
   top: -0.5rem;
   left: 1rem;
   font-family: serif;
+  opacity: 0.15;
 }
 
 .blog-content code {
@@ -473,7 +535,7 @@ if (post.value) {
   color: #059669;
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
-  font-size: 0.875rem;
+  font-size: 0.98rem;
   font-weight: 600;
 }
 
@@ -481,17 +543,19 @@ if (post.value) {
   background-color: #1f2937;
   color: #f9fafb;
   padding: 1.5rem;
-  border-radius: 0.5rem;
+  border-radius: 0.7rem;
   overflow-x: auto;
   margin: 2rem 0;
   border: 1px solid #374151;
+  font-size: 1rem;
+  box-shadow: 0 2px 12px #10b98122;
 }
 
 .blog-content pre code {
   background: none;
   color: inherit;
   padding: 0;
-  font-size: 0.875rem;
+  font-size: 1rem;
 }
 
 .blog-content ul,
@@ -505,13 +569,10 @@ if (post.value) {
   line-height: 1.7;
 }
 
-.blog-content ul li::marker {
-  color: #10b981;
-}
-
+.blog-content ul li::marker,
 .blog-content ol li::marker {
   color: #10b981;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .blog-content a {
@@ -520,25 +581,27 @@ if (post.value) {
   text-decoration-color: #34d399;
   text-underline-offset: 3px;
   transition: all 0.2s ease;
+  font-weight: 600;
 }
 
 .blog-content a:hover {
   color: #047857;
   text-decoration-color: #10b981;
+  text-shadow: 0 2px 8px #10b98122;
 }
 
 .blog-content img {
   max-width: 100%;
   height: auto;
-  border-radius: 0.75rem;
+  border-radius: 1.2rem;
   margin: 2rem auto;
   display: block;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  transition: transform 0.3s ease;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 10px 10px -5px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s cubic-bezier(.4,2,.3,1);
 }
 
 .blog-content img:hover {
-  transform: scale(1.02);
+  transform: scale(1.03) rotate(-1deg);
 }
 
 .blog-content table {
@@ -546,9 +609,9 @@ if (post.value) {
   border-collapse: collapse;
   margin: 2rem 0;
   background: white;
-  border-radius: 0.5rem;
+  border-radius: 0.7rem;
   overflow: hidden;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px -1px rgba(16,185,129,0.10);
 }
 
 .blog-content th,
@@ -561,7 +624,7 @@ if (post.value) {
 .blog-content th {
   background-color: #059669;
   color: white;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .blog-content tr:hover {
@@ -575,21 +638,12 @@ if (post.value) {
   margin: 3rem 0;
 }
 
-/* Reading progress indicator */
-.reading-progress {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background: rgba(16, 185, 129, 0.2);
-  z-index: 1000;
+/* Animate fade-in for cards */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(30px);}
+  to { opacity: 1; transform: none;}
 }
-
-.reading-progress-bar {
-  height: 100%;
-  background: linear-gradient(90deg, #10b981, #34d399);
-  width: 0%;
-  transition: width 0.1s ease;
+.animate-fade-in {
+  animation: fade-in 0.7s cubic-bezier(.4,2,.3,1) both;
 }
 </style>
