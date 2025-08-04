@@ -11,6 +11,13 @@
           Add New Blog Post
         </h1>
 
+        <!-- Live Preview Toggle Button -->
+        <button
+          class="mb-6 px-4 py-2 bg-gradient-to-r from-green-600 via-blue-500 to-green-400 text-white rounded-lg font-bold shadow hover:scale-105 transition"
+          @click="showPreview = !showPreview" type="button">
+          {{ showPreview ? 'Hide' : 'Show' }} Live Preview
+        </button>
+
         <div v-if="uploadStatus" class="mb-4 p-4 rounded-md"
           :class="uploadStatus.type === 'error' ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700 flex items-center gap-2'">
           <svg v-if="uploadStatus.type !== 'error'" class="w-5 h-5 text-green-500" fill="none" stroke="currentColor"
@@ -139,6 +146,23 @@
             </button>
           </div>
         </form>
+
+        <!-- Live Preview Panel -->
+        <div v-if="showPreview" class="mt-12">
+          <h2 class="text-2xl font-bold mb-6 text-green-700">Live Preview</h2>
+          <div class="max-w-4xl mx-auto glass-card prose prose-xl prose-green px-8 py-10 shadow-xl">
+            <h1 class="text-5xl font-extrabold mb-4 text-green-700">{{ blog.title }}</h1>
+            <div class="mb-4 text-gray-600">
+              <span class="font-semibold">{{ blog.author }}</span>
+              <span v-if="blog.published_at" class="ml-4">{{ blog.published_at }}</span>
+            </div>
+            <div v-if="blog.featured_image_url" class="mb-8">
+              <img :src="blog.featured_image_url" :alt="blog.title" class="w-full rounded-2xl shadow" />
+            </div>
+            <div v-if="blog.excerpt" class="mb-6 italic text-xl text-gray-700">{{ blog.excerpt }}</div>
+            <div v-html="previewHtml"></div>
+          </div>
+        </div>
       </div>
     </main>
   </div>
@@ -168,6 +192,11 @@ const isUploading = ref(false)
 const uploadStatus = ref<UploadStatus | null>(null)
 const featuredImageInput = ref<HTMLInputElement | null>(null)
 const contentTextarea = ref<HTMLTextAreaElement | null>(null)
+const showPreview = ref(false)
+
+// Use Nuxt's markdown parser if available, or fallback to plain text
+const $markdown = (useNuxtApp() as any).$markdown as (markdown: string) => string
+const previewHtml = computed(() => $markdown ? $markdown(blog.value.content) : blog.value.content)
 
 const triggerFeaturedImageUpload = () => featuredImageInput.value?.click()
 
@@ -347,3 +376,15 @@ const handleSubmit = async () => {
   }
 }
 </script>
+
+<style scoped>
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 2rem;
+  box-shadow: 0 8px 32px 0 rgba(16, 185, 129, 0.08), 0 1.5px 6px 0 rgba(59, 130, 246, 0.06);
+  backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(16, 185, 129, 0.10);
+  position: relative;
+  overflow: hidden;
+}
+</style>
