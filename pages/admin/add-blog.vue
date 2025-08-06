@@ -150,18 +150,7 @@
         <!-- Live Preview Panel -->
         <div v-if="showPreview" class="mt-12">
           <h2 class="text-2xl font-bold mb-6 text-green-700">Live Preview</h2>
-          <div class="max-w-4xl mx-auto glass-card prose prose-xl prose-green px-8 py-10 shadow-xl">
-            <h1 class="text-5xl font-extrabold mb-4 text-green-700">{{ blog.title }}</h1>
-            <div class="mb-4 text-gray-600">
-              <span class="font-semibold">{{ blog.author }}</span>
-              <span v-if="blog.published_at" class="ml-4">{{ blog.published_at }}</span>
-            </div>
-            <div v-if="blog.featured_image_url" class="mb-8">
-              <img :src="blog.featured_image_url" :alt="blog.title" class="w-full rounded-2xl shadow" />
-            </div>
-            <div v-if="blog.excerpt" class="mb-6 italic text-xl text-gray-700">{{ blog.excerpt }}</div>
-            <div v-html="previewHtml"></div>
-          </div>
+          <BlogView :blog="blog" :markdown="$markdown" />
         </div>
       </div>
     </main>
