@@ -8,27 +8,37 @@
     <main>
       <!-- Breadcrumb -->
       <div class="bg-white/70 backdrop-blur border-b border-green-100 shadow-sm sticky top-0 z-40 transition-all">
-        <div class="container mx-auto px-4 py-4 flex items-center space-x-2 text-sm">
-          <NuxtLink to="/" class="text-blue-600 hover:underline hover:text-green-600 transition">Home</NuxtLink>
-          <span class="text-gray-400">/</span>
-          <NuxtLink to="/blog" class="text-blue-600 hover:underline hover:text-green-600 transition">Blog</NuxtLink>
-          <span class="text-gray-400">/</span>
-          <span class="text-gray-600 truncate font-semibold tracking-wide">{{ post?.title }}</span>
+        <div class="container mx-auto px-4 py-4">
+          <div class="max-w-4xl mx-auto flex items-center space-x-2 text-sm">
+            <NuxtLink to="/" class="text-blue-600 hover:underline hover:text-green-600 transition">Home</NuxtLink>
+            <span class="text-gray-400">/</span>
+            <NuxtLink to="/blog" class="text-blue-600 hover:underline hover:text-green-600 transition">Blog</NuxtLink>
+            <span class="text-gray-400">/</span>
+            <span class="text-gray-600 truncate font-semibold tracking-wide">{{ post?.title }}</span>
+          </div>
         </div>
       </div>
 
       <!-- Loading State -->
       <div v-if="pending" class="flex flex-col items-center justify-center py-24">
-        <div class="animate-spin rounded-full h-16 w-16 border-b-4 border-green-500 shadow-lg"></div>
-        <p class="mt-6 text-xl text-gray-600 font-medium">Loading blog post...</p>
+        <div class="container mx-auto px-4">
+          <div class="max-w-4xl mx-auto text-center">
+            <div class="animate-spin rounded-full h-16 w-16 border-b-4 border-green-500 shadow-lg mx-auto"></div>
+            <p class="mt-6 text-xl text-gray-600 font-medium">Loading blog post...</p>
+          </div>
+        </div>
       </div>
 
       <!-- Error State -->
       <div v-else-if="error" class="flex flex-col items-center justify-center py-24">
-        <p class="text-2xl text-red-600 font-bold">Error loading blog post.</p>
-        <NuxtLink to="/blog" class="mt-6 inline-block text-blue-600 hover:underline hover:text-green-600 text-lg transition">
-          Return to Blog
-        </NuxtLink>
+        <div class="container mx-auto px-4">
+          <div class="max-w-4xl mx-auto text-center">
+            <p class="text-2xl text-red-600 font-bold">Error loading blog post.</p>
+            <NuxtLink to="/blog" class="mt-6 inline-block text-blue-600 hover:underline hover:text-green-600 text-lg transition">
+              Return to Blog
+            </NuxtLink>
+          </div>
+        </div>
       </div>
 
       <!-- Blog Content -->
@@ -97,23 +107,28 @@
 
       <!-- Not Found -->
       <div v-else class="flex flex-col items-center justify-center py-24">
-        <p class="text-2xl text-gray-600 font-bold">Blog post not found.</p>
-        <NuxtLink to="/blog" class="mt-6 inline-block text-blue-600 hover:underline hover:text-green-600 text-lg transition">
-          Return to Blog
-        </NuxtLink>
+        <div class="container mx-auto px-4">
+          <div class="max-w-4xl mx-auto text-center">
+            <p class="text-2xl text-gray-600 font-bold">Blog post not found.</p>
+            <NuxtLink to="/blog" class="mt-6 inline-block text-blue-600 hover:underline hover:text-green-600 text-lg transition">
+              Return to Blog
+            </NuxtLink>
+          </div>
+        </div>
       </div>
 
       <!-- Other Blogs Section -->
       <section v-if="otherPosts.length" class="py-20 bg-gradient-to-br from-green-50 via-blue-50 to-white border-t border-green-100 mt-20">
         <div class="container mx-auto px-4">
-          <h2 class="text-3xl font-extrabold mb-10 text-green-700 flex items-center gap-3 tracking-tight">
-            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
-            </svg>
-            More from the Blog
-          </h2>
-          <div class="grid md:grid-cols-2 gap-10">
+          <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-extrabold mb-10 text-green-700 flex items-center gap-3 tracking-tight">
+              <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+              </svg>
+              More from the Blog
+            </h2>
+            <div class="space-y-6">
             <NuxtLink v-for="other in otherPosts" :key="other.id" :to="`/blog/${other.slug}`"
               class="group flex items-center glass-card rounded-3xl shadow-xl hover:shadow-2xl transition-shadow duration-300 border-l-8 border-gradient-to-b from-blue-500 to-green-400 hover:scale-[1.03] hover:border-blue-600 focus:ring-4 focus:ring-blue-200 relative animate-fade-in overflow-hidden min-h-[7rem]">
               <div
@@ -157,11 +172,12 @@
               </div>
             </NuxtLink>
           </div>
+          </div>
         </div>
       </section>
 
       <!-- Blog Comments Section -->
-      <section v-if="post" class="max-w-2xl mx-auto mt-16 mb-32 glass-card px-8 py-10 shadow-2xl">
+      <section v-if="post" class="max-w-4xl mx-auto mt-16 mb-32 glass-card px-8 py-10 shadow-2xl">
         <h2 class="text-2xl font-bold mb-8 text-green-700 flex items-center gap-3 tracking-tight">
           <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round"
